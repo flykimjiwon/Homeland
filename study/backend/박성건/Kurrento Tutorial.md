@@ -32,9 +32,7 @@ sudo apt install maven
 
 
 
-*** 튜토리얼을 실행하기 전에 HTTPS설정하는거 체크 ***
-
-
+##  *** 튜토리얼을 실행하기 전에 HTTPS설정하는거 체크 ***
 
 Web browsers require using *HTTPS* to enable WebRTC, so the web server must use SSL and a certificate file. For instructions, check [Configure a Java server to use HTTPS](https://doc-kurento.readthedocs.io/en/latest/features/security.html#features-security-java-https).
 
@@ -48,11 +46,11 @@ HTTPS를 활성화 하기위해서는 몇가지 과정이 필요
 
 
 
-1. Self-Signed 인증서 생성
+1. __Self-Signed 인증서 생성__
 
-   PKCS12 키스토어 파일(*.12)을 src.main/resources/keystore 경로에 생성
+   ​	PKCS12 키스토어 파일(*.12)을 src.main/resources/keystore 경로에 생성
 
-   아래와 같은 방법으로 디렉터리 생성 및 이동(초기 위치에 따라 다르긴 함)
+   ​	아래와 같은 방법으로 디렉터리 생성 및 이동(초기 위치에 따라 다르긴 함)
 
    ```bash
    cd src/main/resources
@@ -60,8 +58,8 @@ HTTPS를 활성화 하기위해서는 몇가지 과정이 필요
    ```
 
    * /kurento-tutorial-java/kurento-hello-world/src/main/resources/keystore로 이동
-
-![image-20220112175602164](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112175602164.png)
+   
+   ![image-20220112175602164](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112175602164.png)
 
 ​		인증서를 생성하기 위해 아래 명령어를 이용
 
@@ -83,13 +81,13 @@ keytool -genkeypair -alias ssafy -keyalg RSA -keysize 2048 -storetype PKCS12 -ke
 
 
 
- 2. application.properties 설정
+ 2. __application.properties 설정__
 
     Spring Application이 HTTPS로 동작하기 위해 application.properties 파일을 아래와 같이 수정
 
     
-
-![image-20220112180507677](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112180507677.png)
+    
+    ![image-20220112180507677](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112180507677.png)
 
 + 기존의 내용은 주석 처리하고 
 
@@ -121,15 +119,19 @@ keytool -genkeypair -alias ssafy -keyalg RSA -keysize 2048 -storetype PKCS12 -ke
 
   수정 후 저장
 
-  ### HTTPS 설정 완료
+### HTTPS 설정 완료
 
-  --------------------------------------------------------
+-------------------------------
 
-  ## Tutorial 프로젝트 실행
 
-  먼저  hello-world 프로젝트로 이동
 
-  ![image-20220112181311508](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112181311508.png)
+
+
+## Tutorial 프로젝트 실행
+
+먼저  hello-world 프로젝트로 이동
+
+![image-20220112181311508](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112181311508.png)
 
 + 아래 명령어 실행(주소 알맞게 넣은 후)
 
