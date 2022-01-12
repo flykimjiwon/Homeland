@@ -83,8 +83,18 @@ keytool -genkeypair -alias ssafy -keyalg RSA -keysize 2048 -storetype PKCS12 -ke
 
  2. __application.properties 설정__
 
-    Spring Application이 HTTPS로 동작하기 위해 application.properties 파일을 아래와 같이 수정
+    프로젝트의 application.properties 파일을 찾기 위해서 아래와 같은 명령어 사용
 
+    ```bash
+    find . | grep application
+    ```
+    
+    ![image-20220112180934236](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112180934236.png)
+    
+    __src/main/resources_filtered/application.properties를 수정하면 됩니다.__
+    
+    Spring Application이 HTTPS로 동작하기 위해 application.properties 파일을 아래와 같이 수정
+    
     
     
     ![image-20220112180507677](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112180507677.png)
@@ -106,14 +116,6 @@ keytool -genkeypair -alias ssafy -keyalg RSA -keysize 2048 -storetype PKCS12 -ke
   키 생성할때 설정과 맞춰 내용을 수정
 
   
-
-  프로젝트의 application.properties 파일을 찾기 위해서 아래와 같은 명령어 사용
-
-  ```bash
-  find . | grep application
-  ```
-
-  ![image-20220112180934236](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112180934236.png)
 
   
 
@@ -144,6 +146,10 @@ mvn -U clean spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=ws://<KMS
 아래와 같은 그림이 뜨면 90퍼 성공
 
 ![image-20220112181522933](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112181522933.png)
+
+
+
+__https://공인 ip주소 또는 Domain:8443__에 접속
 
 
 
