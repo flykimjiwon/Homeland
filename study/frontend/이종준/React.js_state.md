@@ -7,40 +7,28 @@
 밑의 코드를 한번 보자
 
 ```html
-<!DOCTYPE html>
-<html>
-  <body>
-    <div id="root"></div>
-  </body>
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel">
-    const root = document.getElementById("root")
+const root = document.getElementById("root")
 
-    let counter = 0
+let counter = 0
+function countUp() {
+  counter = counter + 1
+  render()
+}
 
-    function countUp() {
-      counter = counter + 1
-      render()
-    }
+function render() {
+  ReactDOM.render(<Container />, root)
+}
 
-    function render() {
-      ReactDOM.render(<Container />, root)
-    }
-
-    function Container() {
-      return (
-        <div>
-          <h3>Total clicks: {counter}</h3>
-          <button onClick={countUp}>Click me</button>
-        </div>
-      )
-    }    
+function Container() {
+  return (
+    <div>
+      <h3>Total clicks: {counter}</h3>
+      <button onClick={countUp}>Click me</button>
+    </div>
+  )
+}    
     
-    render()
-  </script>
-</html>
+render()
 ```
 
 위는 countUp 함수를 통해 counter를 증가시키고, 그때마다(데이터가 바뀔 때마다) render함수를 다시 실행(re-render)함으로써 값을 변화시켜주는 방식이다.
@@ -71,8 +59,42 @@ console.log(data)
 좀 더 세련되게 코드를 바꿔보자
 
 ```
-const [counter, modifier] = React.useState(0)
+let [counter, modifier] = React.useState(0)
 ```
 
 이렇게 하면 counter에 데이터를, modifier에 함수를 선언해줄 수 있다.
 
+
+
+코드를 조금 수정해서 아래와 같이 작성해보자.
+
+```
+function App() {
+  let [counter, setCounter] = React.useState(0)
+  const onClick = () => {
+    setCounter(counter + 1)
+  }
+  return (
+    <div>
+      <h3>Total clicks: {counter}</h3>
+      <button onClick={onClick}>Click me</button>
+    </div>
+  )
+}
+```
+
+버튼을 클릭하면, onClick event가 호출되고, setCounter라는 함수를 통해 counter의 값을 변화시키고, 이를 다시 리렌더링할 수 있게 되었다.
+
+setCounter의 인자로 변경할 데이터 값을 입력해주면 된다.
+
+
+
+그런데, counter변수가 다른 곳에서도 변경이 될 가능성이 있기 때문에 위 방법은 개선될 필요가 있다.
+
+```
+setCounter((current) => current + 1)
+```
+
+setCounter에 들어오는 인자를 받아서, setCounter 내에서 함수를 이용해서 처리하면 React는 이 current가 확실히 현재 값이라는 것을 보장해준다.
+
+정리하면, 현재 state를 바탕으로 다음 state를 계산하고 싶다면 함수를 이용하면 된다!
