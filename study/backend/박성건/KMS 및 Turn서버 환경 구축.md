@@ -150,7 +150,7 @@ sudo docker run -d --network host kurento/kurento-media-server:latest
 
 여기까지 완료후 STUN/TURN 서버를 설치 및 설정 후 다시
 
-kurrento를 설정하면 된다.
+kurento를 설정하면 된다.
 
 
 

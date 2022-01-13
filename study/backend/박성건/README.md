@@ -21,15 +21,15 @@
 
 # 내용
 
-## KMS
+## KMS(Kurrento Media Server)
 
 + [KMS공부](https://lab.ssafy.com/s06-webmobile1-sub1/S06P11C202/-/blob/master/study/backend/%EB%B0%95%EC%84%B1%EA%B1%B4/KMS%EA%B3%B5%EB%B6%80.md)
 
 + [KMS 및 STUN?TURN 서버 환경 구축](https://lab.ssafy.com/s06-webmobile1-sub1/S06P11C202/-/blob/master/study/backend/%EB%B0%95%EC%84%B1%EA%B1%B4/KMS%20%EB%B0%8F%20Turn%EC%84%9C%EB%B2%84%20%ED%99%98%EA%B2%BD%20%EA%B5%AC%EC%B6%95.md)
 
-+ [Tutorial Hello-World](https://lab.ssafy.com/s06-webmobile1-sub1/S06P11C202/-/blob/master/study/backend/%EB%B0%95%EC%84%B1%EA%B1%B4/Kurrento%20Tutorial-Hello-World.md)
++ [Tutorial Hello-World](https://lab.ssafy.com/s06-webmobile1-sub1/S06P11C202/-/blob/master/study/backend/%EB%B0%95%EC%84%B1%EA%B1%B4/kurento%20Tutorial-Hello-World.md)
 
-+ [hello-world 튜토리얼 분석](https://lab.ssafy.com/s06-webmobile1-sub1/S06P11C202/-/blob/master/study/backend/%EB%B0%95%EC%84%B1%EA%B1%B4/kurrento-hello-world%20tutorial%20%EB%B6%84%EC%84%9D.md)
++ [hello-world 튜토리얼 분석](https://lab.ssafy.com/s06-webmobile1-sub1/S06P11C202/-/blob/master/study/backend/%EB%B0%95%EC%84%B1%EA%B1%B4/kurento-hello-world%20tutorial%20%EB%B6%84%EC%84%9D.md)
 
   
 
