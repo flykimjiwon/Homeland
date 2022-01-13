@@ -181,5 +181,15 @@ __https://공인 ip주소 또는 Domain:8443__에 접속
 
 
 
+![KakaoTalk_20220113_153850461](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/KakaoTalk_20220113_153850461.png)
+
+### 추가로 노트북에 우분투를 설치하고 로컬에서 KMS를 구축하여 실행한 결과로 Remote Stream이 잘 나온 것을 확인 할 수 있다.
+
+### 로컬에서 KMS를 구축 할 때는 STUN/TURN 서버를 구축하고 설정하는 과정을 생략해도 된다.
+
+
+
+
+
 
 
