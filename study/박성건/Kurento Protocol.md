@@ -249,5 +249,5 @@ KMS에 존재하는 미디어 객체는 해당 객체의 클라이언트가 4분
 
 
 
-[더 자세히 알아보기]((https://doc-kurento.readthedocs.io/en/latest/features/kurento_protocol.html#id2))
+[더 자세히 알아보기](https://doc-kurento.readthedocs.io/en/latest/features/kurento_protocol.html#id2)
 
