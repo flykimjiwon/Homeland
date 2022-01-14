@@ -25,7 +25,7 @@
 
 Kurento Media Server is controlled by means of an JSON-RPC API, implemented in terms of the **Kurento Protocol** specification as described in this document, based on [WebSocket](https://doc-kurento.readthedocs.io/en/latest/glossary.html#term-WebSocket) and [JSON-RPC](https://doc-kurento.readthedocs.io/en/latest/glossary.html#term-JSON-RPC).
 
-
++ __JSON_RPC__: JSON형태의 Remote Procedure Call 프로토콜임
 
 ----------------------------
 
@@ -79,7 +79,7 @@ When an *RPC call* is made, the server replies with a *response* message. In cas
 
   성공 응답 예시
 
-  ```
+  ```json
   {
     "jsonrpc": "2.0",
     "id": 1,
@@ -94,7 +94,7 @@ When an *RPC call* is made, the server replies with a *response* message. In cas
 
   에러 응답 예시(세션아이디가 없고, 코드와 메시지가 포함되어있다)
 
-  ```
+  ```json
   {
     "jsonrpc": "2.0",
     "id": 1,
@@ -135,23 +135,119 @@ Once the WebSocket has been established, the Kurento Protocol offers different t
 
 - **ping**: Keep-alive method between client and Kurento Media Server.
 
+  클라이언트와 KMS의 연결 확인 방법
+
+  응답으로는 pong이 온다.
+
   
 
 - **create**: Creates a new media object, i.e. a Media Pipeline, an Endpoint, or any other Media Element.
 
+  미디어 파이트라인, Endpoint 등 미디어 객체를 생성한다. 
+
+  
+
 - **describe**: Retrieves an already existing object.
+
+  존재하는 객체를 검색 - 응답으로는 해당 객체의 타입 등이 포함
+
+  
 
 - **invoke**: Calls a method on an existing object.
 
+  생생되어있는 객체에 함수를 호출한다.
+
+  
+
 - **subscribe**: Subscribes to some specific event, to receive notifications when it gets emitted by a media object.
+
+  미디어 객체에서 발생하는 알림을 받기 위해 특정 이벤트를 등록한다.
+
+  
 
 - **unsubscribe**: Removes an existing subscription to an event.
 
+  subscribe 한걸 제거한다.
+
+  
+
 - **release**: Marks a media object for garbage collection and release of the resources used by it.
+
+  garbage collection의 대상이 되게 등록함
+
+  
 
 The Kurento Protocol allows that Kurento Media Server sends requests to clients:
 
 - **onEvent**: This request is sent from Kurento Media server to subscribed clients when an event occurs.
 
+  Kurento Server에서 특정 이벤트가 발생함을 알리기 위해 onEvent라는 요청메시지를 보낸다.
 
+----------------------
+
+## [Network issues](https://doc-kurento.readthedocs.io/en/latest/features/kurento_protocol.html#id16)
+
+Resources handled by KMS are high-consuming. For this reason, KMS implements a garbage collector.
+
+A Media Element is collected when the client is disconnected longer than 4 minutes. After that time, these media elements are disposed automatically. Therefore, the WebSocket connection between client and KMS should be active at all times. In case of a temporary network disconnection, KMS implements a mechanism that allows the client to reconnect.
+
+
+
+KMS에 의해 다뤄지는 자원들은 소모량이 많다. 따라서 KMS는 gc를 구현하였다.
+
+KMS에 존재하는 미디어 객체는 해당 객체의 클라이언트가 4분 이상 연결이 되지 않으면 없어지게 된다.
+
+
+
+일시적인 network의 disconnection인 경우 KMS는 클라이언트에게 reconnect를 제공한다.
+
+즉 4분안에 미디어 개체가 소멸되지 않았으면 클라이언트는 reconnect가 가능함
+
+
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "method": "connect",
+  "params": {
+    "sessionId": "4f5255d5-5695-4e1c-aa2b-722e82db5260"
+  }
+}
+```
+
+
+
+재연결이 된 경우
+
+```json
+  "jsonrpc": "2.0",
+  "id": 10,
+  "result": {
+    "sessionId": "4f5255d5-5695-4e1c-aa2b-722e82db5260"
+  }
+}
+```
+
+재연결 실패한경우
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "error": {
+    "code": 40007,
+    "message": "Invalid session",
+    "data": {
+      "type": "INVALID_SESSION"
+    }
+  }
+}
+```
+
+----------------------------------------------
+
+
+
+[더 자세히 알아보기]((https://doc-kurento.readthedocs.io/en/latest/features/kurento_protocol.html#id2))
 

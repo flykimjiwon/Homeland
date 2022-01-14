@@ -192,3 +192,5 @@ The `start()` method performs the following actions:
 
 - **Configure media processing logic**. This is the part in which the application configures how Kurento has to process the media. In other words, the media pipeline is created here. To that aim, the object *KurentoClient* is used to create a *MediaPipeline* object. Using it, the media elements we need are created and connected. In this case, we only instantiate one *WebRtcEndpoint* for receiving the WebRTC stream and sending it back to the client.
 
+-----------------------------------------------------------------
+
