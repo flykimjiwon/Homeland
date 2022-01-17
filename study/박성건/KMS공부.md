@@ -15,7 +15,7 @@ WebRTC는 기본적으로 P2P연결을 통해 웹 브라우저와 브라우저 �
 
 Kurento도 이런 미디어 서버 중 하나이다.    
 
-![image](/uploads/8e30c5b229995d022ecc5cd2ca4bd036/image.png)   
+![image-20220114153912600](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220114153912600.png)
 
 위의 그림에서 알 수 있듯이 일반적인 media 서버는 transcoding, group communications, recording 등의 기능을 제공하지만    
 Kurento는 mixing and Blending, Computer vision, Augumented Reality, broadcasting 등의 추가적인 기능을 제공한다.   
@@ -29,7 +29,7 @@ Kurento는 mixing and Blending, Computer vision, Augumented Reality, broadcastin
 + 다대다 통신에서 여러 미디어 스트림을 하나로 만들기 위한 디코딩, 인코딩 작업 없이 클라이언트에게 제공한다.
 - 서버의 부하가 MCU에 비해 낮지만, 클라이언트는 MCU보다 더 많은 데이터를 수신해야한다.
 
-![image](/uploads/9595767e499dd71129fdf14c0989bb35/image.png)
+![image-20220114153947675](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220114153947675.png)
 
 
 -----------------------------------------------
