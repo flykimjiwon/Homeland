@@ -93,7 +93,7 @@ npm start
 
 명령어를 실행하면 프로젝트가 실행된다.
 
-![image-20220113140055947](create-react-app.assets/image-20220113140055947.png)
+![image-20220113140055947](create-react-app.assets/실행 화면.png)
 
 실행하면 다음과 같이 프로젝트가 실행된다.
 
