@@ -61,7 +61,7 @@ console.log(countStore)를 해보면, 반환값으로 네 개 정도의 함수�
 
 count = 0처럼 reducer의 인자의 초기값을 지정해줄 수도 있다.
 
-reducer의 두번째 인자로 action이 올 수 있다. action은 reducer와 소통하기 위한 방법이다.
+reducer의 두번째 인자로 action이 올 수 있다. action은 reducer와 소통하기 위한 방법이다. action은 반드시 type이 있는 object 형식이어야 한다.
 
 dispatch()를 입력해서 reducer로 action을 보낼 수 있다.
 
@@ -110,3 +110,34 @@ minus.addEventListener("click", handleMinus)
 ```
 
 onChange라는 함수에 number의 값에 countStore에 있는 현재 값을 넣어주고, 이를 subscribe에서 변화된 값을 보여주게 된다.
+
+위의 코드를 개선시켜보자. countModifier에서 if와 else를 쓰는데, 공식문서에서는 switch와 case로 불필요한 반복을 줄이는 방식을 취한다.
+
+```
+const countModifier = (count = 0, action) => {
+  switch (action.type) {
+    case ADD:
+      return count + 1
+    case MINUS:
+      return count - 1
+    default:
+      return count
+  }
+}
+```
+
+그리고 string에서 흔히 일어날 수 있는 오타를 방지하기 위해 "ADD"와 "MINUS"를 다른 곳에 저장하고 사용하는 방법을 이용할 수 있다.
+
+```
+const ADD = "ADD"
+const MINUS = "MINUS"
+
+const handleAdd = () => {
+  countStore.dispatch({type: ADD})
+}
+
+const handleMinus = () => {
+  countStore.dispatch({type: MINUS})
+}
+```
+
