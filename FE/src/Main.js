@@ -46,7 +46,7 @@ function Main(){
           <Carousel variant='dark'>
             { Notes.map((Note, i)=> {
               return (
-                <Carousel.Item>
+                <Carousel.Item key={i}>
                   <br></br>
                   <br></br>
                   <h4>업데이트 캐러셀이다~~</h4>
