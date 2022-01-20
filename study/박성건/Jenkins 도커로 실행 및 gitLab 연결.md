@@ -224,7 +224,9 @@ cd /var/jenkins_home/workspace
 
 ![image-20220120134428917](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120134428917.png)
 
-![image-20220120134934521](../../../../../../AppData/Roaming/Typora/typora-user-images/image-20220120134934521.png)
+![image-20220120134934521](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120165645719.png)
+
+
 
 jenkins-test-app --> jenkins에서 만든 아이템
 
