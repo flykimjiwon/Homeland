@@ -14,6 +14,8 @@
 + Kurento Media Server
 + System Architecture
 + Socket Programming
++ Jenkins 
++ Docker
 
 
 
@@ -33,6 +35,10 @@
 
 + [Kurento Protocol](https://lab.ssafy.com/s06-webmobile1-sub1/S06P11C202/-/blob/master/study/%EB%B0%95%EC%84%B1%EA%B1%B4/Kurento%20Protocol.md)
 
++ [Jenkins 도커 컨테이너로 실행 및 GitLab 연결](https://lab.ssafy.com/s06-webmobile1-sub2/S06P12C202/-/blob/master/study/%EB%B0%95%EC%84%B1%EA%B1%B4/Jenkins%20%EB%8F%84%EC%BB%A4%EB%A1%9C%20%EC%8B%A4%ED%96%89%20%EB%B0%8F%20gitLab%20%EC%97%B0%EA%B2%B0.md)
+
+  
+  
   
   
   
