@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+.Background-color {
+  background-color: black;
+  background-size: cover;
+}
+
+.Black-color {
+  color:black;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
