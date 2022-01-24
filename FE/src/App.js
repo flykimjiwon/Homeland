@@ -8,7 +8,7 @@ import Logout from './Logout';
 import Sign from './Sign';
 import Mypage from './Mypage';
 import Main from './Main';
-import Test from './Test'
+import Test from './test'
 
 import IMG from './img/a.png'
 import React,{useContext, useState,lazy,Suspense} from 'react';

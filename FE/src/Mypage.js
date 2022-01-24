@@ -43,7 +43,7 @@ function Mypage() {
         </Form.Group>
         <Form.Group className="d-flex justify-content-between">
           <Form.Text>이메일이 도착하지 않았나요?</Form.Text>
-          <Link>다시 보내기</Link>
+          <Link to="#">다시 보내기</Link>
         </Form.Group>
         <Form.Group className="d-flex justify-content-center mt-3">
           <Button type="submit">
