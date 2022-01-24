@@ -8,6 +8,7 @@ import Logout from './Logout';
 import Sign from './Sign';
 import Mypage from './Mypage';
 import Main from './Main';
+import Test from './Test'
 
 import IMG from './img/a.png'
 import React,{useContext, useState,lazy,Suspense} from 'react';
@@ -60,6 +61,9 @@ function App() {
 </Route>
 <Route path="/mypage">
 <Mypage></Mypage>
+</Route>
+<Route path="/test">
+<Test></Test>
 </Route>
 
 
