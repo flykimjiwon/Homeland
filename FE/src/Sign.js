@@ -1,39 +1,82 @@
-// import axios from 'axios';
-// import React,{useEffect, useState} from 'react';
-// import { useHistory,useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { Form, Button, InputGroup } from 'react-bootstrap';
-import './Sign.css'
-// import {CSSTransition} from "react-transition-group"
+/* eslint-disable */
+import axios from 'axios';
+import React,{useEffect, useState} from 'react';
+import { Form, Button, InputGroup } from "react-bootstrap";
+import "./Sign.css";
+import { Link } from "react-router-dom";
 
 function Sign() {
-  return(
+  const [id, setId] = useState("")
+  const [nickname, setNickname] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordConfirm, setPasswordConfirm] = useState("")
+  const [email, setEmail] = useState("")
+
+  const handleId = (event) => {
+    setId(event.target.value)
+  }
+  const handleNickname = (event) => {
+    setNickname(event.target.value)
+  }
+  const handlePassword = (event) => {
+    setPassword(event.target.value)
+  }
+  const handlePasswordConfirm = (event) => {
+    setPasswordConfirm(event.target.value)
+  }  
+  const handleEmail = (event) => {
+    setEmail(event.target.value)
+  }
+
+  const onSubmit = () => {
+    if (password && password === passwordConfirm) {
+      fetch('#', {
+        method: 'POST',
+        body: JSON.stringify({
+          id: id,
+          nickname: nickname,
+          password: password,
+          email: email,
+        })
+      })
+        .then((res) => {
+          res.json()
+        })
+        .then((res) => {
+          console.log(res)
+        })
+    } else {
+      return alert('비밀번호와 비밀번호 확인이 서로 다릅니다!')
+    }
+  }
+  return (
     <div>
-      <h1>회원가입페이지 입니다.</h1>
+      <h1 className="mt-3">회원가입페이지 입니다.</h1>
       <Form className="container signup-form">
         <Form.Group className="mb-3" controlId="formGroupID">
           <Form.Label>아이디</Form.Label>
-          <Form.Control type="text" placeholder="아이디 입력" />
+          <Form.Control value={id} onChange={handleId} type="text" placeholder="아이디 입력" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupNickname">
           <Form.Label>닉네임</Form.Label>
-          <Form.Control type="text" placeholder="닉네임 입력" />
-        </Form.Group>        
+          <Form.Control value={nickname} onChange={handleNickname} type="text" placeholder="닉네임 입력" />
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupPassword">
           <Form.Label>비밀번호</Form.Label>
-          <Form.Control type="password" placeholder="비밀번호 입력" />
+          <Form.Control value={password} onChange={handlePassword} type="password" placeholder="비밀번호 입력" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupCheckPassword">
           <Form.Label>비밀번호 확인</Form.Label>
-          <Form.Control type="password" placeholder="비밀번호 확인" />
+          <Form.Control value={passwordConfirm} onChange={handlePasswordConfirm} type="password" placeholder="비밀번호 확인" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>이메일</Form.Label>
-          <Form.Control type="email" placeholder="이메일 입력" />
+          <Form.Label>e-mail</Form.Label>
+          <Form.Control value={email} onChange={handleEmail} type="email" placeholder="e-mail 입력" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupCheckEmail">
           <Form.Label>인증코드 입력</Form.Label>
           <InputGroup>
-            <Form.Control type="email" placeholder="인증번호 입력" />
+            <Form.Control type="text" placeholder="인증번호 입력" />
             <Button>인증하기</Button>
           </InputGroup>
           <Form.Text className="text-muted">
@@ -42,14 +85,16 @@ function Sign() {
         </Form.Group>
         <Form.Group className="d-flex justify-content-between">
           <Form.Text>이메일이 도착하지 않았나요?</Form.Text>
-          <Button>다시 보내기</Button>
+          <Link to="#">다시 보내기</Link>
         </Form.Group>
-        <Form.Group className="d-flex justify-content-center">
-          <Button type="submit">가입하기</Button>
-        </Form.Group>        
+        <Form.Group className="d-flex justify-content-center mt-3">
+          <Button type="submit" onClick={onSubmit}>
+            가입하기
+          </Button>
+        </Form.Group>
       </Form>
     </div>
-  )
+  );
 }
 
-export default Sign
+export default Sign;
