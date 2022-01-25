@@ -1,4 +1,5 @@
-.login{
-  
-  /* border: 1px solid rgb(94, 94, 94); */
+.loginForm {
+  width: 500px;
+  text-align: start;
+  margin-top: 20px;
 }
