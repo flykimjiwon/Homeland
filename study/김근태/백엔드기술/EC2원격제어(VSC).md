@@ -7,11 +7,11 @@
 ![VSC_RemoteControl](../img_assets/VSC_RemoteControl.png)
 ### 2. vscode 왼쪽 메뉴바에서 원격탐색기 클릭
 
-### 3. 좌상단 원격탐색기 선택박스에서 SSH Target을 선택
+### 3. 좌상단 원격탐색기 선택박스에서 SSH Targets 선택
 
 ### 4. +버튼(Add New) 누르기
 
-### 5. Connection Command창에 ``` ssh user@퍼블릭아이피주소 ``` 입력 (퍼블릭아이피주소 대신 도메인도(i6c202.p.ssafy.io) 가능)
+### 5. Connection Command창에 ` ssh user@퍼블릭아이피주소 ` 입력 (퍼블릭아이피주소 대신 도메인도(i6c202.p.ssafy.io) 가능)
 
 ### 6. C:\Users\User\.ssh\config 클릭
 + .ssh폴더가 없거나 config파일이 없다면 생성하기
