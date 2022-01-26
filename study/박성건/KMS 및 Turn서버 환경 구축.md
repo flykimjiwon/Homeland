@@ -231,7 +231,14 @@ myuser와 mypassword는 이전에 STUN서버에서 설정한 내용과 같아야
 ```text
 stunServerAddress=<퍼블릭 주소>
 stunServerPort=3478
-turnURL=myuser:mypassword@<퍼블릭주소>?transport=udp
+turnURL=myuser:mypassword@<퍼블릭주소>:3478?transport=udp
+```
+
+exit로 빠져나와서 KMS컨테이너 재실행
+
+```bash
+exit
+sudo docker restart 컨테이너ID
 ```
 
 
