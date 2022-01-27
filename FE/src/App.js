@@ -1,14 +1,14 @@
 /* eslint-disable */
-import logo from "./logo.svg";
 import "./App.css";
 import Room from "./Room.js";
 import Notice from "./Notice.js";
 import Login from "./Login";
 import Logout from "./Logout";
-import Sign from "./Sign";
+import Signup from "./Signup";
 import Mypage from "./Mypage";
 import Main from "./Main";
 import Test from "./Test";
+import EditProfile from "./EditProfile";
 
 import IMG from "./img/a.png";
 import React, { useContext, useState, lazy, Suspense } from "react";
@@ -50,7 +50,7 @@ function App() {
               <Nav.Link eventKey="link-4" as={Link} to="/logout">
                 로그아웃
               </Nav.Link>
-              <Nav.Link eventKey="link-5" as={Link} to="/sign">
+              <Nav.Link eventKey="link-5" as={Link} to="/signup">
                 회원가입
               </Nav.Link>
               <Nav.Link eventKey="link-6" as={Link} to="/mypage">
@@ -61,6 +61,9 @@ function App() {
         </Container>
       </Navbar>
 
+      <Route path="/editProfile">
+        <EditProfile></EditProfile>
+      </Route>
       <Route exact path="/">
         <Main></Main>
       </Route>
@@ -76,8 +79,8 @@ function App() {
       <Route path="/logout">
         <Logout></Logout>
       </Route>
-      <Route path="/sign">
-        <Sign></Sign>
+      <Route path="/signup">
+        <Signup></Signup>
       </Route>
       <Route path="/mypage">
         <Mypage></Mypage>

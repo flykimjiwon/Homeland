@@ -1,62 +1,43 @@
-import { Button, Form, InputGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom'
-import './Mypage.css'
+/* eslint-disable */
+import { useEffect, useState } from "react";
+import { Button, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./Mypage.css";
 
 function Mypage() {
-  return(
-    <div>
-      <h1 className="mt-3">마이페이지입니다.</h1>
-      <Form className="container mypage-form">
-        <Form.Group className="mb-3" controlId="formGroupChangeNickname">
-          <Form.Label>닉네임 변경</Form.Label>
-          <Form.Control type="text" placeholder="닉네임 변경" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupCurrentPassword">
-          <Form.Label>기존 비밀번호 입력</Form.Label>
-          <Form.Control type="password" placeholder="기존 비밀번호 입력" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupNewPassword">
-          <Form.Label>새 비밀번호 입력</Form.Label>
-          <Form.Control type="password" placeholder="새 비밀번호 입력" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupCheckNewPassword">
-          <Form.Label>새 비밀번호 확인</Form.Label>
-          <Form.Control type="password" placeholder="새 비밀번호 확인" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupCurrentEmail">
-          <Form.Label>기존 e-mail</Form.Label>
-          <Form.Control type="email" placeholder="기존 e-mail 입력" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupNewEmail">
-          <Form.Label>e-mail 변경</Form.Label>
-          <Form.Control type="email" placeholder="변경할 e-mail 입력" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupCheckNewEmail">
-          <Form.Label>인증코드 입력</Form.Label>
-          <InputGroup>
-            <Form.Control type="email" placeholder="인증번호 입력" />
-            <Button>인증하기</Button>
-          </InputGroup>
-          <Form.Text className="text-muted">
-            이메일 인증을 통해 비밀번호를 찾을 수 있습니다.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-between">
-          <Form.Text>이메일이 도착하지 않았나요?</Form.Text>
-          <Link to="#">다시 보내기</Link>
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit">
-            확인
-          </Button>
-        </Form.Group>
-      </Form>
+  const [profile, setProfile] = useState([]);
+  const getProfile = async () => {
+    const response = await fetch("#", {
+      method: "get",
+      headers: setToken(),
+    });
+    const json = await response.json();
+    setProfile(json.data);
+  };
+  const setToken = () => {
+    const token = localStorage.getItem("jwt");
+    const config = {
+      Authorization: `JWT ${token}`,
+    };
+    return config;
+  };
+  useEffect(() => {
+    getProfile();
+  }, []);
 
+  return (
+    <div>
+      <h1 className="mt-3">마이페이지</h1>
+      <Container>
+        <div>id: {profile.id}</div>
+        <div>닉네임: {profile.nickname}</div>
+        <div>이메일: {profile.email}</div>
+      </Container>
+      <Link to="/editProfile">
+        <Button>내 정보 수정</Button>
+      </Link>
     </div>
-  )
+  );
 }
 
-
-
-
-export default Mypage
+export default Mypage;

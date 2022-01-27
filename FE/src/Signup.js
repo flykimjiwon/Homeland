@@ -1,9 +1,7 @@
 /* eslint-disable */
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
-import "./Sign.css";
-import Login from "./Login";
+import "./Signup.css";
 import { Link, Redirect, useHistory } from "react-router-dom";
 
 function Sign() {
@@ -30,11 +28,9 @@ function Sign() {
   };
 
   const onSubmit = () => {
-    const history = useHistory();
     if (password && password === passwordConfirm) {
       fetch("#", {
         method: "POST",
-        credentials: "include",
         body: JSON.stringify({
           id: id,
           nickname: nickname,
@@ -42,19 +38,21 @@ function Sign() {
           email: email,
         }),
       })
-        .then(() => {
-          history.push("/login");
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          return <Redirect to="/login" />;
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      return alert("비밀번호와 비밀번호 확인이 서로 다릅니다!");
+      alert("비밀번호와 비밀번호 확인이 서로 다릅니다!");
     }
   };
   return (
     <div>
-      <h1 className="mt-3">회원가입페이지 입니다.</h1>
+      <h1 className="mt-3">회원가입</h1>
       <Form className="container signup-form">
         <Form.Group className="mb-3" controlId="formGroupID">
           <Form.Label>아이디</Form.Label>
@@ -116,7 +114,7 @@ function Sign() {
           <Link to="#">다시 보내기</Link>
         </Form.Group>
         <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onSubmit={onSubmit}>
+          <Button type="submit" onClick={onSubmit}>
             가입하기
           </Button>
         </Form.Group>

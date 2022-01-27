@@ -15,6 +15,26 @@ function Login() {
     setPassword(event.target.value);
   };
 
+  const onLogin = () => {
+    fetch("#", {
+      method: "POST",
+      body: JSON.stringify({
+        id: id,
+        password: password,
+      }),
+    })
+      .then((res) => {
+        res.json();
+      })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("jwt", res.data.token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <h1 className="mt-3">로그인 페이지 입니다.</h1>
@@ -40,7 +60,7 @@ function Login() {
             />
           </Form.Group>
           <Form.Group className="d-flex justify-content-center">
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" onClick={onLogin}>
               로그인
             </Button>
           </Form.Group>
