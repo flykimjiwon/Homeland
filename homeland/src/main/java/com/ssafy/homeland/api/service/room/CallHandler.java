@@ -26,38 +26,52 @@ public class CallHandler extends TextWebSocketHandler {
 
     private static final Gson gson = new GsonBuilder().create();
 
+    //방들을 관리하는 빈
     @Autowired
     private RoomManager roomManager;
 
+    //UserSession을 관리하는 빈
     @Autowired
     private UserRegistry registry;
 
+    //프론트와 클라이언트로부터 요청을 받고 처리하는 주요 메서드
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        //요청을 받고 message를 json객체로 변환함
         final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
 
+        System.out.println("CallHandler.handleTextMessage");
+
+        //UserRegistry에 요청 세션을 갖는 유저가 있는지 찾음
         final UserSession user = registry.getBySession(session);
 
+        //registry에 등록되지 않은 세션의 경우 null이 반환된다.
         if (user != null) {
             log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
         } else {
             log.debug("Incoming message from new user: {}", jsonMessage);
         }
 
+        //요청 메시지의 id에 따라 각기 다른 함수처리
         switch (jsonMessage.get("id").getAsString()) {
-            case "joinRoom":
+
+            case "joinRoom"://방 참여 요청
+                System.out.println("CallHandler.joinRoom");
                 joinRoom(jsonMessage, session);
                 break;
             case "receiveVideoFrom":
+                System.out.println("CallHandler.receiveVideoFrom");
                 final String senderName = jsonMessage.get("sender").getAsString();
                 final UserSession sender = registry.getByName(senderName);
                 final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
                 user.receiveVideoFrom(sender, sdpOffer);
                 break;
-            case "leaveRoom":
+            case "leaveRoom":// 방 떠나기
+                System.out.println("CallHandler.leaveRoom");
                 leaveRoom(user);
                 break;
-            case "onIceCandidate":
+            case "onIceCandidate": //
+                System.out.println("CallHandler.onIceCandidate");
                 JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
                 if (user != null) {
