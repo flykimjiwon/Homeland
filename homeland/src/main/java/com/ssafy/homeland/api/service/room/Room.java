@@ -57,12 +57,14 @@ public class Room implements Closeable {
     }
 
     public void leave(UserSession user) throws IOException {
+        System.out.println("Room.leave");
         log.debug("PARTICIPANT {}: Leaving room {}", user.getName(), this.name);
         this.removeParticipant(user.getName());
         user.close();
     }
 
     private Collection<String> joinRoom(UserSession newParticipant) throws IOException {
+        System.out.println("Room.joinRoom");
         final JsonObject newParticipantMsg = new JsonObject();
         newParticipantMsg.addProperty("id", "newParticipantArrived");
         newParticipantMsg.addProperty("name", newParticipant.getName());
@@ -84,6 +86,7 @@ public class Room implements Closeable {
     }
 
     private void removeParticipant(String name) throws IOException {
+        System.out.println("Room.removeParticipant");
         participants.remove(name);
 
         log.debug("ROOM {}: notifying all users that {} is leaving the room", this.name, name);
@@ -109,7 +112,7 @@ public class Room implements Closeable {
     }
 
     public void sendParticipantNames(UserSession user) throws IOException {
-
+        System.out.println("Room.sendParticipantNames");
         final JsonArray participantsArray = new JsonArray();
         for (final UserSession participant : this.getParticipants()) {
             if (!participant.equals(user)) {
@@ -136,6 +139,7 @@ public class Room implements Closeable {
 
     @Override
     public void close() {
+        System.out.println("Room.close");
         for (final UserSession user : participants.values()) {
             try {
                 user.close();

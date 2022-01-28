@@ -19,23 +19,28 @@ public class UserRegistry {
     private final ConcurrentHashMap<String, UserSession> usersBySessionId = new ConcurrentHashMap<>();
 
     public void register(UserSession user) {
+        System.out.println("UserRegistry.register");
         usersByName.put(user.getName(), user);
         usersBySessionId.put(user.getSession().getId(), user);
     }
 
     public UserSession getByName(String name) {
+        System.out.println("UserRegistry.getByName");
         return usersByName.get(name);
     }
 
     public UserSession getBySession(WebSocketSession session) {
+        System.out.println("UserRegistry.getBySession");
         return usersBySessionId.get(session.getId());
     }
 
     public boolean exists(String name) {
+        System.out.println("UserRegistry.exists");
         return usersByName.keySet().contains(name);
     }
 
     public UserSession removeBySession(WebSocketSession session) {
+        System.out.println("UserRegistry.removeBySession");
         final UserSession user = getBySession(session);
         usersByName.remove(user.getName());
         usersBySessionId.remove(session.getId());
