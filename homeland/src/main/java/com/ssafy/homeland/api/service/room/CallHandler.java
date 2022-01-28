@@ -55,6 +55,9 @@ public class CallHandler extends TextWebSocketHandler {
         //요청 메시지의 id에 따라 각기 다른 함수처리
         switch (jsonMessage.get("id").getAsString()) {
 
+            case "createRoom":
+                createRoom(jsonMessage,session);
+                break;
             case "joinRoom"://방 참여 요청
                 System.out.println("CallHandler.joinRoom");
                 joinRoom(jsonMessage, session);
@@ -91,19 +94,44 @@ public class CallHandler extends TextWebSocketHandler {
         roomManager.getRoom(user.getRoomName()).leave(user);
     }
 
+    //방 이름과 닉네임으로 방에 참가
     private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
         final String roomName = params.get("room").getAsString();
         final String name = params.get("name").getAsString();
         log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
+        //기존 방이 존재하면
         Room room = roomManager.getRoom(roomName);
+        //유저세션을 만들고 기존 방에 참가
         final UserSession user = room.join(name, session);
         registry.register(user);
     }
 
+    //방 이름과 닉네임으로 방을 생성하고 참가 이때는 방을 만드는 사람 이름만 있으면 됨
+    private void createRoom(JsonObject params, WebSocketSession session) throws IOException {
+        final String name = params.get("name").getAsString();
+        log.info("PARTICIPANT {}: trying to create room ", name);
+
+        //random으로 중복 안되게 roomName을 만듬
+        //
+        String roomName=makeRoomName();
+        Room room = roomManager.createRoom(roomName);
+        //유저세션을 만들고 만든 방에 참가
+        final UserSession user = room.join(name, session);
+        registry.register(user);
+    }
+
+    private String makeRoomName() {
+
+        return "tmp";
+    }
+
+    //방을 떠남
     private void leaveRoom(UserSession user) throws IOException {
         final Room room = roomManager.getRoom(user.getRoomName());
         room.leave(user);
+        //방의 참가자가 모두 나갔다면
+        //방을 없앰
         if (room.getParticipants().isEmpty()) {
             roomManager.removeRoom(room);
         }

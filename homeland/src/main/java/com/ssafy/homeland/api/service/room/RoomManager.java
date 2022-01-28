@@ -69,6 +69,8 @@ public class RoomManager {
      *
      * @param room the room to be removed
      */
+
+    //방 제거
     public void removeRoom(Room room) {
         System.out.println("RoomManager.removeRoom");
         this.rooms.remove(room.getName());
