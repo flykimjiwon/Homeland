@@ -16,7 +16,7 @@ function Login() {
   };
 
   const onLogin = () => {
-    fetch("#", {
+    fetch("https://localhost:8443/api/vi/auth/login", {
       method: "POST",
       body: JSON.stringify({
         id: id,

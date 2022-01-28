@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import "./Signup.css";
 import { Link, Redirect, useHistory } from "react-router-dom";
+import axios from "axios";
 
 function Sign() {
   const [id, setId] = useState("");
@@ -28,27 +29,26 @@ function Sign() {
   };
 
   const onSubmit = () => {
-    if (password && password === passwordConfirm) {
-      fetch("#", {
-        method: "POST",
-        body: JSON.stringify({
-          id: id,
-          nickname: nickname,
-          password: password,
-          email: email,
-        }),
+    fetch("https://localhost:8443/api/v1/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+        nickname: nickname,
+        password: password,
+        email: email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        // return <Redirect to="/login" />;
       })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          return <Redirect to="/login" />;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      alert("비밀번호와 비밀번호 확인이 서로 다릅니다!");
-    }
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div>
@@ -114,7 +114,7 @@ function Sign() {
           <Link to="#">다시 보내기</Link>
         </Form.Group>
         <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onSubmit}>
+          <Button type="submit" onSubmit={onSubmit}>
             가입하기
           </Button>
         </Form.Group>

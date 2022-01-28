@@ -2,6 +2,9 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function EditProfile() {
+  // 마이페이지 수정: https://localhost:8443/api/vi/users/edit => put 요청, 헤더에 bearer + jwt 넘겨주고, 이메일, 닉네임 넘겨주기
+  // 비밀번호 수정 전 확인 거치기: https://localhost:8443/api/vi/auth/check-password => post 요청, 헤더에 jwt, 비밀번호 넘겨주기
+  // 비밀번호 수정: https://localhost:8443/api/vi/users/edit-password => put요청, jwt 헤더에, 새로운 비밀번호 넘겨주기
   return (
     <div>
       <h1 className="mt-3">회원정보 수정</h1>
