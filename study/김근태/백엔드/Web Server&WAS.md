@@ -1,5 +1,5 @@
 # Web Server 과 WAS(Web Application Server)
-정적컨텐츠제공 **VS** 동적컨텐츠적용(DB조회 및, 다양한로직 처리를 요구하는 동적 컨텐츠 - 요청에따라 바뀔수있는 컨텐츠)
+정적컨텐츠제공 **VS** 동적컨텐츠적용(DB조회 및, 다양한로직 처리를 요구하는 동적 컨텐츠 - 요청에따라 바뀔수있는 컨텐츠)  
 아파치, MS IIS, nginx **VS** 톰캣, 제우스
 
 WAS = Web Server(요청을 컨테이너에게, 결과를 클라이언트에게 제공) + Web Container(JSP, Servlet 등 동적프로세싱)
@@ -17,10 +17,10 @@ WAS = Web Server(요청을 컨테이너에게, 결과를 클라이언트에게 �
 - Interval : health check를 통해 서버상태를 확인하는 요청을 날리는 주기 (default : 5초)
 - Fails : 아래의 경우 3회 연속 실패하면 서버가 비정상이라고 인지 (default : 1초)
 - Passes : 서버가 다시 복구되어 요청이 2변 연속 성공하면 서버가 정상으로 인지 (default : 1회)
-		ex) location / {
-			proxy_pass http://backend;
-			health_check interval=10 fails=3 passes=2;
-		    }
+		ex) location / {  
+			proxy_pass http://backend;  
+			health_check interval=10 fails=3 passes=2;  
+		    }  
 		*여러대의 WAS 사용중 하나의 WAS가 health check를 통과하지못한다면(이상이 생긴다면) 계속 그 WAS에 요청을 보내는것이 아니라
 		WAS에 대한 연결을 자동으로 차단하도록 설정 passes를 통과한다면 다시 연결
 
