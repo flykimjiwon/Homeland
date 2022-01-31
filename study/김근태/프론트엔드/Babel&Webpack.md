@@ -20,7 +20,7 @@ babel은 최신문법의 JS를 낮은 버전의 JS로 변환해주는 역할도 
 > JavaScript는 ECMAScript 사양을 준수하는 범용 스크립팅 언어이다.
 
 ## Webpack
-![Forward Proxy](../img_assets/Webpack.JPG)
+![Forward Proxy](../img_assets/Webpack.JPG)  
 webpack은 JavaScript의 static module bundler, 즉 JavaScript Application의 모든 코드들을 잘 모아서 합쳐준다.  
 그리고, 브라우저가 쉽게 이해 할수 있는 형태로 바꾸어 준다.  
 webpack은 일종의 build system 이라고도 할수 있다.  
