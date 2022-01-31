@@ -41,7 +41,7 @@ ex)
 일부 프록시 서버는 로드 밸런싱도 제공하여 여러 대의 분산된 서버가 있다면 서버의 트랙픽을 분산시켜 준다.
 또한 앤드 포인트마다 호출하는 서버를 설정할 수 있어 역할에 따라 서버의 트래픽을 분산할 수도 있다.
 
-**출처**
-[프록시 서버](https://ko.wikipedia.org/wiki/%ED%94%84%EB%A1%9D%EC%8B%9C_%EC%84%9C%EB%B2%84)
-[Reverse Proxy](https://www.imperva.com/learn/performance/reverse-proxy)
+**출처**  
+[프록시 서버](https://ko.wikipedia.org/wiki/%ED%94%84%EB%A1%9D%EC%8B%9C_%EC%84%9C%EB%B2%84)  
+[Reverse Proxy](https://www.imperva.com/learn/performance/reverse-proxy)  
 [Forward Proxy와 Reverse Proxy 차이점](https://firework-ham.tistory.com/23)
