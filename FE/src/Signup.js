@@ -33,29 +33,6 @@ function Sign() {
     setEmail(event.target.value);
   };
 
-  // const onSubmit = () => {
-  //   fetch("http://localhost:8080/api/v1/users", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       id: id,
-  //       nickname: nickname,
-  //       password: password,
-  //       email: email,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res);
-  //       // return <Redirect to="/login" />;
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const onSubmit = (event) => {
     event.preventDefault();
     axios({

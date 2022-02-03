@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-function EditProfile() {
+function EditPassword() {
   // 비밀번호 수정 전 확인 거치기: http://localhost:8080/api/v1/auth/check-password => post 요청, 헤더에 jwt, 비밀번호 넘겨주기
   // 비밀번호 수정: http://localhost:8080/api/v1/users/edit-password => put요청, jwt 헤더에, 새로운 비밀번호 넘겨주기
 
@@ -59,7 +59,7 @@ function EditProfile() {
 
   return (
     <div>
-      <h1 className="mt-3">회원정보 수정</h1>
+      <h1 className="mt-3">비밀번호 변경</h1>
       <Form className="container mypage-form">
         <Form.Group className="mb-3" controlId="formGroupChangeNickname">
           <Form.Label>닉네임 변경</Form.Label>
@@ -101,7 +101,7 @@ function EditProfile() {
           <Button type="submit" onClick={onEdit}>
             수정하기
           </Button>
-          <Link to="/editpassword">
+          <Link to="#">
             <div>비밀번호 변경</div>
           </Link>
         </Form.Group>
@@ -110,4 +110,4 @@ function EditProfile() {
   );
 }
 
-export default EditProfile;
+export default EditPassword;

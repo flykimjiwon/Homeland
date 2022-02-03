@@ -9,6 +9,7 @@ import Mypage from "./Mypage";
 import Main from "./Main";
 // import Test from "./Test";
 import EditProfile from "./EditProfile";
+import EditPassword from "./EditPassword";
 
 import IMG from "./img/a.png";
 import React, { useContext, useState, lazy, Suspense } from "react";
@@ -63,6 +64,9 @@ function App() {
 
       <Route path="/editProfile">
         <EditProfile></EditProfile>
+      </Route>
+      <Route path="/editpassword">
+        <EditPassword></EditPassword>
       </Route>
       <Route exact path="/">
         <Main></Main>

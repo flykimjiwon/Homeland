@@ -48,7 +48,6 @@ function Login() {
         password: password,
       },
     }).then((res) => {
-      console.log(res);
       localStorage.setItem("jwt", res.data.accessToken);
     });
   };
