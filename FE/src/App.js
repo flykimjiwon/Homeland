@@ -7,7 +7,7 @@ import Logout from "./Logout";
 import Signup from "./Signup";
 import Mypage from "./Mypage";
 import Main from "./Main";
-import Test from "./Test";
+// import Test from "./Test";
 import EditProfile from "./EditProfile";
 
 import IMG from "./img/a.png";
@@ -85,9 +85,9 @@ function App() {
       <Route path="/mypage">
         <Mypage></Mypage>
       </Route>
-      <Route path="/test">
+      {/* <Route path="/test">
         <Test></Test>
-      </Route>
+      </Route> */}
     </div>
   );
 }
