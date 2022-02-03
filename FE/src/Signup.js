@@ -13,43 +13,65 @@ function Sign() {
   const [email, setEmail] = useState("");
 
   const handleId = (event) => {
+    event.preventDefault();
     setId(event.target.value);
   };
   const handleNickname = (event) => {
+    event.preventDefault();
     setNickname(event.target.value);
   };
   const handlePassword = (event) => {
+    event.preventDefault();
     setPassword(event.target.value);
   };
   const handlePasswordConfirm = (event) => {
+    event.preventDefault();
     setPasswordConfirm(event.target.value);
   };
   const handleEmail = (event) => {
+    event.preventDefault();
     setEmail(event.target.value);
   };
 
-  const onSubmit = () => {
-    fetch("https://localhost:8443/api/v1/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+  // const onSubmit = () => {
+  //   fetch("http://localhost:8080/api/v1/users", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       id: id,
+  //       nickname: nickname,
+  //       password: password,
+  //       email: email,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res);
+  //       // return <Redirect to="/login" />;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    axios({
+      url: "http://localhost:8080/api/v1/users",
+      method: "post",
+      data: {
         id: id,
         nickname: nickname,
         password: password,
         email: email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        // return <Redirect to="/login" />;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+    }).then((res) => {
+      console.log(res);
+    });
   };
+
   return (
     <div>
       <h1 className="mt-3">회원가입</h1>
@@ -114,7 +136,7 @@ function Sign() {
           <Link to="#">다시 보내기</Link>
         </Form.Group>
         <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onSubmit={onSubmit}>
+          <Button type="submit" onClick={onSubmit}>
             가입하기
           </Button>
         </Form.Group>

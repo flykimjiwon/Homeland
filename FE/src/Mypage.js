@@ -1,4 +1,5 @@
 /* eslint-disable */
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -6,19 +7,19 @@ import "./Mypage.css";
 
 function Mypage() {
   const [profile, setProfile] = useState([]);
-  const getProfile = async () => {
-    const response = await fetch("http://localhost:8443/api/vi/users/me", {
-      method: "GET",
+  const getProfile = () => {
+    axios({
+      url: "http://localhost:8080/api/v1/users/me",
+      method: "get",
       headers: setToken(),
+    }).then((res) => {
+      setProfile(res.data);
     });
-    const json = await response.json();
-    setProfile(json.data);
   };
   const setToken = () => {
-    // const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("jwt");
     const config = {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY0NDY0MzIzOCwiaWF0IjoxNjQzMzQ3MjM4fQ.HzSVuC-X6aCkKIdzqPdV5pAoMIZrM9hlQH-tYqakCktWo9Yro6HD51wZnQ47WN7lk4uX0M4qTN-CQxUcMbrSAQ",
+      Authorization: `Bearer ${token}`,
     };
     return config;
   };

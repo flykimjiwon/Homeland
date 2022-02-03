@@ -1,5 +1,5 @@
 /* eslint-disable */
-import axios from "axios";
+// import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   useHistory,
@@ -73,7 +73,6 @@ function Test() {
           </Col>
           <Col></Col>
         </Row>
-
         <Row>
           <Col></Col>
           <Col xs={10}>

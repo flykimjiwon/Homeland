@@ -9,30 +9,48 @@ function Login() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const handleId = (event) => {
+    event.preventDefault();
     setId(event.target.value);
   };
   const handlePassword = (event) => {
+    event.preventDefault();
     setPassword(event.target.value);
   };
 
-  const onLogin = () => {
-    fetch("https://localhost:8443/api/vi/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
+  // const onLogin = (event) => {
+  //   event.preventDefault();
+  //   fetch("http://localhost:8080/api/vi/auth/login", {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       id: id,
+  //       password: password,
+  //     }),
+  //   })
+  //     .then((res) => {
+  //       res.json();
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       localStorage.setItem("jwt", res.data.token);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  const onLogin = (event) => {
+    event.preventDefault();
+    axios({
+      url: "http://localhost:8080/api/v1/auth/login",
+      method: "post",
+      data: {
         id: id,
         password: password,
-      }),
-    })
-      .then((res) => {
-        res.json();
-      })
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem("jwt", res.data.token);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+    }).then((res) => {
+      console.log(res);
+      localStorage.setItem("jwt", res.data.accessToken);
+    });
   };
 
   return (
