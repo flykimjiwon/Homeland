@@ -2,11 +2,14 @@ package com.ssafy.homeland.api.controller.member;
 
 import com.ssafy.homeland.api.request.member.UserRegisterPostReq;
 import com.ssafy.homeland.api.response.member.UserRes;
+import com.ssafy.homeland.api.service.member.EmailService;
 import com.ssafy.homeland.api.service.member.UserService;
 import com.ssafy.homeland.common.auth.SsafyUserDetails;
 import com.ssafy.homeland.common.model.response.BaseResponseBody;
+import com.ssafy.homeland.common.util.RedisUtil;
 import com.ssafy.homeland.db.entity.User;
 import com.ssafy.homeland.db.repository.UserRepository;
+import com.ssafy.homeland.db.repository.UserRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,6 +26,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -40,7 +45,16 @@ public class UserController {
 	UserRepository userRepository;
 
 	@Autowired
+	UserRepositorySupport userRepositorySupport;
+
+	@Autowired
 	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	EmailService emailService;
+
+	@Autowired
+	RedisUtil redisUtil;
 	
 	@PostMapping()
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
@@ -107,6 +121,24 @@ public class UserController {
 		return Map.of("message", "비밀번호 수정 성공");
 	}
 
+	@PostMapping("/find-password")
+	public Map<String, Object> findPassword(@RequestBody Map<String, Object> body) {
+		User user = userRepositorySupport.findUserByUserId(body.get("id").toString()).get();
+		UUID uuid = UUID.randomUUID();
+		redisUtil.setDataExpire(uuid.toString(),user.getUserId(), 60 * 30L);
+		String CHANGE_PASSWORD_LINK = "http://localhost:8080/api/v1/users/password/";
+		emailService.sendMail(user.getEmail(),"사용자 비밀번호 안내 메일",CHANGE_PASSWORD_LINK+uuid.toString());
+		return Map.of("message", "메일 보내기 성공");
+	}
+
+	@PutMapping("/password/{key}")
+	public Map<String,Object> changePassword(@PathVariable String key,@RequestBody Map<String,Object> body){
+		String memberId = redisUtil.getData(key);
+		User user = userRepositorySupport.findUserByUserId(memberId).get();
+		user.setPassword(passwordEncoder.encode(body.get("password").toString()));
+		userRepository.save(user);
+		return Map.of("message", "비밀번호 수정 성공");
+	}
 
 
 

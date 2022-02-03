@@ -1,9 +1,9 @@
 package com.ssafy.homeland;
 
 
-import com.ssafy.homeland.api.service.room.CallHandler;
-import com.ssafy.homeland.api.service.room.RoomManager;
-import com.ssafy.homeland.api.service.room.UserRegistry;
+//import com.ssafy.homeland.api.service.room.CallHandler;
+//import com.ssafy.homeland.api.service.room.RoomManager;
+//import com.ssafy.homeland.api.service.room.UserRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -15,7 +15,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.kurento.client.KurentoClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
-import com.ssafy.homeland.api.service.room.UserSession;
+//import com.ssafy.homeland.api.service.room.UserSession;
 
 
 import java.nio.charset.StandardCharsets;
@@ -24,9 +24,9 @@ import java.nio.charset.StandardCharsets;
 @EnableWebSocket
 public class HomelandApplication implements WebSocketConfigurer {
 
-	static {
-		System.setProperty("kms.url","ws://3.35.136.195:8888/kurento");
-	}
+//	static {
+//		// System.setProperty("kms.url","ws://3.35.136.195:8888/kurento");
+//	}
 
 	@Bean
 	public HttpMessageConverter<String> responseBodyConverter() {
@@ -41,25 +41,25 @@ public class HomelandApplication implements WebSocketConfigurer {
 		return characterEncodingFilter;
 	}
 
-	@Bean
-	public UserRegistry registry() {
-		return new UserRegistry();
-	}
+//	@Bean
+//	public UserRegistry registry() {
+//		return new UserRegistry();
+//	}
+//
+//	@Bean
+//	public RoomManager roomManager() {
+//		return new RoomManager();
+//	}
+//
+//	@Bean
+//	public CallHandler groupCallHandler() {
+//		return new CallHandler();
+//	}
 
-	@Bean
-	public RoomManager roomManager() {
-		return new RoomManager();
-	}
-
-	@Bean
-	public CallHandler groupCallHandler() {
-		return new CallHandler();
-	}
-
-	@Bean
-	public KurentoClient kurentoClient() {
-		return KurentoClient.create();
-	}
+//	@Bean
+//	public KurentoClient kurentoClient() {
+//		return KurentoClient.create();
+//	}
 
 	@Bean
 	public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
@@ -74,6 +74,6 @@ public class HomelandApplication implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(groupCallHandler(), "/groupcall");
+		//registry.addHandler(groupCallHandler(), "/groupcall");
 	}
 }
