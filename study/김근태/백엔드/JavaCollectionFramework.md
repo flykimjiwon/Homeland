@@ -1,6 +1,6 @@
 # Java Collection Framework
 일반적으로 생각하는 자료구조라고 생각하면 됨. 암기 필수.
-![JavaCollectionFramework](../img_assets/JavaCollectionFramework.jpg)
+![JavaCollectionFramework](../img_assets/JavaCollectionFramework.JPG)
 
 ## 주요 인터페이스
 - List : 순서가 **있는** 데이터의 집합, 중복을 허용 (Vector, ArrayList, LinkedList, Stack, Queue)
