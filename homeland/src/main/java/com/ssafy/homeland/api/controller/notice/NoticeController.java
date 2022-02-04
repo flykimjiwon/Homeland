@@ -1,10 +1,15 @@
 package com.ssafy.homeland.api.controller.notice;
 import com.ssafy.homeland.api.request.notice.NoticePostReq;
-import com.ssafy.homeland.api.service.notice.NoticeService;
+import com.ssafy.homeland.api.service.member.UserService;
+import com.ssafy.homeland.common.auth.SsafyUserDetails;
 import com.ssafy.homeland.db.entity.Notice;
+import com.ssafy.homeland.db.entity.User;
 import com.ssafy.homeland.db.repository.NoticeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -15,11 +20,12 @@ import java.util.*;
 @RequestMapping("/api/v1/notice")
 public class NoticeController {
 
-    @Autowired
-    NoticeService noticeService;
 
     @Autowired
     NoticeRepository noticeRepository;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping
     public List<Map<String, Object>> list() {
@@ -28,6 +34,8 @@ public class NoticeController {
             Map<String, Object> obj = new HashMap<>();
             obj.put("id", noticeList.getId());
             obj.put("title", noticeList.getTitle());
+            obj.put("createdAt", noticeList.getCreatedAt());
+            obj.put("updatedAt", noticeList.getUpdateAt());
             result.add(obj);
         });
         return result;
@@ -44,24 +52,52 @@ public class NoticeController {
         obj.put("id", notice.getId());
         obj.put("title", notice.getTitle());
         obj.put("content", notice.getContent());
+        obj.put("createdAt", notice.getCreatedAt());
+        obj.put("updatedAt", notice.getUpdateAt());
         return obj;
     }
 
     @DeleteMapping("/{noticeId}")
-    public void delete(@PathVariable Long noticeId) {
+    public ResponseEntity delete(Authentication authentication, @PathVariable Long noticeId) {
+
+        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        String userId = userDetails.getUsername();
+        User user = userService.getUserByUserId(userId);
+        if (user.getAuthority().equals("user")) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
         noticeRepository.deleteById(noticeId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping
-    public Long post(@RequestBody Map<String, Object> body) {
-        return noticeRepository.save(Notice.builder()
+    public ResponseEntity post(Authentication authentication, @RequestBody Map<String, Object> body) {
+        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        String userId = userDetails.getUsername();
+        User user = userService.getUserByUserId(userId);
+        //System.out.println(user.getAuthority());
+        if (user.getAuthority().equals("user")) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+        noticeRepository.save(Notice.builder()
                 .title(body.get("title").toString())
                 .content(body.get("content").toString())
                 .createdAt(LocalDateTime.now())
-                .build()).getId();
+                .updateAt(LocalDateTime.now())
+                .build());
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    public Map<String,Object> update(@PathVariable Long noticeId, @RequestBody Map<String,Object> body){
+    @PutMapping("/{noticeId}")
+    public ResponseEntity update(Authentication authentication,@PathVariable Long noticeId, @RequestBody Map<String,Object> body){
+
+        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        String userId = userDetails.getUsername();
+        User user = userService.getUserByUserId(userId);
+        if (user.getAuthority().equals("user")) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
         var option = noticeRepository.findById(noticeId);
         if(!option.isPresent()){
             return null;
@@ -69,8 +105,9 @@ public class NoticeController {
         Notice notice = option.get();
         notice.setTitle(body.get("title").toString());
         notice.setContent(body.get("content").toString());
+        notice.setUpdateAt(LocalDateTime.now());
         noticeRepository.save(notice);
-        return Map.of("message", "수정 성공");
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
