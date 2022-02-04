@@ -11,6 +11,7 @@ import com.ssafy.homeland.db.entity.User;
 import com.ssafy.homeland.db.repository.UserRepository;
 import com.ssafy.homeland.db.repository.UserRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,10 +25,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -122,13 +120,18 @@ public class UserController {
 	}
 
 	@PostMapping("/find-password")
-	public Map<String, Object> findPassword(@RequestBody Map<String, Object> body) {
+	public ResponseEntity findPassword(@RequestBody Map<String, Object> body) {
 		User user = userRepositorySupport.findUserByUserId(body.get("id").toString()).get();
-		UUID uuid = UUID.randomUUID();
-		redisUtil.setDataExpire(uuid.toString(),user.getUserId(), 60 * 30L);
-		String CHANGE_PASSWORD_LINK = "http://localhost:8080/api/v1/users/password/";
-		emailService.sendMail(user.getEmail(),"사용자 비밀번호 안내 메일",CHANGE_PASSWORD_LINK+uuid.toString());
-		return Map.of("message", "메일 보내기 성공");
+		if (user.getEmail().equals( body.get("email").toString())) {
+			UUID uuid = UUID.randomUUID();
+			redisUtil.setDataExpire(uuid.toString(),user.getUserId(), 60 * 30L);
+			String CHANGE_PASSWORD_LINK = "http://localhost:8080/api/v1/users/password/";
+			emailService.sendMail(user.getEmail(),"사용자 비밀번호 안내 메일",CHANGE_PASSWORD_LINK+uuid.toString());
+			return new ResponseEntity(HttpStatus.OK);
+		} else {
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 	@PutMapping("/password/{key}")
@@ -138,6 +141,51 @@ public class UserController {
 		user.setPassword(passwordEncoder.encode(body.get("password").toString()));
 		userRepository.save(user);
 		return Map.of("message", "비밀번호 수정 성공");
+	}
+
+	@PostMapping("/duplicate-check-id")
+	public ResponseEntity duplicateCheckId(@RequestBody Map<String,Object> body) {
+
+		String userId  = body.get("id").toString();
+		Optional<User> user = userRepositorySupport.findUserByUserId(userId);
+		//System.out.println("유저유저윶오조조조옹유유유유유융"+user);
+
+		if (user.isPresent()) {
+			return new ResponseEntity(HttpStatus.CONFLICT);
+		}
+		else {
+			return new ResponseEntity(HttpStatus.OK);
+		}
+	}
+
+	@PostMapping("/duplicate-check-email")
+	public ResponseEntity duplicateCheckEmail(@RequestBody Map<String,Object> body) {
+
+		String email  = body.get("email").toString();
+		Optional<User> user = userRepository.findByEmail(email);
+
+
+		if (user.isPresent()) {
+			return new ResponseEntity(HttpStatus.CONFLICT);
+		}
+		else {
+			return new ResponseEntity(HttpStatus.OK);
+		}
+	}
+
+	@PostMapping("/duplicate-check-nickname")
+	public ResponseEntity duplicateCheckNickname(@RequestBody Map<String,Object> body) {
+
+		String nickname  = body.get("nickname").toString();
+		Optional<User> user = userRepository.findByNickname(nickname);
+
+
+		if (user.isPresent()) {
+			return new ResponseEntity(HttpStatus.CONFLICT);
+		}
+		else {
+			return new ResponseEntity(HttpStatus.OK);
+		}
 	}
 
 

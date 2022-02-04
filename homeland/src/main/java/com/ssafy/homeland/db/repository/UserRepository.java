@@ -1,6 +1,7 @@
 package com.ssafy.homeland.db.repository;
 
 
+import com.ssafy.homeland.db.entity.Notice;
 import com.ssafy.homeland.db.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     // 아래와 같이, Query Method 인터페이스(반환값, 메소드명, 인자) 정의를 하면 자동으로 Query Method 구현됨.
     Optional<User> findByUserId(String userId);
+    Optional<User> findByEmail(String email);
+    Optional<User> findByNickname(String nickname);
 }
