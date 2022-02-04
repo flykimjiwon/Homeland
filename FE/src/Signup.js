@@ -99,20 +99,6 @@ function Sign() {
             placeholder="e-mail 입력"
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupCheckEmail">
-          <Form.Label>인증코드 입력</Form.Label>
-          <InputGroup>
-            <Form.Control type="text" placeholder="인증번호 입력" />
-            <Button>인증하기</Button>
-          </InputGroup>
-          <Form.Text className="text-muted">
-            가입 이후 이메일 인증을 통해 비밀번호를 찾을 수 있습니다.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-between">
-          <Form.Text>이메일이 도착하지 않았나요?</Form.Text>
-          <Link to="#">다시 보내기</Link>
-        </Form.Group>
         <Form.Group className="d-flex justify-content-center mt-3">
           <Button type="submit" onClick={onSubmit}>
             가입하기

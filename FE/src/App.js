@@ -14,6 +14,8 @@ import CheckPassword from "./CheckPassword";
 import CheckEmail from "./CheckEmail";
 import FindPassword from "./FindPassword";
 import NoticeForm from "./NoticeForm";
+import NoticeDetailPage from "./NoticeDetailPage";
+import NoticeEdit from "./NoticeEdit";
 
 import IMG from "./img/a.png";
 import React, { useContext, useState, lazy, Suspense, useEffect } from "react";
@@ -98,6 +100,9 @@ function App() {
         </Container>
       </Navbar>
 
+      <Route path="/notice-edit/:id">
+        <NoticeEdit />
+      </Route>
       <Route path="/notice-form">
         <NoticeForm />
       </Route>
@@ -106,6 +111,9 @@ function App() {
       </Route>
       <Route path="/check-email">
         <CheckEmail />
+      </Route>
+      <Route path="/notice-detail/:id">
+        <NoticeDetailPage />
       </Route>
       <Route path="/editProfile">
         <EditProfile></EditProfile>

@@ -9,9 +9,6 @@ import NoticeDetail from "./NoticeDetail";
 
 function Notice() {
   const [noticeItems, setNoticeItems] = useState([]);
-  const noticeItem = noticeItems.map((item) => {
-    console.log(item);
-  });
   const getNoticeItems = () => {
     axios({
       url: "http://localhost:8080/api/v1/notice",
@@ -28,7 +25,18 @@ function Notice() {
   return (
     <div className="mt-3">
       <h1>공지사항입니다.</h1>
-      <ul>{noticeItem}</ul>
+      <ul>
+        {noticeItems.map((item, index) => {
+          return (
+            <NoticeDetail
+              key={index}
+              id={item.id}
+              title={item.title}
+              updatedAt={item.updatedAt}
+            />
+          );
+        })}
+      </ul>
       <Link to="/notice-form">
         <Button>글 작성</Button>
       </Link>

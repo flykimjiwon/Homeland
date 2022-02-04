@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function NoticeForm() {
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const handleTitle = (event) => {
@@ -31,8 +33,8 @@ function NoticeForm() {
         content: content,
       },
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        history.push("/notice");
       })
       .catch((err) => {
         console.log(err);
