@@ -1,13 +1,11 @@
 /* eslint-disable */
 import { Button, Form, InputGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
 function EditProfile() {
-  // 비밀번호 수정 전 확인 거치기: http://localhost:8080/api/v1/auth/check-password => post 요청, 헤더에 jwt, 비밀번호 넘겨주기
-  // 비밀번호 수정: http://localhost:8080/api/v1/users/edit-password => put요청, jwt 헤더에, 새로운 비밀번호 넘겨주기
-
+  const history = useHistory();
   const [newNickname, setNewNickname] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const handleNewNickname = (event) => {
@@ -29,8 +27,8 @@ function EditProfile() {
         email: newEmail,
       },
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        history.push("/mypage");
       })
       .catch((err) => {
         console.log(err);
@@ -101,7 +99,7 @@ function EditProfile() {
           <Button type="submit" onClick={onEdit}>
             수정하기
           </Button>
-          <Link to="/editpassword">
+          <Link to="/check-password">
             <div>비밀번호 변경</div>
           </Link>
         </Form.Group>

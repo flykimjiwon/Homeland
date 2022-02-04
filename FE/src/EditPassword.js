@@ -1,51 +1,11 @@
 /* eslint-disable */
 import { Button, Form, InputGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
 function EditPassword() {
-  // 비밀번호 수정 전 확인 거치기: http://localhost:8080/api/v1/auth/check-password => post 요청, 헤더에 jwt, 비밀번호 넘겨주기
-  // 비밀번호 수정: http://localhost:8080/api/v1/users/edit-password => put요청, jwt 헤더에, 새로운 비밀번호 넘겨주기
-
-  const [newNickname, setNewNickname] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const handleNewNickname = (event) => {
-    event.preventDefault();
-    setNewNickname(event.target.value);
-  };
-  const handleNewEmail = (event) => {
-    event.preventDefault();
-    setNewEmail(event.target.value);
-  };
-  const onEdit = (event) => {
-    event.preventDefault();
-    axios({
-      url: "http://localhost:8080/api/v1/users/edit",
-      method: "put",
-      headers: setToken(),
-      data: {
-        nickname: newNickname,
-        email: newEmail,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getProfile = () => {
-    axios({
-      url: "http://localhost:8080/api/v1/users/me",
-      method: "get",
-      headers: setToken(),
-    }).then((res) => {
-      setNewNickname(res.data.nickname);
-      setNewEmail(res.data.email);
-    });
-  };
+  const history = useHistory();
   const setToken = () => {
     const token = localStorage.getItem("jwt");
     const config = {
@@ -53,57 +13,63 @@ function EditPassword() {
     };
     return config;
   };
-  useEffect(() => {
-    getProfile();
-  }, []);
+
+  const [newPassword, setNewPassword] = useState("");
+  const [checkNewPassword, setCheckNewPassword] = useState("");
+  const handleNewPassword = (event) => {
+    event.preventDefault();
+    setNewPassword(event.target.value);
+  };
+  const handleCheckNewPassword = (event) => {
+    event.preventDefault();
+    setCheckNewPassword(event.target.value);
+  };
+  const onEditPassword = (event) => {
+    event.preventDefault();
+    axios({
+      url: "http://localhost:8080/api/v1/users/edit-password",
+      method: "put",
+      headers: setToken(),
+      data: {
+        password: newPassword,
+      },
+    })
+      .then(() => {
+        history.push("/mypage");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
       <h1 className="mt-3">비밀번호 변경</h1>
       <Form className="container mypage-form">
-        <Form.Group className="mb-3" controlId="formGroupChangeNickname">
-          <Form.Label>닉네임 변경</Form.Label>
+        <Form.Group className="mb-3" controlId="formGroupChangeNewPassword">
+          <Form.Label>새 비밀번호</Form.Label>
           <Form.Control
-            value={newNickname}
-            onChange={handleNewNickname}
-            type="text"
-            placeholder="변경할 닉네임을 입력하세요."
+            value={newPassword}
+            onChange={handleNewPassword}
+            type="password"
+            placeholder="변경할 비밀번호를 입력하세요."
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formGroupNewEmail">
-          <Form.Label>e-mail 변경</Form.Label>
+        <Form.Group className="mb-3" controlId="formGroupCheckNewPassword">
+          <Form.Label>비밀번호 확인</Form.Label>
           <Form.Control
-            value={newEmail}
-            onChange={handleNewEmail}
-            type="email"
-            placeholder="변경할 E-mail을 입력하세요."
+            value={checkNewPassword}
+            onChange={handleCheckNewPassword}
+            type="password"
+            placeholder="비밀번호를 다시 입력해 주세요."
           />
         </Form.Group>
-
-        {/* <Form.Group className="mb-3" controlId="formGroupCheckNewEmail">
-          <Form.Label>인증코드 입력</Form.Label>
-          <InputGroup>
-            <Form.Control type="email" placeholder="인증번호 입력" />
-            <Button>인증하기</Button>
-          </InputGroup>
-          <Form.Text className="text-muted">
-            이메일 인증을 통해 비밀번호를 찾을 수 있습니다.
-          </Form.Text>
-        </Form.Group> */}
-
-        {/* <Form.Group className="d-flex justify-content-between">
-          <Form.Text>이메일이 도착하지 않았나요?</Form.Text>
-          <Link to="#">다시 보내기</Link>
-        </Form.Group> */}
 
         <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onEdit}>
-            수정하기
+          <Button type="submit" onClick={onEditPassword}>
+            비밀번호 변경
           </Button>
-          <Link to="#">
-            <div>비밀번호 변경</div>
-          </Link>
         </Form.Group>
       </Form>
     </div>

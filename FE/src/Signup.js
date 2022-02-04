@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import "./Signup.css";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 function Sign() {
+  const history = useHistory();
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -44,8 +45,8 @@ function Sign() {
         password: password,
         email: email,
       },
-    }).then((res) => {
-      console.log(res);
+    }).then(() => {
+      history.push("/login");
     });
   };
 

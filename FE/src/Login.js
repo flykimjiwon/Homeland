@@ -1,11 +1,12 @@
 /* eslint-disable */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Button, Container, Form } from "react-bootstrap";
 import "./Login.css";
 
 function Login() {
+  const history = useHistory();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const handleId = (event) => {
@@ -17,27 +18,6 @@ function Login() {
     setPassword(event.target.value);
   };
 
-  // const onLogin = (event) => {
-  //   event.preventDefault();
-  //   fetch("http://localhost:8080/api/vi/auth/login", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       id: id,
-  //       password: password,
-  //     }),
-  //   })
-  //     .then((res) => {
-  //       res.json();
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       localStorage.setItem("jwt", res.data.token);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const onLogin = (event) => {
     event.preventDefault();
     axios({
@@ -47,9 +27,19 @@ function Login() {
         id: id,
         password: password,
       },
-    }).then((res) => {
-      localStorage.setItem("jwt", res.data.accessToken);
-    });
+    })
+      .then((res) => {
+        // console.log(res);
+        localStorage.setItem("jwt", res.data.accessToken);
+        history.push("/mypage");
+      })
+      .catch((err) => {
+        if (err.response.status === 500) {
+          alert("존재하지 않는 아이디입니다.");
+        } else if (err.response.status === 401) {
+          alert("비밀번호가 틀렸습니다.");
+        }
+      });
   };
 
   return (
