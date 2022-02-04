@@ -11,6 +11,7 @@ import Main from "./Main";
 import EditProfile from "./EditProfile";
 import EditPassword from "./EditPassword";
 import CheckPassword from "./CheckPassword";
+import CheckEmail from "./CheckEmail";
 
 import IMG from "./img/a.png";
 import React, { useContext, useState, lazy, Suspense } from "react";
@@ -63,6 +64,9 @@ function App() {
         </Container>
       </Navbar>
 
+      <Route path="/check-email">
+        <CheckEmail />
+      </Route>
       <Route path="/editProfile">
         <EditProfile></EditProfile>
       </Route>

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { Button, Container, Form } from "react-bootstrap";
 import "./Login.css";
 
@@ -71,6 +71,9 @@ function Login() {
               로그인
             </Button>
           </Form.Group>
+          <Link to="/check-email">
+            <p>비밀번호 찾기</p>
+          </Link>
         </Form>
       </Container>
     </div>
