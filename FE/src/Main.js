@@ -213,63 +213,69 @@ class Main extends Component {
         {this.state.session === undefined ? (
           <Container>
             <Row>
-              <div id="join">
-                <div id="img-div">
-                  <img
-                    src="/openvidu_grey_bg_transp_cropped.png"
-                    alt="OpenVidu logo"
-                  />
+              <Col></Col>
+              <Col xs={4}>
+                <div id="join">
+                  <div id="img-div">
+                    <img
+                      src="/openvidu_grey_bg_transp_cropped.png"
+                      alt="OpenVidu logo"
+                    />
+                  </div>
+                  <div id="join-dialog" className="jumbotron vertical-center">
+                    <h1> Weclome to </h1>
+                    <h1> Home Lan Drink! </h1>
+                    <br></br>
+                    <form className="form-group" onSubmit={this.joinSession}>
+                      <p>
+                        <h4 className="font-big-orange">
+                          닉네임을 입력해주세요.{" "}
+                        </h4>
+                        <input
+                          className="form-control grey"
+                          type="text"
+                          id="userName"
+                          value={myUserName}
+                          onChange={this.handleChangeUserName}
+                          required
+                        />
+                      </p>
+                      <br></br>
+                      <p>
+                        <h4 className="font-big-orange">
+                          {" "}
+                          방번호를 입력해주세요.{" "}
+                        </h4>
+                        <input
+                          className="form-control grey"
+                          type="text"
+                          id="sessionId"
+                          value={mySessionId}
+                          onChange={this.handleChangeSessionId}
+                          required
+                        />
+                      </p>
+                      <p className="text-center">
+                        <br></br>
+                        <input
+                          className="btn btn-lg btn-warning"
+                          name="commit"
+                          type="submit"
+                          value="JOIN"
+                        />
+                      </p>
+                    </form>
+                  </div>
                 </div>
-                <div id="join-dialog" className="jumbotron vertical-center">
-                  <h1> Weclome to </h1>
-                  <h1> Home Lan Drink! </h1>
-                  <br></br>
-                  <form className="form-group" onSubmit={this.joinSession}>
-                    <p>
-                      <h4 className="font-big-orange">
-                        닉네임을 입력해주세요.{" "}
-                      </h4>
-                      <input
-                        className="form-control grey"
-                        type="text"
-                        id="userName"
-                        value={myUserName}
-                        onChange={this.handleChangeUserName}
-                        required
-                      />
-                    </p>
-                    <p>
-                      <h4 className="font-big-orange">
-                        {" "}
-                        방번호를 입력해주세요.{" "}
-                      </h4>
-                      <input
-                        className="form-control grey"
-                        type="text"
-                        id="sessionId"
-                        value={mySessionId}
-                        onChange={this.handleChangeSessionId}
-                        required
-                      />
-                    </p>
-                    <p className="text-center">
-                      <input
-                        className="btn btn-lg btn-warning"
-                        name="commit"
-                        type="submit"
-                        value="JOIN"
-                      />
-                    </p>
-                  </form>
-                </div>
-              </div>
+              </Col>
+              <Col></Col>
             </Row>
+            <br></br>
+            <br></br>
             <Row>
               <Col></Col>
               <Col xs={10}>
-                <div data-aos="zoom-in">
-                  <MainAccordion></MainAccordion>
-                </div>
+                <MainAccordion></MainAccordion>
               </Col>
               <Col></Col>
             </Row>
