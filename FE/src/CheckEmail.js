@@ -23,8 +23,10 @@ function CheckEmail() {
         email: email,
       },
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        setId("");
+        setEmail("");
+        alert("E-mail 인증 요청이 완료되었습니다. E-Mail을 확인해주세요.");
       })
       .catch((err) => {
         console.log(err);

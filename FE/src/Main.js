@@ -25,7 +25,19 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import styled from "styled-components";
 
-function Main() {
+function Main({ onIsLogin }) {
+  // const [isLogin, setIsLogin] = useState(false);
+  // if (isLogin) {
+  //   onIsLogin(isLogin);
+  // }
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      // setIsLogin(true);
+      onIsLogin(true);
+    }
+  }, []);
+
   AOS.init({
     duration: 1000,
   });

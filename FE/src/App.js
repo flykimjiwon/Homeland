@@ -12,9 +12,11 @@ import EditProfile from "./EditProfile";
 import EditPassword from "./EditPassword";
 import CheckPassword from "./CheckPassword";
 import CheckEmail from "./CheckEmail";
+import FindPassword from "./FindPassword";
+import NoticeForm from "./NoticeForm";
 
 import IMG from "./img/a.png";
-import React, { useContext, useState, lazy, Suspense } from "react";
+import React, { useContext, useState, lazy, Suspense, useEffect } from "react";
 import {
   Button,
   Navbar,
@@ -29,6 +31,27 @@ import { Link, Route, Switch } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
+  const history = useHistory();
+  const [isLogin, setIsLogin] = useState(false);
+  // console.log(isLogin);
+  const onIsLogin = (e) => {
+    setIsLogin(e);
+  };
+
+  const onLogout = (event) => {
+    event.preventDefault();
+    setIsLogin(false);
+    localStorage.removeItem("jwt");
+    history.push("/login");
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setIsLogin(true);
+    }
+  }, []);
+
   return (
     <div className="App">
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -46,24 +69,41 @@ function App() {
                 참가
               </Nav.Link>
             </Nav>
-            <Nav>
-              <Nav.Link eventKey="link-3" as={Link} to="/login">
-                로그인
-              </Nav.Link>
-              <Nav.Link eventKey="link-4" as={Link} to="/logout">
-                로그아웃
-              </Nav.Link>
-              <Nav.Link eventKey="link-5" as={Link} to="/signup">
-                회원가입
-              </Nav.Link>
-              <Nav.Link eventKey="link-6" as={Link} to="/mypage">
-                마이페이지
-              </Nav.Link>
-            </Nav>
+
+            {isLogin ? (
+              <Nav>
+                <Nav.Link
+                  onClick={onLogout}
+                  eventKey="link-4"
+                  as={Link}
+                  to="/logout"
+                >
+                  로그아웃
+                </Nav.Link>
+                <Nav.Link eventKey="link-6" as={Link} to="/mypage">
+                  마이페이지
+                </Nav.Link>
+              </Nav>
+            ) : (
+              <Nav>
+                <Nav.Link eventKey="link-3" as={Link} to="/login">
+                  로그인
+                </Nav.Link>
+                <Nav.Link eventKey="link-5" as={Link} to="/signup">
+                  회원가입
+                </Nav.Link>
+              </Nav>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
+      <Route path="/notice-form">
+        <NoticeForm />
+      </Route>
+      <Route path="/find-password/:key">
+        <FindPassword />
+      </Route>
       <Route path="/check-email">
         <CheckEmail />
       </Route>
@@ -77,7 +117,7 @@ function App() {
         <CheckPassword></CheckPassword>
       </Route>
       <Route exact path="/">
-        <Main></Main>
+        <Main onIsLogin={onIsLogin}></Main>
       </Route>
       <Route path="/notice">
         <Notice></Notice>

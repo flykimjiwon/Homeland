@@ -1,52 +1,35 @@
 /* eslint-disable */
 // import axios from 'axios';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Table, Pagination, Button } from "react-bootstrap";
 import "./Notice.css";
 import { Link } from "react-router-dom";
-import Login from "./Login";
+import axios from "axios";
+import NoticeDetail from "./NoticeDetail";
 
 function Notice() {
-  const active = 2;
-  let items = [];
-  for (let number = 1; number <= 5; number++) {
-    items.push(
-      <Pagination.Item key={number} active={number === active}>
-        {number}
-      </Pagination.Item>
-    );
-  }
+  const [noticeItems, setNoticeItems] = useState([]);
+  const noticeItem = noticeItems.map((item) => {
+    console.log(item);
+  });
+  const getNoticeItems = () => {
+    axios({
+      url: "http://localhost:8080/api/v1/notice",
+      method: "get",
+    })
+      .then((res) => {
+        setNoticeItems(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(getNoticeItems, []);
   return (
     <div className="mt-3">
       <h1>공지사항입니다.</h1>
-      <Table className="my-3 container" striped bordered hover>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>제목</th>
-            <th>등록일</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </Table>
-      <Pagination>{items}</Pagination>
-      <Link to="/login">
+      <ul>{noticeItem}</ul>
+      <Link to="/notice-form">
         <Button>글 작성</Button>
       </Link>
     </div>

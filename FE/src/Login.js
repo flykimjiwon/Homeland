@@ -31,7 +31,7 @@ function Login() {
       .then((res) => {
         // console.log(res);
         localStorage.setItem("jwt", res.data.accessToken);
-        history.push("/mypage");
+        history.push("/");
       })
       .catch((err) => {
         if (err.response.status === 500) {
