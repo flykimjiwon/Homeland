@@ -4436,6 +4436,13 @@
   "resolved" "https://registry.npmjs.org/fraction.js/-/fraction.js-4.1.2.tgz"
   "version" "4.1.2"
 
+"freeice@2.2.2":
+  "integrity" "sha512-XNoIxDHufqPIBSLpp4IrFPnoc+hv/0RwdOGhIoggIDC2ZKf5r6OoixbeoFJSmZOAq2aYiEUArhuQ8zVVrM5C4w=="
+  "resolved" "https://registry.npmjs.org/freeice/-/freeice-2.2.2.tgz"
+  "version" "2.2.2"
+  dependencies:
+    "normalice" "^1.0.0"
+
 "fresh@0.5.2":
   "integrity" "sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac="
   "resolved" "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz"
@@ -4633,6 +4640,13 @@
   "integrity" "sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg=="
   "resolved" "https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz"
   "version" "2.0.1"
+
+"hark@1.2.3":
+  "integrity" "sha512-u68vz9SCa38ESiFJSDjqK8XbXqWzyot7Cj6Y2b6jk2NJ+II3MY2dIrLMg/kjtIAun4Y1DHF/20hfx4rq1G5GMg=="
+  "resolved" "https://registry.npmjs.org/hark/-/hark-1.2.3.tgz"
+  "version" "1.2.3"
+  dependencies:
+    "wildemitter" "^1.2.0"
 
 "harmony-reflect@^1.4.6":
   "integrity" "sha512-HIp/n38R9kQjDEziXyDTuW3vvoxxyxjxFzXLrBr18uB47GnSt+G9D29fqrpM5ZkspMcPICud3XsBJQ4Y2URg8g=="
@@ -5707,6 +5721,11 @@
   "resolved" "https://registry.npmjs.org/jsesc/-/jsesc-0.5.0.tgz"
   "version" "0.5.0"
 
+"jsnlog@2.30.0":
+  "integrity" "sha512-o3ROQVkhek+dkc7/9TXlB4TNtxUpYsRLOBJHZYk3Vy0B5zRBmfv9tyr56PrjcgEXuy06ARgfLTANY0+ImhzzGA=="
+  "resolved" "https://registry.npmjs.org/jsnlog/-/jsnlog-2.30.0.tgz"
+  "version" "2.30.0"
+
 "json-parse-better-errors@^1.0.2":
   "integrity" "sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw=="
   "resolved" "https://registry.npmjs.org/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz"
@@ -6158,6 +6177,11 @@
   "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-2.0.1.tgz"
   "version" "2.0.1"
 
+"normalice@^1.0.0":
+  "integrity" "sha1-A0NcLuzVYxprygLaOTDsPjRagPc="
+  "resolved" "https://registry.npmjs.org/normalice/-/normalice-1.0.1.tgz"
+  "version" "1.0.1"
+
 "normalize-path@^3.0.0", "normalize-path@~3.0.0":
   "integrity" "sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA=="
   "resolved" "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz"
@@ -6320,6 +6344,18 @@
     "define-lazy-prop" "^2.0.0"
     "is-docker" "^2.1.1"
     "is-wsl" "^2.2.0"
+
+"openvidu-browser@2.20.0":
+  "integrity" "sha512-ZlCF2B91Mix/z6NsmarLZomaycyadY8I3giV0NRMo5vWfhKcGLREKPCX979G+UJQxn7qGiq31/2dJ29bpf7hBg=="
+  "resolved" "https://registry.npmjs.org/openvidu-browser/-/openvidu-browser-2.20.0.tgz"
+  "version" "2.20.0"
+  dependencies:
+    "freeice" "2.2.2"
+    "hark" "1.2.3"
+    "jsnlog" "2.30.0"
+    "platform" "1.3.6"
+    "uuid" "8.3.2"
+    "wolfy87-eventemitter" "5.2.9"
 
 "optionator@^0.8.1":
   "integrity" "sha512-+IW9pACdk3XWmmTXG8m3upGUJst5XRGzxMRjXzAuJ1XnIFNvfhjjIuYkDvysnPQ7qzqVzLt78BCruntqRhWQbA=="
@@ -6549,6 +6585,11 @@
   "version" "3.1.0"
   dependencies:
     "find-up" "^3.0.0"
+
+"platform@1.3.6":
+  "integrity" "sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg=="
+  "resolved" "https://registry.npmjs.org/platform/-/platform-1.3.6.tgz"
+  "version" "1.3.6"
 
 "portfinder@^1.0.28":
   "integrity" "sha512-Se+2isanIcEqf2XMHjyUKskczxbPH7dQnlMjXX6+dybayyHvAf/TCgyMRlzf/B6QDhAEFOGes0pzRo3by4AbMA=="
@@ -8677,7 +8718,7 @@
   "resolved" "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   "version" "1.0.1"
 
-"uuid@^8.3.2":
+"uuid@^8.3.2", "uuid@8.3.2":
   "integrity" "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
   "version" "8.3.2"
@@ -8947,6 +8988,16 @@
   "version" "2.0.2"
   dependencies:
     "isexe" "^2.0.0"
+
+"wildemitter@^1.2.0":
+  "integrity" "sha512-UMmSUoIQSir+XbBpTxOTS53uJ8s/lVhADCkEbhfRjUGFDPme/XGOb0sBWLx5sTz7Wx/2+TlAw1eK9O5lw5PiEw=="
+  "resolved" "https://registry.npmjs.org/wildemitter/-/wildemitter-1.2.1.tgz"
+  "version" "1.2.1"
+
+"wolfy87-eventemitter@5.2.9":
+  "integrity" "sha512-P+6vtWyuDw+MB01X7UeF8TaHBvbCovf4HPEMF/SV7BdDc1SMTiBy13SRD71lQh4ExFTG1d/WNzDGDCyOKSMblw=="
+  "resolved" "https://registry.npmjs.org/wolfy87-eventemitter/-/wolfy87-eventemitter-5.2.9.tgz"
+  "version" "5.2.9"
 
 "word-wrap@^1.2.3", "word-wrap@~1.2.3":
   "integrity" "sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ=="

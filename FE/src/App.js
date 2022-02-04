@@ -7,6 +7,7 @@ import Logout from "./Logout";
 import Signup from "./Signup";
 import Mypage from "./Mypage";
 import Main from "./Main";
+import MainAccordion from "./MainAccordion.js";
 // import Test from "./Test";
 import EditProfile from "./EditProfile";
 
@@ -64,6 +65,7 @@ function App() {
       <Route path="/editProfile">
         <EditProfile></EditProfile>
       </Route>
+
       <Route exact path="/">
         <Main></Main>
       </Route>
