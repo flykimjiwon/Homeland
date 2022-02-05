@@ -121,7 +121,7 @@ public class NoticeController {
 //    public List<Object[]> notices() {
 //        List<Object[]> notices = noticeRepository.findNoticeList();
 //        return notices;
-//    }
+//    } 
 //
 //    @GetMapping("/{noticeId}")
 //    public Optional<Notice> notice(@PathVariable Long noticeId) {
