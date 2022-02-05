@@ -1,23 +1,21 @@
 /* eslint-disable */
 import "./App.css";
-import Notice from "./Notice.js";
-import Login from "./Login";
-import Logout from "./Logout";
-import Signup from "./Signup";
-import Mypage from "./Mypage";
-import Main from "./Main";
-import MainAccordion from "./MainAccordion.js";
+import Notice from "../features/notice/Notice";
+import Login from "../features/auth/Login";
+import Signup from "../features/auth/Signup";
+import Mypage from "../features/auth/Mypage";
+import Main from "../features/home/Main";
+import MainAccordion from "../features/home/MainAccordion";
 // import Test from "./Test";
-import EditProfile from "./EditProfile";
-import EditPassword from "./EditPassword";
-import CheckPassword from "./CheckPassword";
-import CheckEmail from "./CheckEmail";
-import FindPassword from "./FindPassword";
-import NoticeForm from "./NoticeForm";
-import NoticeDetailPage from "./NoticeDetailPage";
-import NoticeEdit from "./NoticeEdit";
+import EditProfile from "../features/auth/EditProfile";
+import EditPassword from "../features/auth/EditPassword";
+import CheckPassword from "../features/auth/CheckPassword";
+import CheckEmail from "../features/auth/CheckEmail";
+import FindPassword from "../features/auth/FindPassword";
+import NoticeForm from "../features/notice/NoticeForm";
+import NoticeDetailPage from "../features/notice/NoticeDetailPage";
+import NoticeEdit from "../features/notice/NoticeEdit";
 
-import IMG from "./img/a.png";
 import React, { useContext, useState, lazy, Suspense, useEffect } from "react";
 import {
   Button,
@@ -129,9 +127,6 @@ function App() {
       </Route>
       <Route path="/login">
         <Login></Login>
-      </Route>
-      <Route path="/logout">
-        <Logout></Logout>
       </Route>
       <Route path="/signup">
         <Signup></Signup>
