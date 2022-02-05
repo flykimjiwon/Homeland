@@ -1,6 +1,9 @@
 /* eslint-disable */
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { OpenVidu } from "openvidu-browser";
+import React, { useEffect, useState, Component } from "react";
+import "./Main.css";
+import UserVideoComponent from "./UserVideoComponent";
 import {
   useHistory,
   useParams,
@@ -76,31 +79,6 @@ function Main({ onIsLogin }) {
             </div>
           </Col>
           <Col></Col>
-        </Row>
-        <Row>
-          <Col md={{ span: 2, offset: 3 }}>
-            <div data-aos="flip-right">
-              <Button variant="warning" size="lg">
-                방만들기
-              </Button>{" "}
-            </div>
-          </Col>
-
-          <Col md={{ span: 4 }}>
-            <div data-aos="flip-left">
-              {" "}
-              <InputGroup className="mb-3">
-                <FormControl
-                  placeholder="123456"
-                  aria-label="123456"
-                  aria-describedby="basic-addon2"
-                />
-                <Button variant="warning" size="lg" id="button-addon2">
-                  입장하기
-                </Button>
-              </InputGroup>
-            </div>
-          </Col>
         </Row>
       </Container>
     </div>

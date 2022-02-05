@@ -7,6 +7,7 @@ import Logout from "./Logout";
 import Signup from "./Signup";
 import Mypage from "./Mypage";
 import Main from "./Main";
+import MainAccordion from "./MainAccordion.js";
 // import Test from "./Test";
 import EditProfile from "./EditProfile";
 import EditPassword from "./EditPassword";
@@ -58,7 +59,7 @@ function App() {
     <div className="App">
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand eventKey="link-0" as={Link} to="/">
+          <Navbar.Brand as={Link} to="/">
             HomeLanDrink
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -145,9 +146,6 @@ function App() {
       <Route path="/mypage">
         <Mypage></Mypage>
       </Route>
-      {/* <Route path="/test">
-        <Test></Test>
-      </Route> */}
     </div>
   );
 }
