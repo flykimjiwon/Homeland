@@ -1,6 +1,5 @@
 /* eslint-disable */
 import "./App.css";
-import Room from "./Room.js";
 import Notice from "./Notice.js";
 import Login from "./Login";
 import Logout from "./Logout";
@@ -68,9 +67,6 @@ function App() {
               <Nav.Link eventKey="link-1" as={Link} to="/notice">
                 공지사항
               </Nav.Link>
-              <Nav.Link eventKey="link-2" as={Link} to="/room">
-                참가
-              </Nav.Link>
             </Nav>
 
             {isLogin ? (
@@ -130,9 +126,6 @@ function App() {
       </Route>
       <Route path="/notice">
         <Notice></Notice>
-      </Route>
-      <Route path="/room">
-        <Room></Room>
       </Route>
       <Route path="/login">
         <Login></Login>
