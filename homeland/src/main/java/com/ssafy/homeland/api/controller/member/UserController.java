@@ -125,7 +125,7 @@ public class UserController {
 		if (user.getEmail().equals( body.get("email").toString())) {
 			UUID uuid = UUID.randomUUID();
 			redisUtil.setDataExpire(uuid.toString(),user.getUserId(), 60 * 30L);
-			String CHANGE_PASSWORD_LINK = "http://localhost:8080/api/v1/users/password/";
+			String CHANGE_PASSWORD_LINK = "https://i6c202.p.ssafy.io/find-password/";
 			emailService.sendMail(user.getEmail(),"사용자 비밀번호 안내 메일",CHANGE_PASSWORD_LINK+uuid.toString());
 			return new ResponseEntity(HttpStatus.OK);
 		} else {
