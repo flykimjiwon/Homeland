@@ -227,34 +227,30 @@ class Main extends Component {
                     <h1> Home Lan Drink! </h1>
                     <br></br>
                     <form className="form-group" onSubmit={this.joinSession}>
-                      <p>
-                        <h4 className="font-big-orange">
-                          닉네임을 입력해주세요.{" "}
-                        </h4>
-                        <input
-                          className="form-control grey"
-                          type="text"
-                          id="userName"
-                          value={myUserName}
-                          onChange={this.handleChangeUserName}
-                          required
-                        />
-                      </p>
+                      <h4 className="font-big-orange">
+                        닉네임을 입력해주세요.{" "}
+                      </h4>
+                      <input
+                        className="form-control grey"
+                        type="text"
+                        id="userName"
+                        value={myUserName}
+                        onChange={this.handleChangeUserName}
+                        required
+                      />
                       <br></br>
-                      <p>
-                        <h4 className="font-big-orange">
-                          {" "}
-                          방번호를 입력해주세요.{" "}
-                        </h4>
-                        <input
-                          className="form-control grey"
-                          type="text"
-                          id="sessionId"
-                          value={mySessionId}
-                          onChange={this.handleChangeSessionId}
-                          required
-                        />
-                      </p>
+                      <h4 className="font-big-orange">
+                        {" "}
+                        방번호를 입력해주세요.{" "}
+                      </h4>
+                      <input
+                        className="form-control grey"
+                        type="text"
+                        id="sessionId"
+                        value={mySessionId}
+                        onChange={this.handleChangeSessionId}
+                        required
+                      />
                       <p className="text-center">
                         <br></br>
                         <input
@@ -307,7 +303,7 @@ class Main extends Component {
                 <div
                   className="stream-container col-md-6 col-xs-6"
                   onClick={() =>
-                    this.handleMainVideoStream(this.state.publisher)
+                    this.handleMainVi - deoStream(this.state.publisher)
                   }
                 >
                   <UserVideoComponent streamManager={this.state.publisher} />

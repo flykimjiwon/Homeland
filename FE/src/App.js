@@ -31,7 +31,7 @@ function App() {
     <div className="App">
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand eventKey="link-0" as={Link} to="/">
+          <Navbar.Brand as={Link} to="/">
             HomeLanDrink
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -87,9 +87,6 @@ function App() {
       <Route path="/mypage">
         <Mypage></Mypage>
       </Route>
-      {/* <Route path="/test">
-        <Test></Test>
-      </Route> */}
     </div>
   );
 }
