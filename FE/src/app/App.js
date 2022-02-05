@@ -33,7 +33,6 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 function App() {
   const history = useHistory();
   const [isLogin, setIsLogin] = useState(false);
-  // console.log(isLogin);
   const onIsLogin = (e) => {
     setIsLogin(e);
   };

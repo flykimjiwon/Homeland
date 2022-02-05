@@ -3,14 +3,16 @@ import NoticeDetail from "./NoticeDetail";
 import { useParams, Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
+import backEndUrl from "../setup/hld_url";
 
 function NoticeDetailPage() {
+  const BEUrl = backEndUrl;
   const history = useHistory();
   const [notice, setNotice] = useState([]);
   const { id } = useParams();
-  const getMovie = () => {
+  const getNotice = () => {
     axios({
-      url: `http://localhost:8080/api/v1/notice/${id}`,
+      url: `${BEUrl}/api/v1/notice/${id}`,
       method: "get",
     })
       .then((res) => {
@@ -20,7 +22,7 @@ function NoticeDetailPage() {
         console.log(err);
       });
   };
-  useEffect(getMovie, [id]);
+  useEffect(getNotice, [BEUrl, id]);
   const setToken = () => {
     const token = localStorage.getItem("jwt");
     const config = {
@@ -31,7 +33,7 @@ function NoticeDetailPage() {
   const onDeleteNotice = (event) => {
     event.preventDefault();
     axios({
-      url: `http://localhost:8080/api/v1/notice/${id}`,
+      url: `${BEUrl}/api/v1/notice/${id}`,
       method: "delete",
       headers: setToken(),
     })

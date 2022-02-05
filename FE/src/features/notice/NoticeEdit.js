@@ -2,15 +2,17 @@ import { useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import backEndUrl from "../setup/hld_url";
 
 function NoticeEdit() {
+  const BEUrl = backEndUrl;
   const history = useHistory();
   const { id } = useParams();
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
-  const getMovie = () => {
+  const getNotice = () => {
     axios({
-      url: `http://localhost:8080/api/v1/notice/${id}`,
+      url: `${BEUrl}/api/v1/notice/${id}`,
       method: "get",
     })
       .then((res) => {
@@ -21,7 +23,7 @@ function NoticeEdit() {
         console.log(err);
       });
   };
-  useEffect(getMovie, [id]);
+  useEffect(getNotice, [BEUrl, id]);
   const handleNewTitle = (event) => {
     event.preventDefault();
     setNewTitle(event.target.value);
@@ -40,7 +42,7 @@ function NoticeEdit() {
   const onEditNotice = (event) => {
     event.preventDefault();
     axios({
-      url: `http://localhost:8080/api/v1/notice/${id}`,
+      url: `${BEUrl}/api/v1/notice/${id}`,
       method: "put",
       headers: setToken(),
       data: {

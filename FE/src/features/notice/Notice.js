@@ -6,12 +6,14 @@ import "./Notice.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import NoticeDetail from "./NoticeDetail";
+import backEndUrl from "../setup/hld_url";
 
 function Notice() {
+  const BEUrl = backEndUrl;
   const [noticeItems, setNoticeItems] = useState([]);
   const getNoticeItems = () => {
     axios({
-      url: "http://localhost:8080/api/v1/notice",
+      url: `${BEUrl}/api/v1/notice`,
       method: "get",
     })
       .then((res) => {

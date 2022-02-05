@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Button, Container, Form } from "react-bootstrap";
 import "./Login.css";
+import backEndUrl from "../setup/hld_url";
 
 function Login() {
+  const BEUrl = backEndUrl;
   const history = useHistory();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +23,7 @@ function Login() {
   const onLogin = (event) => {
     event.preventDefault();
     axios({
-      url: "http://localhost:8080/api/v1/auth/login",
+      url: `${BEUrl}/api/v1/auth/login`,
       method: "post",
       data: {
         id: id,
@@ -29,7 +31,6 @@ function Login() {
       },
     })
       .then((res) => {
-        // console.log(res);
         localStorage.setItem("jwt", res.data.accessToken);
         history.push("/");
       })
