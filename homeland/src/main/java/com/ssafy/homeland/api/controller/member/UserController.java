@@ -188,6 +188,18 @@ public class UserController {
 		}
 	}
 
+	@GetMapping("/check-authority")
+	public String checkAuthority(Authentication authentication) {
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserId(userId);
+		if (user.getAuthority().equals("user")) {
+			return "user";
+		} else {
+			return "admin";
+		}
+	}
+
 
 
 }

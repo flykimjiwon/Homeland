@@ -2,6 +2,7 @@ package com.ssafy.homeland.db.entity;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
@@ -13,9 +14,16 @@ import java.time.LocalDateTime;
 @ToString
 public class Notice extends BaseEntity {
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
     private LocalDateTime updateAt;
 
     @Builder

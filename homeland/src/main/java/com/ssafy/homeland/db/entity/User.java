@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -18,11 +15,21 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class User extends BaseEntity{
+public class User extends BaseEntity {
+
+    @Column(nullable = false)
     private String authority;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String nickname;
+
+    @Column(nullable = false)
     private String userId;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @JsonIgnore
