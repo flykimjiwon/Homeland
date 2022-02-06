@@ -1,41 +1,26 @@
 /* eslint-disable */
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { useEffect, useState, Component } from "react";
+import React, { Component } from "react";
 import "./Main.css";
 import UserVideoComponent from "./UserVideoComponent";
-import {
-  useHistory,
-  useParams,
-} from "react-router-dom/cjs/react-router-dom.min";
-import {
-  Button,
-  Navbar,
-  Container,
-  Nav,
-  NavDropdown,
-  Carousel,
-  Row,
-  Col,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
-import { CSSTransition } from "react-transition-group";
+import { useHistory, useParams } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 import MainAccordion from "./MainAccordion.js";
-import AOS from "aos";
 import "aos/dist/aos.css";
-import styled from "styled-components";
+import backendUrl from "../setup/hld_url";
 
-const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
+const OPENVIDU_SERVER_SECRET = "HOMELAND";
+const BEUrl = backendUrl;
 
 class Main extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      mySessionId: "SessionA",
-      myUserName: "Participant" + Math.floor(Math.random() * 100),
+      mySessionId: "",
+      myUserName: "",
       session: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
@@ -52,7 +37,19 @@ class Main extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("jwt");
+    const config = {
+      Authorization: `Bearer ${token}`,
+    };
     if (token) {
+      axios({
+        url: `${BEUrl}/api/v1/users/me`,
+        method: "get",
+        headers: config,
+      }).then((res) => {
+        this.setState({
+          myUserName: res.data.nickname,
+        });
+      });
       const onIsLogin = this.props.onIsLogin;
       onIsLogin(true);
     }
@@ -200,8 +197,8 @@ class Main extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
-      myUserName: "Participant" + Math.floor(Math.random() * 100),
+      mySessionId: "",
+      myUserName: "",
       mainStreamManager: undefined,
       publisher: undefined,
     });
@@ -210,6 +207,25 @@ class Main extends Component {
   render() {
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
+    const loginToken = localStorage.getItem("jwt");
+
+    const onCheckSession = (event) => {
+      event.preventDefault();
+      axios({
+        url: `${BEUrl}/api/v1/room/1234`,
+        method: "get",
+        data: {
+          roomId: mySessionId,
+        },
+      })
+        .then((res) => {
+          console.log(res);
+          this.joinSession;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
     return (
       <div className="container">
@@ -229,41 +245,85 @@ class Main extends Component {
                     <h1> Weclome to </h1>
                     <h1> Home Lan Drink! </h1>
                     <br></br>
-                    <form className="form-group" onSubmit={this.joinSession}>
-                      <h4 className="font-big-orange">
-                        닉네임을 입력해주세요.{" "}
-                      </h4>
-                      <input
-                        className="form-control grey"
-                        type="text"
-                        id="userName"
-                        value={myUserName}
-                        onChange={this.handleChangeUserName}
-                        required
-                      />
-                      <br></br>
-                      <h4 className="font-big-orange">
-                        {" "}
-                        방번호를 입력해주세요.{" "}
-                      </h4>
-                      <input
-                        className="form-control grey"
-                        type="text"
-                        id="sessionId"
-                        value={mySessionId}
-                        onChange={this.handleChangeSessionId}
-                        required
-                      />
-                      <p className="text-center">
+                    {/* form에 onSubmit={this.joinSession} */}
+                    {loginToken ? (
+                      <form className="form-group">
                         <br></br>
+                        <h4 className="font-big-orange">
+                          {" "}
+                          방번호를 입력해주세요.{" "}
+                        </h4>
                         <input
-                          className="btn btn-lg btn-warning"
-                          name="commit"
-                          type="submit"
-                          value="JOIN"
+                          className="form-control grey"
+                          type="text"
+                          id="sessionId"
+                          value={mySessionId}
+                          onChange={this.handleChangeSessionId}
+                          placeholder="방 번호"
+                          required
                         />
-                      </p>
-                    </form>
+                        <div className="d-flex justify-content-center">
+                          <p className="text-center me-2">
+                            <br></br>
+                            <input
+                              className="btn btn-lg btn-warning"
+                              name="commit"
+                              type="submit"
+                              value="방 만들기"
+                              onClick={onCheckSession}
+                            />
+                          </p>
+                          <p className="text-center ms-2">
+                            <br />
+                            <input
+                              type="submit"
+                              value="JOIN"
+                              className="btn btn-lg btn-warning"
+                              onClick={this.joinSession}
+                            />
+                          </p>
+                        </div>
+                      </form>
+                    ) : (
+                      <form className="form-group">
+                        <h4 className="font-big-orange">
+                          닉네임을 입력해주세요.{" "}
+                        </h4>
+                        <input
+                          className="form-control grey"
+                          type="text"
+                          id="userName"
+                          value={myUserName}
+                          onChange={this.handleChangeUserName}
+                          placeholder="닉네임"
+                          required
+                        />
+                        <br></br>
+                        <h4 className="font-big-orange">
+                          {" "}
+                          방번호를 입력해주세요.{" "}
+                        </h4>
+                        <input
+                          className="form-control grey"
+                          type="text"
+                          id="sessionId"
+                          value={mySessionId}
+                          onChange={this.handleChangeSessionId}
+                          placeholder="방 번호"
+                          required
+                        />
+                        <p className="text-center">
+                          <br></br>
+                          <input
+                            className="btn btn-lg btn-warning"
+                            name="commit"
+                            type="submit"
+                            value="JOIN"
+                            onClick={onCheckSession}
+                          />
+                        </p>
+                      </form>
+                    )}
                   </div>
                 </div>
               </Col>

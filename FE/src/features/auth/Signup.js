@@ -47,9 +47,13 @@ function Sign() {
         password: password,
         email: email,
       },
-    }).then(() => {
-      history.push("/login");
-    });
+    })
+      .then(() => {
+        history.push("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
