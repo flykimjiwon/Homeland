@@ -12,7 +12,10 @@ import {
   IoMicOffSharp,
   IoVideocamOff,
   IoVideocam,
+  IoImages,
 } from "react-icons/io5";
+
+import html2canvas from "html2canvas";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
@@ -445,7 +448,16 @@ class Main extends Component {
                   }}
                 />
               )}
+              <IoImages
+                color="#50468c"
+                size="24"
+                onClick={() => {
+                  this.onCapture();
+                }}
+              />
+              )}
             </div>
+
             <Container>
               <Row>
                 <Col md={{ span: 10 }}>
@@ -633,6 +645,22 @@ class Main extends Component {
     else if (document.msExitFullscreen)
       // IE or Edge
       document.msExitFullscreen();
+  }
+  onCapture() {
+    console.log("onCapture");
+    html2canvas(document.getElementById("session")).then((canvas) => {
+      this.onSaveAs(canvas.toDataURL("image/png"), "HomeLanDrink.png");
+    });
+  }
+
+  onSaveAs(uri, filename) {
+    console.log("onSaveAs");
+    var link = document.createElement("a");
+    document.body.appendChild(link);
+    link.href = uri;
+    link.download = filename;
+    link.click();
+    document.body.removeChild(link);
   }
 }
 
