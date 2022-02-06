@@ -2,9 +2,7 @@ package com.ssafy.homeland.db.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,7 +10,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class Notice extends BaseEntity {
+public class Notice {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id = null;
 
     @Column(nullable = false)
     private String title;
@@ -27,7 +29,9 @@ public class Notice extends BaseEntity {
     private LocalDateTime updateAt;
 
     @Builder
-    public Notice(String title, String content, LocalDateTime createdAt, LocalDateTime updateAt) {
+    public Notice(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updateAt) {
+
+        this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;

@@ -8,16 +8,18 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class NoticeListRes {
+public class NoticeRes {
     Long id;
     String title;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+    String content;
 
-    public NoticeListRes(Notice entity) {
+    public NoticeRes(Notice entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.createdAt = entity.getCreatedAt();
         this.updatedAt = entity.getUpdateAt();
+        this.content = entity.getContent();
     }
 }

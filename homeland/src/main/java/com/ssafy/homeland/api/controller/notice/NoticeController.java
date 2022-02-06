@@ -1,5 +1,6 @@
 package com.ssafy.homeland.api.controller.notice;
-import com.ssafy.homeland.api.request.notice.NoticePostReq;
+import com.ssafy.homeland.api.response.notice.NoticeListRes;
+import com.ssafy.homeland.api.response.notice.NoticeRes;
 import com.ssafy.homeland.api.service.member.UserService;
 import com.ssafy.homeland.common.auth.SsafyUserDetails;
 import com.ssafy.homeland.db.entity.Notice;
@@ -17,6 +18,7 @@ import java.util.*;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/api/v1/notice")
 public class NoticeController {
 
@@ -28,33 +30,28 @@ public class NoticeController {
     UserService userService;
 
     @GetMapping
-    public List<Map<String, Object>> list() {
-        List<Map<String, Object>> result = new ArrayList<>();
-        noticeRepository.findAll().forEach(noticeList -> {
-            Map<String, Object> obj = new HashMap<>();
-            obj.put("id", noticeList.getId());
-            obj.put("title", noticeList.getTitle());
-            obj.put("createdAt", noticeList.getCreatedAt());
-            obj.put("updatedAt", noticeList.getUpdateAt());
-            result.add(obj);
-        });
-        return result;
+    public ResponseEntity list() {
+        List<Notice> list = noticeRepository.findAll();
+        List<NoticeListRes> noticeList = new ArrayList<>();
+
+        for (Notice entity : list) {
+            noticeList.add(new NoticeListRes(entity));
+        }
+        return new ResponseEntity<>(noticeList,HttpStatus.OK);
+
     }
 
+
     @GetMapping("/{noticeId}")
-    public Map<String, Object> notice(@PathVariable Long noticeId) {
-        var option = noticeRepository.findById(noticeId);
+    public ResponseEntity notice(@PathVariable Long noticeId) {
+        Optional<Notice> option = noticeRepository.findById(noticeId);
         if (!option.isPresent()) {
-            return null;
+            return new ResponseEntity<>(null,HttpStatus.OK);
         }
         Notice notice = option.get();
-        Map<String, Object> obj = new HashMap<>();
-        obj.put("id", notice.getId());
-        obj.put("title", notice.getTitle());
-        obj.put("content", notice.getContent());
-        obj.put("createdAt", notice.getCreatedAt());
-        obj.put("updatedAt", notice.getUpdateAt());
-        return obj;
+        NoticeRes noticeRes = new NoticeRes(notice);
+        return new ResponseEntity<>(noticeRes,HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{noticeId}")
@@ -110,34 +107,6 @@ public class NoticeController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
-//    @PostMapping()
-//    public Notice createNotice(@RequestBody NoticePostReq noticeInfo) {
-//        Notice notice = noticeService.createNotice(noticeInfo);
-//        return notice;
-//    }
-//
-//    @GetMapping()
-//    public List<Object[]> notices() {
-//        List<Object[]> notices = noticeRepository.findNoticeList();
-//        return notices;
-//    } 
-//
-//    @GetMapping("/{noticeId}")
-//    public Optional<Notice> notice(@PathVariable Long noticeId) {
-//        Optional<Notice> notice = noticeRepository.findById(noticeId);
-//        return notice;
-//    }
-//
-//    @DeleteMapping("/{noticeId}")
-//    public Long delete(@PathVariable Long noticeId){
-//        return noticeService.deleteNotice(noticeId);
-//    }
-
-//    @PutMapping("/{noticeId}")
-//    public Long update(@PathVariable Long noticeId, @RequestBody NoticePostReq noticeInfo) {
-//        return noticeService.update(noticeId, noticeInfo);
-//    }
 
 
 

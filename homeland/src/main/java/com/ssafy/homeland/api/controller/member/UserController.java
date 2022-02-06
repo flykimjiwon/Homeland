@@ -1,7 +1,7 @@
 package com.ssafy.homeland.api.controller.member;
 
 import com.ssafy.homeland.api.request.member.UserRegisterPostReq;
-import com.ssafy.homeland.api.response.member.UserRes;
+import com.ssafy.homeland.api.response.member.UserInfoRes;
 import com.ssafy.homeland.api.service.member.EmailService;
 import com.ssafy.homeland.api.service.member.UserService;
 import com.ssafy.homeland.common.auth.SsafyUserDetails;
@@ -64,7 +64,6 @@ public class UserController {
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
-		System.out.println("왔음왔음왔음왔음왔음왔음왔음왔음왔음");
 
 		User user = userService.createUser(registerInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -79,44 +78,43 @@ public class UserController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 
-	public Map<String, Object> getUserInfo(@ApiIgnore Authentication authentication) {
+	public ResponseEntity getUserInfo(@ApiIgnore Authentication authentication) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 * 엑세스 토큰이 잘못된 경우 401 에러({"error" : "SignatureVerificationException", :"message: " The Token's Signature resulted invalid when verified using the Algorithm: HmacSHA512"}) 발생
 		 */
-		System.out.println("마이페이지 정보 옴!");
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		Map<String, Object> obj = new HashMap<>();
-		obj.put("id", user.getUserId());
-		obj.put("email", user.getEmail());
-		obj.put("nickname", user.getNickname());
-		obj.put("authority", user.getAuthority());
-		
-		return obj;
+		UserInfoRes userInfoRes = new UserInfoRes(user);
+
+		return new ResponseEntity<>(userInfoRes,HttpStatus.OK);
+
 	}
 
+
+
 	@PutMapping("/edit")
-	public Map<String, Object> editUserInfo(Authentication authentication, @RequestBody Map<String,Object> body) {
+	public ResponseEntity editUserInfo(Authentication authentication, @RequestBody Map<String,Object> body) {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
 		user.setNickname(body.get("nickname").toString());
 		user.setEmail(body.get("email").toString());
 		userRepository.save(user);
-		return Map.of("message", "정보 수정 성공");
+		return new ResponseEntity(HttpStatus.OK);
 
 	}
 
 	@PutMapping("/edit-password")
-	public Map<String, Object> editPassword(Authentication authentication, @RequestBody Map<String,Object> body) {
+	public ResponseEntity editPassword(Authentication authentication, @RequestBody Map<String,Object> body) {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
 		user.setPassword(passwordEncoder.encode(body.get("password").toString()));
 		userRepository.save(user);
-		return Map.of("message", "비밀번호 수정 성공");
+		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@PostMapping("/find-password")
@@ -135,12 +133,12 @@ public class UserController {
 	}
 
 	@PutMapping("/password/{key}")
-	public Map<String,Object> changePassword(@PathVariable String key,@RequestBody Map<String,Object> body){
+	public ResponseEntity changePassword(@PathVariable String key,@RequestBody Map<String,Object> body){
 		String memberId = redisUtil.getData(key);
 		User user = userRepositorySupport.findUserByUserId(memberId).get();
 		user.setPassword(passwordEncoder.encode(body.get("password").toString()));
 		userRepository.save(user);
-		return Map.of("message", "비밀번호 수정 성공");
+		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@PostMapping("/duplicate-check-id")
@@ -148,7 +146,6 @@ public class UserController {
 
 		String userId  = body.get("id").toString();
 		Optional<User> user = userRepositorySupport.findUserByUserId(userId);
-		//System.out.println("유저유저윶오조조조옹유유유유유융"+user);
 
 		if (user.isPresent()) {
 			return new ResponseEntity(HttpStatus.CONFLICT);
