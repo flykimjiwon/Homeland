@@ -1,30 +1,17 @@
 /* eslint-disable */
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { useEffect, useState, Component } from "react";
+import React, {Component } from "react";
 import "./Main.css";
 import UserVideoComponent from "./UserVideoComponent";
+
 import {
-  useHistory,
-  useParams,
-} from "react-router-dom/cjs/react-router-dom.min";
-import {
-  Button,
-  Navbar,
   Container,
-  Nav,
-  NavDropdown,
-  Carousel,
   Row,
   Col,
-  InputGroup,
-  FormControl,
 } from "react-bootstrap";
-import { CSSTransition } from "react-transition-group";
-import MainAccordion from "./MainAccordion.js";
-import AOS from "aos";
 import "aos/dist/aos.css";
-import styled from "styled-components";
+import Home from "./Home"
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -212,9 +199,16 @@ class Main extends Component {
     const myUserName = this.state.myUserName;
 
     return (
+      <>
+      <Home></Home>
       <div className="container">
+        
         {this.state.session === undefined ? (
-          <Container>
+          
+          <Container>        
+            <Row>
+
+              </Row> 
             <Row>
               <Col></Col>
               <Col xs={4}>
@@ -271,13 +265,7 @@ class Main extends Component {
             </Row>
             <br></br>
             <br></br>
-            <Row>
-              <Col></Col>
-              <Col xs={10}>
-                <MainAccordion></MainAccordion>
-              </Col>
-              <Col></Col>
-            </Row>
+            
           </Container>
         ) : null}
 
@@ -325,6 +313,7 @@ class Main extends Component {
           </div>
         ) : null}
       </div>
+      </>
     );
   }
 
