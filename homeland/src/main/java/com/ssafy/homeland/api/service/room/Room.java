@@ -1,52 +1,52 @@
-//package com.ssafy.homeland.api.service.room;
-//
-//import java.io.Closeable;
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.Collection;
-//import java.util.List;
-//import java.util.concurrent.ConcurrentHashMap;
-//import java.util.concurrent.ConcurrentMap;
-//
-//import javax.annotation.PreDestroy;
-//
-//import org.kurento.client.Continuation;
-//import org.kurento.client.MediaPipeline;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.web.socket.WebSocketSession;
-//
-//import com.google.gson.JsonArray;
-//import com.google.gson.JsonElement;
-//import com.google.gson.JsonObject;
-//import com.google.gson.JsonPrimitive;
-//
-///**
-// * @author Ivan Gracia (izanmail@gmail.com)
-// * @since 4.3.1
-// */
-//public class Room implements Closeable {
-//    private final Logger log = LoggerFactory.getLogger(Room.class);
-//
-//    private final ConcurrentMap<String, UserSession> participants = new ConcurrentHashMap<>();
-//    private final MediaPipeline pipeline;
-//    private final String name;
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public Room(String roomName, MediaPipeline pipeline) {
-//        this.name = roomName;
-//        this.pipeline = pipeline;
-//        log.info("ROOM {} has been created", roomName);
-//    }
-//
+package com.ssafy.homeland.api.service.room;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import javax.annotation.PreDestroy;
+
+import com.ssafy.homeland.db.entity.Participant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+/**
+ * @author Ivan Gracia (izanmail@gmail.com)
+ * @since 4.3.1
+ */
+public class Room  {
+    private final Logger log = LoggerFactory.getLogger(Room.class);
+
+    private final ConcurrentMap<String, Participant> participants = new ConcurrentHashMap<>();
+    private final String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Room(String roomName) {
+        this.name = roomName;
+        log.info("ROOM {} has been created", roomName);
+    }
+
+
+
+
+
 //    @PreDestroy
 //    private void shutdown() {
 //        this.close();
 //    }
-//
 //    public UserSession join(String userName, WebSocketSession session) throws IOException {
 //        log.info("ROOM {}: adding participant {}", this.name, userName);
 //        final UserSession participant = new UserSession(userName, this.name, session, this.pipeline);
@@ -62,7 +62,7 @@
 //        this.removeParticipant(user.getName());
 //        user.close();
 //    }
-//
+
 //    private Collection<String> joinRoom(UserSession newParticipant) throws IOException {
 //        System.out.println("Room.joinRoom");
 //        final JsonObject newParticipantMsg = new JsonObject();
@@ -166,5 +166,5 @@
 //
 //        log.debug("Room {} closed", this.name);
 //    }
-//
-//}
+
+}
