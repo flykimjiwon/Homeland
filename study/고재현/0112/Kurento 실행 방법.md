@@ -11,10 +11,17 @@
        gnupg \
        lsb-release
        
+       
+   
+       
    $ echo \
      "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
      
+     
+   
+   
+   
    $ sudo apt-get update
    
    $ sudo apt-get install docker-ce docker-ce-cli containerd.io
@@ -93,7 +100,7 @@
 
         vi editor 사용법을 통해 아래 부분 수정 (;; 이건 주석이니 지울 것)
 
-        ![](./2.png)
+        ;::;;:::::![](./2.png)
 
         만약에 vim이 설치 안되어 있으면
 
@@ -103,6 +110,8 @@
         ```
 
 6. **Tutorial에서 Get Start** 
+
+   - docker에서 나오기
 
    ```
    $ git clone https://github.com/Kurento/kurento-tutorial-java.git
@@ -132,7 +141,7 @@
         $ keytool -genkeypair -alias ssafy -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore ssafy.p12 -validity 3650
         ```
 
-        
+        ls
 
    2. Application.properties 설정
 
@@ -202,8 +211,10 @@
 
    ```
    mvn -U clean spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=ws://localhost:8888/kurento"
+   
+   mvn -U clean spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=ws://i6c202.p.ssafy.io:8888/kurento"
    ```
-
+   
    접속할 URL : `https://<퍼블릭 IPv4 주소>:8443/ ` 
 
 

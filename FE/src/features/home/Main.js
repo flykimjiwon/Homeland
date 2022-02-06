@@ -229,9 +229,16 @@ class Main extends Component {
     };
 
     return (
+      <>
+      <Home></Home>
       <div className="container">
+        
         {this.state.session === undefined ? (
-          <Container>
+          
+          <Container>        
+            <Row>
+
+              </Row> 
             <Row>
               <Col></Col>
               <Col xs={4}>
@@ -332,13 +339,7 @@ class Main extends Component {
             </Row>
             <br></br>
             <br></br>
-            <Row>
-              <Col></Col>
-              <Col xs={10}>
-                <MainAccordion></MainAccordion>
-              </Col>
-              <Col></Col>
-            </Row>
+            
           </Container>
         ) : null}
 
@@ -386,6 +387,7 @@ class Main extends Component {
           </div>
         ) : null}
       </div>
+      </>
     );
   }
 
