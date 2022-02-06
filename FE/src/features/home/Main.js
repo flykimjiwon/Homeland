@@ -6,6 +6,12 @@ import "./Main.css";
 import UserVideoComponent from "./UserVideoComponent";
 import Messages from "../chat/Messages";
 import {
+  IoMicSharp,
+  IoMicOffSharp,
+  IoVideocamOff,
+  IoVideocam,
+} from "react-icons/io5";
+import {
   useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
@@ -45,6 +51,7 @@ class Main extends Component {
       messages: [],
       chaton: false,
       message: "",
+      audiostate: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -123,11 +130,6 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      const onIsLogin = this.props.onIsLogin;
-      onIsLogin(true);
-    }
     window.addEventListener("beforeunload", this.onbeforeunload);
   }
 
@@ -379,6 +381,46 @@ class Main extends Component {
                 onClick={this.leaveSession}
                 value="Leave session"
               />
+            </div>
+            <div>
+              {this.state.audiostate ? (
+                <IoMicSharp
+                  color="#9FA9D8"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishAudio(!this.state.audiostate);
+                    this.setState({ audiostate: !this.state.audiostate });
+                  }}
+                />
+              ) : (
+                <IoMicOffSharp
+                  color="#50468c"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishAudio(!this.state.audiostate);
+                    this.setState({ audiostate: !this.state.audiostate });
+                  }}
+                />
+              )}
+              {this.state.videostate ? (
+                <IoVideocam
+                  color="#9FA9D8"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishVideo(!this.state.videostate);
+                    this.setState({ videostate: !this.state.videostate });
+                  }}
+                />
+              ) : (
+                <IoVideocamOff
+                  color="#50468c"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishVideo(!this.state.videostate);
+                    this.setState({ videostate: !this.state.videostate });
+                  }}
+                />
+              )}
             </div>
 
             {this.state.mainStreamManager !== undefined ? (
