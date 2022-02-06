@@ -212,18 +212,19 @@ class Main extends Component {
     const onCheckSession = (event) => {
       event.preventDefault();
       axios({
-        url: `${BEUrl}/api/v1/room/1234`,
+        url: `${BEUrl}/api/v1/room/${mySessionId}`,
         method: "get",
         data: {
           roomId: mySessionId,
         },
       })
-        .then((res) => {
-          console.log(res);
-          this.joinSession;
+        .then(() => {
+          this.joinSession();
         })
         .catch((err) => {
-          console.log(err);
+          if (err.response.status === 404) {
+            alert("방이 존재하지 않습니다.");
+          }
         });
     };
 

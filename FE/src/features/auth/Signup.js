@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
-import { Form, Button, InputGroup } from "react-bootstrap";
+import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
 import "./Signup.css";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
@@ -60,15 +60,17 @@ function Sign() {
     <div>
       <h1 className="mt-3">회원가입</h1>
       <Form className="container signup-form">
-        <Form.Group className="mb-3" controlId="formGroupID">
-          <Form.Label>아이디</Form.Label>
-          <Form.Control
+        <Form.Label>아이디</Form.Label>
+        <InputGroup className="mb-3">
+          <FormControl
             value={id}
             onChange={handleId}
             type="text"
             placeholder="아이디 입력"
           />
-        </Form.Group>
+          <Button id="button-addon2">중복확인</Button>
+        </InputGroup>
+
         <Form.Group className="mb-3" controlId="formGroupNickname">
           <Form.Label>닉네임</Form.Label>
           <Form.Control
@@ -76,6 +78,15 @@ function Sign() {
             onChange={handleNickname}
             type="text"
             placeholder="닉네임 입력"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGroupEmail">
+          <Form.Label>e-mail</Form.Label>
+          <Form.Control
+            value={email}
+            onChange={handleEmail}
+            type="email"
+            placeholder="e-mail 입력"
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupPassword">
@@ -96,15 +107,7 @@ function Sign() {
             placeholder="비밀번호 확인"
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>e-mail</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={handleEmail}
-            type="email"
-            placeholder="e-mail 입력"
-          />
-        </Form.Group>
+
         <Form.Group className="d-flex justify-content-center mt-3">
           <Button type="submit" onClick={onSubmit}>
             가입하기
