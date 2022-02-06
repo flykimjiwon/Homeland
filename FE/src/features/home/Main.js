@@ -32,7 +32,6 @@ import MainAccordion from "./MainAccordion.js";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import styled from "styled-components";
-import butimg from "../../assets/chatmsg.svg";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -49,7 +48,6 @@ class Main extends Component {
       publisher: undefined,
       subscribers: [],
       messages: [],
-      chaton: false,
       message: "",
       audiostate: false,
     };
@@ -422,7 +420,6 @@ class Main extends Component {
                 />
               )}
             </div>
-
             {this.state.mainStreamManager !== undefined ? (
               <div id="main-video" className="col-md-6">
                 <UserVideoComponent
@@ -453,36 +450,29 @@ class Main extends Component {
             </div>
             {/* chat */}
             <div className="chatbox">
-              {this.state.chaton ? (
-                <div className="chat chatbox__support chatbox--active">
-                  <div className="chat chatbox__header" />
-                  <div className="chatbox__messages">
-                    {/* {this.displayElements} */}
-                    <Messages messages={messages} />
-                    <div />
-                  </div>
-                  <div className="chat chatbox__footer">
-                    <input
-                      id="chat_message"
-                      type="text"
-                      placeholder="Write a message..."
-                      onChange={this.handleChatMessageChange}
-                      onKeyPress={this.sendmessageByEnter}
-                      value={this.state.message}
-                    />
-                    <p
-                      className="chat chatbox__send--footer"
-                      onClick={this.sendmessageByClick}
-                    >
-                      Send
-                    </p>
-                  </div>
+              <div className="chat chatbox__support chatbox--active">
+                <div className="chat chatbox__header" />
+                <div className="chatbox__messages">
+                  {/* {this.displayElements} */}
+                  <Messages messages={messages} />
+                  <div />
                 </div>
-              ) : null}
-              <div className="chatbox__button" ref={this.chatButton}>
-                <button onClick={this.chattoggle}>
-                  <img src={butimg} />
-                </button>
+                <div className="chat chatbox__footer">
+                  <input
+                    id="chat_message"
+                    type="text"
+                    placeholder="Write a message..."
+                    onChange={this.handleChatMessageChange}
+                    onKeyPress={this.sendmessageByEnter}
+                    value={this.state.message}
+                  />
+                  <p
+                    className="chat chatbox__send--footer"
+                    onClick={this.sendmessageByClick}
+                  >
+                    Send
+                  </p>
+                </div>
               </div>
             </div>
           </div>
