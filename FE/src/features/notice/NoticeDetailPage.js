@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import NoticeDetail from "./NoticeDetail";
+
 import { useParams, Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
@@ -47,13 +47,11 @@ function NoticeDetailPage() {
   return (
     <div>
       <h1 className="mt-3">글 세부사항</h1>
-      <NoticeDetail
-        key={notice.id}
-        id={notice.id}
-        title={notice.title}
-        content={notice.content}
-        updatedAt={notice.updatedAt}
-      />
+      <div>
+        <h4>제목: {notice.title}</h4>
+        <p>작성시간: {notice.updatedAt}</p>
+        <p>내용: {notice.content}</p>
+      </div>
       <Link
         to={`/notice-edit/${id}`}
         className="d-flex justify-content-center mt-3"
@@ -65,6 +63,9 @@ function NoticeDetailPage() {
           <Button type="submit" onClick={onDeleteNotice}>
             삭제하기
           </Button>
+          <Link to="/notice">
+            <Button>목록</Button>
+          </Link>
         </Form.Group>
       </Form>
     </div>
