@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Mypage.css";
+import backEndUrl from "../setup/hld_url";
 
 function Mypage() {
+  const BEUrl = backEndUrl;
   const [profile, setProfile] = useState([]);
   const getProfile = () => {
     axios({
-      url: "http://localhost:8080/api/v1/users/me",
+      url: `${BEUrl}/api/v1/users/me`,
       method: "get",
       headers: setToken(),
     }).then((res) => {

@@ -1,8 +1,10 @@
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
+import backEndUrl from "../setup/hld_url";
 
 function CheckEmail() {
+  const BEUrl = backEndUrl;
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const handleId = (event) => {
@@ -16,7 +18,7 @@ function CheckEmail() {
   const onCheckEmail = (event) => {
     event.preventDefault();
     axios({
-      url: "http://localhost:8080/api/v1/users/find-password",
+      url: `${BEUrl}/api/v1/users/find-password`,
       method: "post",
       data: {
         id: id,

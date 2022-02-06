@@ -4,8 +4,10 @@ import { Form, Button, InputGroup } from "react-bootstrap";
 import "./Signup.css";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import backEndUrl from "../setup/hld_url";
 
 function Sign() {
+  const BEUrl = backEndUrl;
   const history = useHistory();
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
@@ -37,7 +39,7 @@ function Sign() {
   const onSubmit = (event) => {
     event.preventDefault();
     axios({
-      url: "http://localhost:8080/api/v1/users",
+      url: `${BEUrl}/api/v1/users`,
       method: "post",
       data: {
         id: id,

@@ -51,6 +51,11 @@ class Main extends Component {
   }
 
   componentDidMount() {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      const onIsLogin = this.props.onIsLogin;
+      onIsLogin(true);
+    }
     window.addEventListener("beforeunload", this.onbeforeunload);
   }
 

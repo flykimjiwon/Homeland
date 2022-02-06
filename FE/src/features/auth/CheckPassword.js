@@ -3,8 +3,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import backEndUrl from "../setup/hld_url";
 
 function CheckPassword() {
+  const BEUrl = backEndUrl;
   const history = useHistory();
   const [password, setPassword] = useState("");
   const handleCheckPassword = (event) => {
@@ -14,7 +16,7 @@ function CheckPassword() {
   const onCheckPasswordSubmit = (event) => {
     event.preventDefault();
     axios({
-      url: "http://localhost:8080/api/v1/auth/check-password",
+      url: `${BEUrl}/api/v1/auth/check-password`,
       method: "post",
       headers: setToken(),
       data: {
