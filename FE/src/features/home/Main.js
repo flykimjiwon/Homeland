@@ -1,9 +1,10 @@
 /* eslint-disable */
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState, Component, createRef } from "react";
 import "./Main.css";
 import UserVideoComponent from "./UserVideoComponent";
+import Messages from "../chat/Messages";
 import {
   useHistory,
   useParams,
@@ -25,6 +26,7 @@ import MainAccordion from "./MainAccordion.js";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import styled from "styled-components";
+import butimg from "../../assets/chatmsg.svg";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -40,6 +42,9 @@ class Main extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
+      messages: [],
+      chaton: false,
+      message: "",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -48,6 +53,73 @@ class Main extends Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+
+    // chat
+    this.chattoggle = this.chattoggle.bind(this);
+    this.messageContainer = createRef(null);
+    this.sendmessageByClick = this.sendmessageByClick.bind(this);
+    this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
+    this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
+  }
+
+  handleChatMessageChange(e) {
+    this.setState({
+      message: e.target.value,
+    });
+  }
+
+  chattoggle() {
+    this.setState({ chaton: !this.state.chaton });
+  }
+
+  sendmessageByClick() {
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        {
+          userName: this.state.myUserName,
+          text: this.state.message,
+          chatClass: "messages__item--operator",
+        },
+      ],
+    });
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: `${this.state.myUserName},${this.state.message}`,
+      to: [],
+      type: "chat",
+    });
+
+    this.setState({
+      message: "",
+    });
+  }
+
+  sendmessageByEnter(e) {
+    if (e.key === "Enter") {
+      this.setState({
+        messages: [
+          ...this.state.messages,
+          {
+            userName: this.state.myUserName,
+            text: this.state.message,
+            chatClass: "messages__item--operator",
+          },
+        ],
+      });
+      const mySession = this.state.session;
+
+      mySession.signal({
+        data: `${this.state.myUserName},${this.state.message}`,
+        to: [],
+        type: "chat",
+      });
+
+      this.setState({
+        message: "",
+      });
+    }
   }
 
   componentDidMount() {
@@ -127,7 +199,21 @@ class Main extends Component {
             subscribers: subscribers,
           });
         });
-
+        mySession.on("signal:chat", (event) => {
+          let chatdata = event.data.split(",");
+          if (chatdata[0] !== this.state.myUserName) {
+            this.setState({
+              messages: [
+                ...this.state.messages,
+                {
+                  userName: chatdata[0],
+                  text: chatdata[1],
+                  chatClass: "messages__item--visitor",
+                },
+              ],
+            });
+          }
+        });
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // Remove the stream from 'subscribers' array
@@ -208,9 +294,10 @@ class Main extends Component {
   }
 
   render() {
+    const messages = this.state.messages;
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
-
+    const { mypage } = this.props;
     return (
       <div className="container">
         {this.state.session === undefined ? (
@@ -301,10 +388,10 @@ class Main extends Component {
                 />
               </div>
             ) : null}
-            <div id="video-container" className="col-md-6">
+            <div id="video-container" className="video-container">
               {this.state.publisher !== undefined ? (
                 <div
-                  className="stream-container col-md-6 col-xs-6"
+                  className="stream-container"
                   onClick={() =>
                     this.handleMainVi - deoStream(this.state.publisher)
                   }
@@ -315,12 +402,46 @@ class Main extends Component {
               {this.state.subscribers.map((sub, i) => (
                 <div
                   key={i}
-                  className="stream-container col-md-6 col-xs-6"
+                  className="stream-container"
                   onClick={() => this.handleMainVideoStream(sub)}
                 >
                   <UserVideoComponent streamManager={sub} />
                 </div>
               ))}
+            </div>
+            {/* chat */}
+            <div className="chatbox">
+              {this.state.chaton ? (
+                <div className="chat chatbox__support chatbox--active">
+                  <div className="chat chatbox__header" />
+                  <div className="chatbox__messages">
+                    {/* {this.displayElements} */}
+                    <Messages messages={messages} />
+                    <div />
+                  </div>
+                  <div className="chat chatbox__footer">
+                    <input
+                      id="chat_message"
+                      type="text"
+                      placeholder="Write a message..."
+                      onChange={this.handleChatMessageChange}
+                      onKeyPress={this.sendmessageByEnter}
+                      value={this.state.message}
+                    />
+                    <p
+                      className="chat chatbox__send--footer"
+                      onClick={this.sendmessageByClick}
+                    >
+                      Send
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+              <div className="chatbox__button" ref={this.chatButton}>
+                <button onClick={this.chattoggle}>
+                  <img src={butimg} />
+                </button>
+              </div>
             </div>
           </div>
         ) : null}
