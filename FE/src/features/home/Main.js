@@ -3,14 +3,19 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState, Component, createRef } from "react";
 import "./Main.css";
+
 import UserVideoComponent from "./UserVideoComponent";
 import Messages from "../chat/Messages";
+
 import {
   IoMicSharp,
   IoMicOffSharp,
   IoVideocamOff,
   IoVideocam,
 } from "react-icons/io5";
+
+import { IoMdExpand, IoMdContract } from "react-icons/io";
+
 import {
   useHistory,
   useParams,
@@ -50,6 +55,7 @@ class Main extends Component {
       messages: [],
       message: "",
       audiostate: false,
+      screenstate: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -420,6 +426,25 @@ class Main extends Component {
                   }}
                 />
               )}
+              {this.state.screenstate ? (
+                <IoMdExpand
+                  color="#9FA9D8"
+                  size="24"
+                  onClick={() => {
+                    this.openFullScreenMode();
+                    this.setState({ screenstate: !this.state.screenstate });
+                  }}
+                />
+              ) : (
+                <IoMdContract
+                  color="#50468c"
+                  size="24"
+                  onClick={() => {
+                    this.closeFullScreenMode();
+                    this.setState({ screenstate: !this.state.screenstate });
+                  }}
+                />
+              )}
             </div>
             <Container>
               <Row>
@@ -579,6 +604,35 @@ class Main extends Component {
         })
         .catch((error) => reject(error));
     });
+  }
+  // 전체화면 설정
+  openFullScreenMode() {
+    console.log("fullscreen");
+    if (document.documentElement.requestFullscreen)
+      document.documentElement.requestFullscreen();
+    else if (document.webkitRequestFullscreen)
+      // Chrome, Safari (webkit)
+      document.documentElement.webkitRequestFullscreen();
+    else if (document.mozRequestFullScreen)
+      // Firefox
+      document.documentElement.mozRequestFullScreen();
+    else if (document.msRequestFullscreen)
+      // IE or Edge
+      document.documentElement.msRequestFullscreen();
+  }
+  // 전체화면 해제
+  closeFullScreenMode() {
+    console.log("closefullscreen");
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen)
+      // Chrome, Safari (webkit)
+      document.webkitExitFullscreen();
+    else if (document.mozCancelFullScreen)
+      // Firefox
+      document.mozCancelFullScreen();
+    else if (document.msExitFullscreen)
+      // IE or Edge
+      document.msExitFullscreen();
   }
 }
 
