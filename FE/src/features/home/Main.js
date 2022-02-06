@@ -382,6 +382,7 @@ class Main extends Component {
             </div>
             <div>
               {this.state.audiostate ? (
+                // mic, video of/off
                 <IoMicSharp
                   color="#9FA9D8"
                   size="24"
