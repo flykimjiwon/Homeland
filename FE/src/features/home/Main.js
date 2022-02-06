@@ -299,7 +299,7 @@ class Main extends Component {
     const myUserName = this.state.myUserName;
     const { mypage } = this.props;
     return (
-      <div className="container">
+      <div className="container" className="bg-test">
         {this.state.session === undefined ? (
           <Container>
             <Row>
@@ -420,61 +420,72 @@ class Main extends Component {
                 />
               )}
             </div>
-            {this.state.mainStreamManager !== undefined ? (
-              <div id="main-video" className="col-md-6">
-                <UserVideoComponent
-                  streamManager={this.state.mainStreamManager}
-                />
-              </div>
-            ) : null}
-            <div id="video-container" className="video-container">
-              {this.state.publisher !== undefined ? (
-                <div
-                  className="stream-container"
-                  onClick={() =>
-                    this.handleMainVi - deoStream(this.state.publisher)
-                  }
-                >
-                  <UserVideoComponent streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {this.state.subscribers.map((sub, i) => (
-                <div
-                  key={i}
-                  className="stream-container"
-                  onClick={() => this.handleMainVideoStream(sub)}
-                >
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
-            </div>
-            {/* chat */}
-            <div className="chatbox">
-              <div className="chat chatbox__support chatbox--active">
-                <div className="chat chatbox__header" />
-                <div className="chatbox__messages">
-                  {/* {this.displayElements} */}
-                  <Messages messages={messages} />
-                  <div />
-                </div>
-                <div className="chat chatbox__footer">
-                  <input
-                    id="chat_message"
-                    type="text"
-                    placeholder="Write a message..."
-                    onChange={this.handleChatMessageChange}
-                    onKeyPress={this.sendmessageByEnter}
-                    value={this.state.message}
-                  />
-                  <p
-                    className="chat chatbox__send--footer"
-                    onClick={this.sendmessageByClick}
-                  >
-                    Send
-                  </p>
-                </div>
-              </div>
-            </div>
+            <Container>
+              <Row>
+                <Col md={{ span: 10 }}>
+                  {this.state.mainStreamManager !== undefined ? (
+                    <div id="main-video" className="col-md-6">
+                      <UserVideoComponent
+                        streamManager={this.state.mainStreamManager}
+                      />
+                    </div>
+                  ) : null}
+                  <div id="video-container" className="video-container">
+                    {this.state.publisher !== undefined ? (
+                      <div
+                        className="stream-container"
+                        onClick={() =>
+                          this.handleMainVi - deoStream(this.state.publisher)
+                        }
+                      >
+                        <UserVideoComponent
+                          streamManager={this.state.publisher}
+                        />
+                      </div>
+                    ) : null}
+                    {this.state.subscribers.map((sub, i) => (
+                      <div
+                        key={i}
+                        className="stream-container"
+                        onClick={() => this.handleMainVideoStream(sub)}
+                      >
+                        <UserVideoComponent streamManager={sub} />
+                      </div>
+                    ))}
+                  </div>
+                </Col>
+
+                <Col md={{ span: 2 }}>
+                  {/* chat */}
+                  <div className="chatbox">
+                    <div className="chat chatbox__support chatbox--active">
+                      <div className="chat chatbox__header">{mySessionId}</div>
+                      <div className="chatbox__messages">
+                        {/* {this.displayElements} */}
+                        <Messages messages={messages} />
+                        <div />
+                      </div>
+                      <div className="chat chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <p
+                          className="chat chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Send
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
           </div>
         ) : null}
       </div>

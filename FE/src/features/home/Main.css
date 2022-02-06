@@ -20,6 +20,10 @@
   margin-bottom: 50px;
 }
 
+.bg-test {
+  background-color: #fae18f8e;
+  min-height: 94vh;
+}
 /* chat */
 .chat {
   --primaryGradient: linear-gradient(93.12deg, #7a68bd 0.52%, #9fa9d8 100%);
@@ -40,7 +44,6 @@
 
 .chatbox {
   position: absolute;
-  bottom: 30px;
   right: 30px;
 }
 
@@ -56,7 +59,7 @@
 }
 
 .chatbox--active {
-  min-height: 60vh;
+  min-height: 80vh;
   transform: translateY(-40px);
   z-index: 123456;
   opacity: 1;
@@ -64,6 +67,8 @@
 
 .chatbox__header {
   position: sticky;
+  font-weight: bold;
+  background-color: orange;
   top: 0;
 }
 
