@@ -296,7 +296,8 @@ class Main extends Component {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
 
     const mySession = this.state.session;
-
+    const onIsSession = this.props.onIsSession;
+    onIsSession(false);
     if (mySession) {
       mySession.disconnect();
     }
@@ -317,9 +318,8 @@ class Main extends Component {
     const messages = this.state.messages;
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
-    const userId = this.state.userId;
-    const connectionId = this.state.connectionId;
     const loginToken = localStorage.getItem("jwt");
+    const onIsSession = this.props.onIsSession;
 
     const onCheckSession = (event) => {
       event.preventDefault();
@@ -331,6 +331,7 @@ class Main extends Component {
         },
       })
         .then(() => {
+          onIsSession(true);
           this.joinSession();
         })
         .catch((err) => {
@@ -366,6 +367,7 @@ class Main extends Component {
           });
         })
         .then(() => {
+          onIsSession(true);
           this.joinSession();
         })
         .then(() => {

@@ -34,8 +34,12 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 function App() {
   const history = useHistory();
   const [isLogin, setIsLogin] = useState(false);
+  const [isSession, setIsSession] = useState(false);
   const onIsLogin = (e) => {
     setIsLogin(e);
+  };
+  const onIsSession = (data) => {
+    setIsSession(data);
   };
 
   const onLogout = (event) => {
@@ -54,49 +58,51 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand as={Link} to="/">
-            HomeLanDrink
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link eventKey="link-1" as={Link} to="/notice">
-                공지사항
-              </Nav.Link>
-              <Nav.Link eventKey="link-2" as={Link} to="/meeting-main">
-                참가
-              </Nav.Link>
-            </Nav>
+      {isSession ? null : (
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand as={Link} to="/">
+              HomeLanDrink
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link eventKey="link-1" as={Link} to="/notice">
+                  공지사항
+                </Nav.Link>
+                <Nav.Link eventKey="link-2" as={Link} to="/meeting-main">
+                  참가
+                </Nav.Link>
+              </Nav>
 
-            {isLogin ? (
-              <Nav>
-                <Nav.Link
-                  onClick={onLogout}
-                  eventKey="link-4"
-                  as={Link}
-                  to="/logout"
-                >
-                  로그아웃
-                </Nav.Link>
-                <Nav.Link eventKey="link-6" as={Link} to="/mypage">
-                  마이페이지
-                </Nav.Link>
-              </Nav>
-            ) : (
-              <Nav>
-                <Nav.Link eventKey="link-3" as={Link} to="/login">
-                  로그인
-                </Nav.Link>
-                <Nav.Link eventKey="link-5" as={Link} to="/signup">
-                  회원가입
-                </Nav.Link>
-              </Nav>
-            )}
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+              {isLogin ? (
+                <Nav>
+                  <Nav.Link
+                    onClick={onLogout}
+                    eventKey="link-4"
+                    as={Link}
+                    to="/logout"
+                  >
+                    로그아웃
+                  </Nav.Link>
+                  <Nav.Link eventKey="link-6" as={Link} to="/mypage">
+                    마이페이지
+                  </Nav.Link>
+                </Nav>
+              ) : (
+                <Nav>
+                  <Nav.Link eventKey="link-3" as={Link} to="/login">
+                    로그인
+                  </Nav.Link>
+                  <Nav.Link eventKey="link-5" as={Link} to="/signup">
+                    회원가입
+                  </Nav.Link>
+                </Nav>
+              )}
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      )}
 
       <Route path="/notice-edit/:id">
         <NoticeEdit />
@@ -138,7 +144,7 @@ function App() {
         <Mypage></Mypage>
       </Route>
       <Route path="/meeting-main">
-        <MeetingMain />
+        <MeetingMain onIsSession={onIsSession} />
       </Route>
     </div>
   );
