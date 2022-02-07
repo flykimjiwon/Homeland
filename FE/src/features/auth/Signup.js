@@ -55,6 +55,63 @@ function Sign() {
         console.log(err);
       });
   };
+  // 아이디 중복확인
+  const onCheckId = (event) => {
+    event.preventDefault();
+    axios({
+      url: `${BEUrl}/api/v1/users/duplicate-check-id`,
+      method: "post",
+      data: {
+        id: id,
+      },
+    })
+      .then(() => {
+        alert("사용 가능한 ID입니다!");
+      })
+      .catch((err) => {
+        if (err.response.status === 409) {
+          alert("중복된 ID입니다!");
+        }
+      });
+  };
+  // 닉네임 중복확인
+  const onCheckNickname = (event) => {
+    event.preventDefault();
+    axios({
+      url: `${BEUrl}/api/v1/users/duplicate-check-nickname`,
+      method: "post",
+      data: {
+        nickname: nickname,
+      },
+    })
+      .then(() => {
+        alert("사용 가능한 닉네임입니다!");
+      })
+      .catch((err) => {
+        if (err.response.status === 409) {
+          alert("중복된 닉네임입니다!");
+        }
+      });
+  };
+  // 이메일 중복확인
+  const onCheckEmail = (event) => {
+    event.preventDefault();
+    axios({
+      url: `${BEUrl}/api/v1/users/duplicate-check-email`,
+      method: "post",
+      data: {
+        email: email,
+      },
+    })
+      .then(() => {
+        alert("사용 가능한 E-mail입니다!");
+      })
+      .catch((err) => {
+        if (err.response.status === 409) {
+          alert("중복된 E-mail입니다!");
+        }
+      });
+  };
 
   return (
     <div>
@@ -68,28 +125,29 @@ function Sign() {
             type="text"
             placeholder="아이디 입력"
           />
-          <Button id="button-addon2">중복확인</Button>
+          <Button onClick={onCheckId}>ID 중복확인</Button>
         </InputGroup>
-
-        <Form.Group className="mb-3" controlId="formGroupNickname">
-          <Form.Label>닉네임</Form.Label>
+        <Form.Label>닉네임</Form.Label>
+        <InputGroup className="mb-3">
           <Form.Control
             value={nickname}
             onChange={handleNickname}
             type="text"
             placeholder="닉네임 입력"
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>e-mail</Form.Label>
+          <Button onClick={onCheckNickname}>닉네임 중복확인</Button>
+        </InputGroup>
+        <Form.Label>e-mail</Form.Label>
+        <InputGroup className="mb-3">
           <Form.Control
             value={email}
             onChange={handleEmail}
             type="email"
             placeholder="e-mail 입력"
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupPassword">
+          <Button onClick={onCheckEmail}>e-mail 중복확인</Button>
+        </InputGroup>
+        <Form.Group className="mb-3">
           <Form.Label>비밀번호</Form.Label>
           <Form.Control
             value={password}
@@ -98,7 +156,7 @@ function Sign() {
             placeholder="비밀번호 입력"
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupCheckPassword">
+        <Form.Group className="mb-3">
           <Form.Label>비밀번호 확인</Form.Label>
           <Form.Control
             value={passwordConfirm}

@@ -15,6 +15,7 @@ import NoticeForm from "../features/notice/NoticeForm";
 import NoticeDetailPage from "../features/notice/NoticeDetailPage";
 import NoticeEdit from "../features/notice/NoticeEdit";
 import MeetingMain from "../features/home/MeetingMain";
+import Home from "../features/home/Home";
 
 import React, { useContext, useState, lazy, Suspense, useEffect } from "react";
 import {
@@ -122,7 +123,7 @@ function App() {
         <CheckPassword></CheckPassword>
       </Route>
       <Route exact path="/">
-        <Main onIsLogin={onIsLogin}></Main>
+        <Home onIsLogin={onIsLogin}></Home>
       </Route>
       <Route path="/notice">
         <Notice></Notice>
