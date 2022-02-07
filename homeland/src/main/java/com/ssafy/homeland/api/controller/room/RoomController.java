@@ -62,6 +62,12 @@ public class RoomController {
 
     }
 
+    @GetMapping("/create")
+    public ResponseEntity beForeCreateRoom(){
+        String roomId=roomService.getRandomRoomId();
+        return new ResponseEntity(roomId,HttpStatus.OK);
+    }
+
 
 
     //존재하는 방에 참여하기
