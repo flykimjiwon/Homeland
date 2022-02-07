@@ -11,7 +11,8 @@ import {
   IoMicOffSharp,
   IoVideocamOff,
   IoVideocam,
-  IoImages,
+  IoCameraSharp,
+  IoExit,
 } from "react-icons/io5";
 
 import html2canvas from "html2canvas";
@@ -25,6 +26,7 @@ import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "HOMELAND";
 const BEUrl = backendUrl;
+const btn_size = "36";
 
 class Main extends Component {
   constructor(props) {
@@ -40,8 +42,9 @@ class Main extends Component {
       subscribers: [],
       messages: [],
       message: "",
-      audiostate: false,
-      screenstate: false,
+      audiostate: true,
+      screenstate: true,
+      videostate: true,
       captured: "",
       modalOpen: false,
       cnt: false,
@@ -491,131 +494,138 @@ class Main extends Component {
           <div id="session">
             <div id="session-header">
               <h1 id="session-title">{mySessionId}</h1>
-              <input
-                className="btn btn-large btn-danger"
-                type="button"
-                id="buttonLeaveSession"
-                onClick={this.leaveSession}
-                value="Leave session"
-              />
             </div>
-            <div>
-              {this.state.audiostate ? (
-                // mic, video of/off
-                <IoMicSharp
-                  color="#9FA9D8"
-                  size="24"
-                  onClick={() => {
-                    this.state.publisher.publishAudio(!this.state.audiostate);
-                    this.setState({ audiostate: !this.state.audiostate });
-                  }}
-                />
-              ) : (
-                <IoMicOffSharp
-                  color="#50468c"
-                  size="24"
-                  onClick={() => {
-                    this.state.publisher.publishAudio(!this.state.audiostate);
-                    this.setState({ audiostate: !this.state.audiostate });
-                  }}
-                />
-              )}
-              {this.state.videostate ? (
-                <IoVideocam
-                  color="#9FA9D8"
-                  size="24"
-                  onClick={() => {
-                    this.state.publisher.publishVideo(!this.state.videostate);
-                    this.setState({ videostate: !this.state.videostate });
-                  }}
-                />
-              ) : (
-                <IoVideocamOff
-                  color="#50468c"
-                  size="24"
-                  onClick={() => {
-                    this.state.publisher.publishVideo(!this.state.videostate);
-                    this.setState({ videostate: !this.state.videostate });
-                  }}
-                />
-              )}
-              {this.state.screenstate ? (
-                <IoMdExpand
-                  color="#9FA9D8"
-                  size="24"
-                  onClick={() => {
-                    this.openFullScreenMode();
-                    this.setState({ screenstate: !this.state.screenstate });
-                  }}
-                />
-              ) : (
-                <IoMdContract
-                  color="#50468c"
-                  size="24"
-                  onClick={() => {
-                    this.closeFullScreenMode();
-                    this.setState({ screenstate: !this.state.screenstate });
-                  }}
-                />
-              )}
-              <IoImages
-                color="#50468c"
-                size="24"
-                onClick={() => {
-                  this.onCapture();
-                }}
-              />
-              )}
-            </div>
-            <div id="CntDown"></div>
-            {this.state.cnt ? <CountDown /> : <span></span>}
 
             <Container>
+              {/* screens */}
+              <div id="video-container" className="video-container">
+                {this.state.publisher !== undefined ? (
+                  <div
+                    className="stream-container"
+                    onClick={() =>
+                      this.handleMainVi - deoStream(this.state.publisher)
+                    }
+                  >
+                    <UserVideoComponent streamManager={this.state.publisher} />
+                  </div>
+                ) : null}
+                {this.state.subscribers.map((sub, i) => (
+                  <div
+                    key={i}
+                    className="stream-container"
+                    onClick={() => this.handleMainVideoStream(sub)}
+                  >
+                    <UserVideoComponent streamManager={sub} />
+                  </div>
+                ))}
+              </div>
               <Row>
-                <Col md={{ span: 10 }}>
+                <Col md={{ span: 9 }} id="capture_screen">
+                  {/* stage screen */}
                   {this.state.mainStreamManager !== undefined ? (
-                    <div id="main-video" className="col-md-6">
+                    <div id="main-video" className="stage_screen">
                       <UserVideoComponent
                         streamManager={this.state.mainStreamManager}
                       />
                     </div>
                   ) : null}
-                  <div id="video-container" className="video-container">
-                    {this.state.publisher !== undefined ? (
-                      <div
-                        className="stream-container"
-                        onClick={() =>
-                          this.handleMainVi - deoStream(this.state.publisher)
-                        }
-                      >
-                        <UserVideoComponent
-                          streamManager={this.state.publisher}
-                        />
-                      </div>
-                    ) : null}
-                    {this.state.subscribers.map((sub, i) => (
-                      <div
-                        key={i}
-                        className="stream-container"
-                        onClick={() => this.handleMainVideoStream(sub)}
-                      >
-                        <UserVideoComponent streamManager={sub} />
-                      </div>
-                    ))}
+                  {/* buttons */}
+                  <div>
+                    {this.state.audiostate ? (
+                      <IoMicSharp
+                        color="#50468c"
+                        size={btn_size}
+                        onClick={() => {
+                          this.state.publisher.publishAudio(
+                            !this.state.audiostate
+                          );
+                          this.setState({ audiostate: !this.state.audiostate });
+                        }}
+                      />
+                    ) : (
+                      <IoMicOffSharp
+                        color="#9FA9D8"
+                        size={btn_size}
+                        onClick={() => {
+                          this.state.publisher.publishAudio(
+                            !this.state.audiostate
+                          );
+                          this.setState({ audiostate: !this.state.audiostate });
+                        }}
+                      />
+                    )}
+                    {this.state.videostate ? (
+                      <IoVideocam
+                        color="#50468c"
+                        size={btn_size}
+                        onClick={() => {
+                          this.state.publisher.publishVideo(
+                            !this.state.videostate
+                          );
+                          this.setState({ videostate: !this.state.videostate });
+                        }}
+                      />
+                    ) : (
+                      <IoVideocamOff
+                        color="#9FA9D8"
+                        size={btn_size}
+                        onClick={() => {
+                          this.state.publisher.publishVideo(
+                            !this.state.videostate
+                          );
+                          this.setState({ videostate: !this.state.videostate });
+                        }}
+                      />
+                    )}
+                    {this.state.screenstate ? (
+                      <IoMdExpand
+                        color="#50468c"
+                        size={btn_size}
+                        onClick={() => {
+                          this.openFullScreenMode();
+                          this.setState({
+                            screenstate: !this.state.screenstate,
+                          });
+                        }}
+                      />
+                    ) : (
+                      <IoMdContract
+                        color="#9FA9D8"
+                        size={btn_size}
+                        onClick={() => {
+                          this.closeFullScreenMode();
+                          this.setState({
+                            screenstate: !this.state.screenstate,
+                          });
+                        }}
+                      />
+                    )}
+                    <IoCameraSharp
+                      color="#50468c"
+                      size={btn_size}
+                      onClick={() => {
+                        this.onCapture();
+                      }}
+                    />
+                    <IoExit
+                      color="#50468c"
+                      size={btn_size}
+                      onClick={this.leaveSession}
+                    />
                   </div>
                 </Col>
 
-                <Col md={{ span: 2 }}>
+                <Col md={{ span: 3 }}>
                   {/* chat */}
-                  <div className="chatbox">
-                    <div className="chat chatbox__support chatbox--active">
-                      <div className="chat chatbox__header">{mySessionId}</div>
+                  <div className="">
+                    <div className="chatbox__support chatbox--active">
+                      <div className="chatbox__header">{mySessionId}</div>
                       <div className="chatbox__messages">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
                         <div />
                       </div>
-                      <div className="chat chatbox__footer">
+                      <div className="chatbox__footer">
                         <input
                           id="chat_message"
                           type="text"
@@ -624,18 +634,21 @@ class Main extends Component {
                           onKeyPress={this.sendmessageByEnter}
                           value={this.state.message}
                         />
-                        <p
-                          className="chat chatbox__send--footer"
+                        <button
+                          className="chatbox__send--footer"
                           onClick={this.sendmessageByClick}
                         >
-                          Send
-                        </p>
+                          Enter
+                        </button>
                       </div>
                     </div>
                   </div>
                 </Col>
               </Row>
             </Container>
+
+            <div id="CntDown"></div>
+            {this.state.cnt ? <CountDown /> : <span></span>}
           </div>
         ) : null}
 
@@ -787,7 +800,7 @@ class Main extends Component {
     this.setState({ cnt: true });
     setTimeout(() => {
       this.setState({ cnt: false });
-      html2canvas(document.getElementById("session")).then((canvas) => {
+      html2canvas(document.getElementById("capture_screen")).then((canvas) => {
         this.state.captured = canvas;
         this.openModal();
         document.getElementById("preview").appendChild(canvas);
