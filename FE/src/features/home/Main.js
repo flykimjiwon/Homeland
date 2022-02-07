@@ -3,10 +3,8 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState, Component, createRef } from "react";
 import "./Main.css";
-
 import UserVideoComponent from "./UserVideoComponent";
 import Messages from "../chat/Messages";
-
 import {
   IoMicSharp,
   IoMicOffSharp,
@@ -16,6 +14,8 @@ import {
 } from "react-icons/io5";
 
 import html2canvas from "html2canvas";
+import Modal from "./Modal";
+import CountDown from "./CountDown";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
@@ -59,6 +59,9 @@ class Main extends Component {
       message: "",
       audiostate: false,
       screenstate: false,
+      captured: "",
+      modalOpen: false,
+      cnt: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -135,6 +138,13 @@ class Main extends Component {
       });
     }
   }
+
+  openModal = () => {
+    this.setState({ modalOpen: true });
+  };
+  closeModal = () => {
+    this.setState({ modalOpen: false });
+  };
 
   componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
@@ -457,6 +467,8 @@ class Main extends Component {
               />
               )}
             </div>
+            <div id="CntDown"></div>
+            {this.state.cnt ? <CountDown /> : <span></span>}
 
             <Container>
               <Row>
@@ -526,6 +538,27 @@ class Main extends Component {
             </Container>
           </div>
         ) : null}
+
+        {/* 스크린샷 모달창 */}
+        <Modal open={this.state.modalOpen} close={this.closeModal}>
+          <div id="preview"></div>
+          저장하시겠습니까?
+          <button
+            className="close"
+            onClick={() =>
+              this.onSaveAs(
+                this.state.captured.toDataURL("image/png"),
+                "HomeLanDrink.png"
+              )
+            }
+          >
+            네
+          </button>
+          <button className="close" onClick={this.closeModal}>
+            {" "}
+            아니오
+          </button>
+        </Modal>
       </div>
     );
   }
@@ -648,9 +681,15 @@ class Main extends Component {
   }
   onCapture() {
     console.log("onCapture");
-    html2canvas(document.getElementById("session")).then((canvas) => {
-      this.onSaveAs(canvas.toDataURL("image/png"), "HomeLanDrink.png");
-    });
+    this.setState({ cnt: true });
+    setTimeout(() => {
+      this.setState({ cnt: false });
+      html2canvas(document.getElementById("session")).then((canvas) => {
+        this.state.captured = canvas;
+        this.openModal();
+        document.getElementById("preview").appendChild(canvas);
+      });
+    }, 6000);
   }
 
   onSaveAs(uri, filename) {
@@ -661,6 +700,9 @@ class Main extends Component {
     link.download = filename;
     link.click();
     document.body.removeChild(link);
+    setTimeout(() => {
+      this.closeModal();
+    }, 2000);
   }
 }
 
