@@ -1,14 +1,11 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
-import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import "./Signup.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
-import backEndUrl from "../setup/hld_url";
 
 function Sign() {
-  const BEUrl = backEndUrl;
-  const history = useHistory();
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -36,10 +33,33 @@ function Sign() {
     setEmail(event.target.value);
   };
 
+  // const onSubmit = () => {
+  //   fetch("http://localhost:8080/api/v1/users", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       id: id,
+  //       nickname: nickname,
+  //       password: password,
+  //       email: email,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res);
+  //       // return <Redirect to="/login" />;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   const onSubmit = (event) => {
     event.preventDefault();
     axios({
-      url: `${BEUrl}/api/v1/users`,
+      url: "http://localhost:8080/api/v1/users",
       method: "post",
       data: {
         id: id,
@@ -47,30 +67,24 @@ function Sign() {
         password: password,
         email: email,
       },
-    })
-      .then(() => {
-        history.push("/login");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => {
+      console.log(res);
+    });
   };
 
   return (
     <div>
       <h1 className="mt-3">회원가입</h1>
       <Form className="container signup-form">
-        <Form.Label>아이디</Form.Label>
-        <InputGroup className="mb-3">
-          <FormControl
+        <Form.Group className="mb-3" controlId="formGroupID">
+          <Form.Label>아이디</Form.Label>
+          <Form.Control
             value={id}
             onChange={handleId}
             type="text"
             placeholder="아이디 입력"
           />
-          <Button id="button-addon2">중복확인</Button>
-        </InputGroup>
-
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupNickname">
           <Form.Label>닉네임</Form.Label>
           <Form.Control
@@ -78,15 +92,6 @@ function Sign() {
             onChange={handleNickname}
             type="text"
             placeholder="닉네임 입력"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>e-mail</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={handleEmail}
-            type="email"
-            placeholder="e-mail 입력"
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupPassword">
@@ -107,7 +112,29 @@ function Sign() {
             placeholder="비밀번호 확인"
           />
         </Form.Group>
-
+        <Form.Group className="mb-3" controlId="formGroupEmail">
+          <Form.Label>e-mail</Form.Label>
+          <Form.Control
+            value={email}
+            onChange={handleEmail}
+            type="email"
+            placeholder="e-mail 입력"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGroupCheckEmail">
+          <Form.Label>인증코드 입력</Form.Label>
+          <InputGroup>
+            <Form.Control type="text" placeholder="인증번호 입력" />
+            <Button>인증하기</Button>
+          </InputGroup>
+          <Form.Text className="text-muted">
+            가입 이후 이메일 인증을 통해 비밀번호를 찾을 수 있습니다.
+          </Form.Text>
+        </Form.Group>
+        <Form.Group className="d-flex justify-content-between">
+          <Form.Text>이메일이 도착하지 않았나요?</Form.Text>
+          <Link to="#">다시 보내기</Link>
+        </Form.Group>
         <Form.Group className="d-flex justify-content-center mt-3">
           <Button type="submit" onClick={onSubmit}>
             가입하기
