@@ -2,7 +2,7 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState, Component, createRef } from "react";
-import "./Main.css";
+import "./MeetingMain.css";
 import UserVideoComponent from "./UserVideoComponent";
 import Messages from "../chat/Messages";
 import {
