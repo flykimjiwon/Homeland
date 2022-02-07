@@ -10,7 +10,7 @@ import {
   IoMicOffSharp,
   IoVideocamOff,
   IoVideocam,
-  IoImages,
+  IoCameraSharp,
   IoExit,
 } from "react-icons/io5";
 
@@ -43,6 +43,7 @@ import styled from "styled-components";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const btn_size = "36";
 
 class Main extends Component {
   constructor(props) {
@@ -456,11 +457,11 @@ class Main extends Component {
               </Row>
             </Container>
             {/* buttons */}
-            <div>
+            <div className="toolbar">
               {this.state.audiostate ? (
                 <IoMicSharp
                   color="#50468c"
-                  size="24"
+                  size={btn_size}
                   onClick={() => {
                     this.state.publisher.publishAudio(!this.state.audiostate);
                     this.setState({ audiostate: !this.state.audiostate });
@@ -469,7 +470,7 @@ class Main extends Component {
               ) : (
                 <IoMicOffSharp
                   color="#9FA9D8"
-                  size="24"
+                  size={btn_size}
                   onClick={() => {
                     this.state.publisher.publishAudio(!this.state.audiostate);
                     this.setState({ audiostate: !this.state.audiostate });
@@ -479,7 +480,7 @@ class Main extends Component {
               {this.state.videostate ? (
                 <IoVideocam
                   color="#50468c"
-                  size="24"
+                  size={btn_size}
                   onClick={() => {
                     this.state.publisher.publishVideo(!this.state.videostate);
                     this.setState({ videostate: !this.state.videostate });
@@ -488,7 +489,7 @@ class Main extends Component {
               ) : (
                 <IoVideocamOff
                   color="#9FA9D8"
-                  size="24"
+                  size={btn_size}
                   onClick={() => {
                     this.state.publisher.publishVideo(!this.state.videostate);
                     this.setState({ videostate: !this.state.videostate });
@@ -498,7 +499,7 @@ class Main extends Component {
               {this.state.screenstate ? (
                 <IoMdExpand
                   color="#50468c"
-                  size="24"
+                  size={btn_size}
                   onClick={() => {
                     this.openFullScreenMode();
                     this.setState({ screenstate: !this.state.screenstate });
@@ -507,21 +508,25 @@ class Main extends Component {
               ) : (
                 <IoMdContract
                   color="#9FA9D8"
-                  size="24"
+                  size={btn_size}
                   onClick={() => {
                     this.closeFullScreenMode();
                     this.setState({ screenstate: !this.state.screenstate });
                   }}
                 />
               )}
-              <IoImages
+              <IoCameraSharp
                 color="#50468c"
-                size="24"
+                size={btn_size}
                 onClick={() => {
                   this.onCapture();
                 }}
               />
-              <IoExit color="#50468c" size="24" onClick={this.leaveSession} />
+              <IoExit
+                color="#50468c"
+                size={btn_size}
+                onClick={this.leaveSession}
+              />
             </div>
             <div id="CntDown"></div>
             {this.state.cnt ? <CountDown /> : <span></span>}

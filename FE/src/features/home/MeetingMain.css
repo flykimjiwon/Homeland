@@ -41,6 +41,9 @@
   --primary: #9fa9d8;
 }
 
+.toolbar * {
+}
+
 .chatbox {
   position: absolute;
   right: 30px;
