@@ -56,8 +56,9 @@ class Main extends Component {
       subscribers: [],
       messages: [],
       message: "",
-      audiostate: false,
-      screenstate: false,
+      audiostate: true,
+      screenstate: true,
+      videostate: true,
       captured: "",
       modalOpen: false,
       cnt: false,
@@ -391,11 +392,11 @@ class Main extends Component {
                 value="Leave session"
               />
             </div>
+            {/* buttons */}
             <div>
               {this.state.audiostate ? (
-                // mic, video of/off
                 <IoMicSharp
-                  color="#9FA9D8"
+                  color="#50468c"
                   size="24"
                   onClick={() => {
                     this.state.publisher.publishAudio(!this.state.audiostate);
@@ -404,7 +405,7 @@ class Main extends Component {
                 />
               ) : (
                 <IoMicOffSharp
-                  color="#50468c"
+                  color="#9FA9D8"
                   size="24"
                   onClick={() => {
                     this.state.publisher.publishAudio(!this.state.audiostate);
@@ -414,7 +415,7 @@ class Main extends Component {
               )}
               {this.state.videostate ? (
                 <IoVideocam
-                  color="#9FA9D8"
+                  color="#50468c"
                   size="24"
                   onClick={() => {
                     this.state.publisher.publishVideo(!this.state.videostate);
@@ -423,7 +424,7 @@ class Main extends Component {
                 />
               ) : (
                 <IoVideocamOff
-                  color="#50468c"
+                  color="#9FA9D8"
                   size="24"
                   onClick={() => {
                     this.state.publisher.publishVideo(!this.state.videostate);
@@ -433,7 +434,7 @@ class Main extends Component {
               )}
               {this.state.screenstate ? (
                 <IoMdExpand
-                  color="#9FA9D8"
+                  color="#50468c"
                   size="24"
                   onClick={() => {
                     this.openFullScreenMode();
@@ -442,7 +443,7 @@ class Main extends Component {
                 />
               ) : (
                 <IoMdContract
-                  color="#50468c"
+                  color="#9FA9D8"
                   size="24"
                   onClick={() => {
                     this.closeFullScreenMode();
@@ -457,7 +458,6 @@ class Main extends Component {
                   this.onCapture();
                 }}
               />
-              )}
             </div>
             <div id="CntDown"></div>
             {this.state.cnt ? <CountDown /> : <span></span>}
