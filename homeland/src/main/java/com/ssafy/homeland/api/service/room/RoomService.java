@@ -1,31 +1,27 @@
 package com.ssafy.homeland.api.service.room;
 
+import com.ssafy.homeland.db.entity.Participant;
+import org.springframework.http.ResponseEntity;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+public interface RoomService {
 
-@Slf4j
-@Service
-public class RoomService {
+    Room getRoom(String roomId);
 
-    private final ConcurrentMap<String, Room> rooms = new ConcurrentHashMap<>();
+    ResponseEntity createRoom();
 
-    public Room findRoom(String roomId){
-        return rooms.get(roomId);
-    }
+    ResponseEntity findRoom(String roomId);
 
-    public void removeRoom(String roomId){
-        rooms.remove(roomId);
-    }
+    void removeRoom(String roomId);
 
-    public Room putRoom(String roomId){
-        Room room=new Room(roomId);
-        rooms.put(roomId,room);
-        return room;
-    }
+    Room createAndPutRoom(String roomId);
 
+    boolean findRoomInOV(String roomId);
+
+    String generateRandomRoomId();
+
+    String getRandomRoomId();
+
+    boolean joinRoom(Participant participant);
 
 }
