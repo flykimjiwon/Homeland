@@ -11,7 +11,7 @@ const Username = styled.p`
 `;
 
 const MessageContainer = styled.div`
-  width: 100px;
+  width: 200px;
 `;
 
 const Text = styled.p`
