@@ -1,14 +1,11 @@
 package com.ssafy.homeland.api.service.room;
 
-import java.io.Closeable;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import javax.annotation.PreDestroy;
 
 import com.ssafy.homeland.db.entity.Participant;
 import lombok.Getter;
@@ -16,11 +13,6 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 /**
  * @author Ivan Gracia (izanmail@gmail.com)
@@ -37,6 +29,7 @@ public class Room  {
     private int joinCnt=0;
     private Participant Host;
 
+
     public Room(String roomId) {
         this.roomId = roomId;
         log.info("ROOM {} has been created", roomId);
@@ -47,7 +40,7 @@ public class Room  {
             log.debug("room {} is pull",this.getRoomId());
             return false;
         }
-        this.participants.put(participant.getNickName(),participant);
+        this.participants.put(participant.getNickname(),participant);
         this.joinCnt++;
         log.debug("current joinCnt {}",this.getJoinCnt());
         return true;

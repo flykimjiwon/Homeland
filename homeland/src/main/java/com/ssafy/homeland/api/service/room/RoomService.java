@@ -8,7 +8,7 @@ public interface RoomService {
 
     Room getRoom(String roomId);
 
-    ResponseEntity createRoom();
+//    ResponseEntity createRoom();
 
     ResponseEntity findRoom(String roomId);
 
@@ -23,5 +23,7 @@ public interface RoomService {
     String getRandomRoomId();
 
     boolean joinRoom(Participant participant);
+
+    boolean checkNicknameDuplicate(String roomId,String nickname);
 
 }

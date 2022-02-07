@@ -29,23 +29,23 @@ public class RoomServiceImpl implements RoomService{
         return rooms.get(roomId);
     };
 
-    //방 생성하기
-    public ResponseEntity createRoom(){
-
-        String roomId=getRandomRoomId();
-
-        boolean exist = findRoomInOV(roomId);
-
-        if(exist) {
-            while (findRoomInOV(roomId)) {
-                roomId = getRandomRoomId();
-            }
-        }
-
-        this.createAndPutRoom(roomId);
-
-        return new ResponseEntity(roomId,HttpStatus.OK);
-    }
+//    //방 생성하기
+//    public ResponseEntity createRoom(){
+//
+//        String roomId=getRandomRoomId();
+//
+//        boolean exist = findRoomInOV(roomId);
+//
+//        if(exist) {
+//            while (findRoomInOV(roomId)) {
+//                roomId = getRandomRoomId();
+//            }
+//        }
+//
+//        this.createAndPutRoom(roomId);
+//
+//        return new ResponseEntity(roomId,HttpStatus.OK);
+//    }
 
     //오픈비두 서버와 rooms에 해당 방이 있는지 확인
     public ResponseEntity findRoom(String roomId){
@@ -149,12 +149,23 @@ public class RoomServiceImpl implements RoomService{
     public boolean joinRoom(Participant participant) {
         Room room=rooms.get(participant.getRoomId());
         if(room.addParticipant(participant)) {
-            log.debug("participant {} joined room {}", participant.getNickName(), participant.getRoomId());
+            log.debug("participant {} joined room {}", participant.getNickname(), participant.getRoomId());
             return true;
         }else {
-            log.debug("participant {} can't join room {}", participant.getNickName(), participant.getRoomId());
+            log.debug("participant {} can't join room {}", participant.getNickname(), participant.getRoomId());
             return false;
         }
+    }
+
+    @Override
+    public boolean checkNicknameDuplicate(String roomId, String nickname) {
+
+        Room room=rooms.get(roomId);
+        for(Participant participant:room.getParticipants().values()){
+            if(participant.getNickname()==nickname) return false;
+        }
+
+        return true;
     }
 
 }

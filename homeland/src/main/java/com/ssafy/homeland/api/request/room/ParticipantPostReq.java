@@ -14,7 +14,7 @@ import lombok.Setter;
 @ApiModel("ParticipantPostRequest")
 public class ParticipantPostReq {
     @ApiModelProperty(name="참가자 닉네임", example="rudy")
-    String nickName;
+    String nickname;
     @ApiModelProperty(name = "참가자 홈페이지 로그인 id",example = "rudy0103")
     String userId;
     @ApiModelProperty(name = "참가자 오픈비두 connection id",example = "con_d12m1lr")
