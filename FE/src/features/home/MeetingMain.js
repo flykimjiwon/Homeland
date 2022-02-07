@@ -342,15 +342,15 @@ class Main extends Component {
 
     const sendUserData = () => {
       axios({
-        url: `${BEUrl}/api/v1/room/${mySessionId}`,
+        url: `${BEUrl}/api/v1/room/${this.state.mySessionId}`,
         method: "put",
         data: {
-          id: userId,
-          nickname: myUserName,
-          connectionId: connectionId,
+          userId: this.state.userId,
+          nickName: myUserName,
+          connectionId: this.state.connectionId,
         },
       }).then((res) => {
-        console.log("put요청:" + res);
+        console.log(res);
       });
     };
 
@@ -361,18 +361,14 @@ class Main extends Component {
         method: "get",
       })
         .then((res) => {
-          console.log(res.data);
           this.setState({
             mySessionId: res.data,
           });
-          console.log(mySessionId);
         })
         .then(() => {
-          console.log(mySessionId);
           this.joinSession();
         })
         .then(() => {
-          console.log(mySessionId);
           sendUserData();
         })
         .catch((err) => {
