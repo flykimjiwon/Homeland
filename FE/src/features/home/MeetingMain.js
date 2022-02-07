@@ -511,7 +511,7 @@ class Main extends Component {
                   {/* chat */}
                   <div className="">
                     <div className="chatbox__support chatbox--active">
-                      <div className="chatbox__header">{mySessionId}</div>
+                      <div className="chatbox__header">ChatRoom</div>
                       <div className="chatbox__messages">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
