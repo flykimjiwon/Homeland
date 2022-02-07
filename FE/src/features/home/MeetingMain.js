@@ -1,30 +1,66 @@
 /* eslint-disable */
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { Component } from "react";
+import React, { useEffect, useState, Component, createRef } from "react";
 import "./Main.css";
 import UserVideoComponent from "./UserVideoComponent";
-import { useHistory, useParams } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
-import "aos/dist/aos.css";
-import backendUrl from "../setup/hld_url";
-import Home from "./Home";
+import Messages from "../chat/Messages";
+import {
+  IoMicSharp,
+  IoMicOffSharp,
+  IoVideocamOff,
+  IoVideocam,
+  IoImages,
+} from "react-icons/io5";
 
-const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
-const OPENVIDU_SERVER_SECRET = "HOMELAND";
-const BEUrl = backendUrl;
+import html2canvas from "html2canvas";
+import Modal from "./Modal";
+import CountDown from "./CountDown";
+
+import { IoMdExpand, IoMdContract } from "react-icons/io";
+
+import {
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
+import {
+  Button,
+  Navbar,
+  Container,
+  Nav,
+  NavDropdown,
+  Carousel,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
+import { CSSTransition } from "react-transition-group";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import styled from "styled-components";
+
+const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 class Main extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      mySessionId: "",
-      myUserName: "",
+      mySessionId: "SessionA",
+      myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
+      messages: [],
+      message: "",
+      audiostate: false,
+      screenstate: false,
+      captured: "",
+      modalOpen: false,
+      cnt: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -33,26 +69,83 @@ class Main extends Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+
+    // chat
+    this.chattoggle = this.chattoggle.bind(this);
+    this.messageContainer = createRef(null);
+    this.sendmessageByClick = this.sendmessageByClick.bind(this);
+    this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
+    this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem("jwt");
-    const config = {
-      Authorization: `Bearer ${token}`,
-    };
-    if (token) {
-      axios({
-        url: `${BEUrl}/api/v1/users/me`,
-        method: "get",
-        headers: config,
-      }).then((res) => {
-        this.setState({
-          myUserName: res.data.nickname,
-        });
+  handleChatMessageChange(e) {
+    this.setState({
+      message: e.target.value,
+    });
+  }
+
+  chattoggle() {
+    this.setState({ chaton: !this.state.chaton });
+  }
+
+  sendmessageByClick() {
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        {
+          userName: this.state.myUserName,
+          text: this.state.message,
+          chatClass: "messages__item--operator",
+        },
+      ],
+    });
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: `${this.state.myUserName},${this.state.message}`,
+      to: [],
+      type: "chat",
+    });
+
+    this.setState({
+      message: "",
+    });
+  }
+
+  sendmessageByEnter(e) {
+    if (e.key === "Enter") {
+      this.setState({
+        messages: [
+          ...this.state.messages,
+          {
+            userName: this.state.myUserName,
+            text: this.state.message,
+            chatClass: "messages__item--operator",
+          },
+        ],
       });
-      const onIsLogin = this.props.onIsLogin;
-      onIsLogin(true);
+      const mySession = this.state.session;
+
+      mySession.signal({
+        data: `${this.state.myUserName},${this.state.message}`,
+        to: [],
+        type: "chat",
+      });
+
+      this.setState({
+        message: "",
+      });
     }
+  }
+
+  openModal = () => {
+    this.setState({ modalOpen: true });
+  };
+  closeModal = () => {
+    this.setState({ modalOpen: false });
+  };
+
+  componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
   }
 
@@ -124,7 +217,21 @@ class Main extends Component {
             subscribers: subscribers,
           });
         });
-
+        mySession.on("signal:chat", (event) => {
+          let chatdata = event.data.split(",");
+          if (chatdata[0] !== this.state.myUserName) {
+            this.setState({
+              messages: [
+                ...this.state.messages,
+                {
+                  userName: chatdata[0],
+                  text: chatdata[1],
+                  chatClass: "messages__item--visitor",
+                },
+              ],
+            });
+          }
+        });
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // Remove the stream from 'subscribers' array
@@ -197,191 +304,254 @@ class Main extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "",
-      myUserName: "",
+      mySessionId: "SessionA",
+      myUserName: "Participant" + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
       publisher: undefined,
     });
   }
 
   render() {
+    const messages = this.state.messages;
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
-    const loginToken = localStorage.getItem("jwt");
-
-    const onCheckSession = (event) => {
-      event.preventDefault();
-      axios({
-        url: `${BEUrl}/api/v1/room/${mySessionId}`,
-        method: "get",
-        data: {
-          roomId: mySessionId,
-        },
-      })
-        .then(() => {
-          this.joinSession();
-        })
-        .catch((err) => {
-          if (err.response.status === 404) {
-            alert("방이 존재하지 않습니다.");
-          }
-        });
-    };
-
+    const { mypage } = this.props;
     return (
-      <>
-        <div className="container">
-          {this.state.session === undefined ? (
+      <div className="container" className="bg-test">
+        {this.state.session === undefined ? (
+          <Container>
+            <Row>
+              <Col></Col>
+              <Col xs={4}>
+                <div id="join">
+                  <div id="img-div">
+                    <img
+                      src="/openvidu_grey_bg_transp_cropped.png"
+                      alt="OpenVidu logo"
+                    />
+                  </div>
+                  <div id="join-dialog" className="jumbotron vertical-center">
+                    <h1> Weclome to </h1>
+                    <h1> Home Lan Drink! </h1>
+                    <br></br>
+                    <form className="form-group" onSubmit={this.joinSession}>
+                      <h4 className="font-big-orange">
+                        닉네임을 입력해주세요.{" "}
+                      </h4>
+                      <input
+                        className="form-control grey"
+                        type="text"
+                        id="userName"
+                        value={myUserName}
+                        onChange={this.handleChangeUserName}
+                        required
+                      />
+                      <br></br>
+                      <h4 className="font-big-orange">
+                        {" "}
+                        방번호를 입력해주세요.{" "}
+                      </h4>
+                      <input
+                        className="form-control grey"
+                        type="text"
+                        id="sessionId"
+                        value={mySessionId}
+                        onChange={this.handleChangeSessionId}
+                        required
+                      />
+                      <p className="text-center">
+                        <br></br>
+                        <input
+                          className="btn btn-lg btn-warning"
+                          name="commit"
+                          type="submit"
+                          value="JOIN"
+                        />
+                      </p>
+                    </form>
+                  </div>
+                </div>
+              </Col>
+              <Col></Col>
+            </Row>
+            <br></br>
+            <br></br>
+          </Container>
+        ) : null}
+
+        {this.state.session !== undefined ? (
+          <div id="session">
+            <div id="session-header">
+              <h1 id="session-title">{mySessionId}</h1>
+              <input
+                className="btn btn-large btn-danger"
+                type="button"
+                id="buttonLeaveSession"
+                onClick={this.leaveSession}
+                value="Leave session"
+              />
+            </div>
+            <div>
+              {this.state.audiostate ? (
+                // mic, video of/off
+                <IoMicSharp
+                  color="#9FA9D8"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishAudio(!this.state.audiostate);
+                    this.setState({ audiostate: !this.state.audiostate });
+                  }}
+                />
+              ) : (
+                <IoMicOffSharp
+                  color="#50468c"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishAudio(!this.state.audiostate);
+                    this.setState({ audiostate: !this.state.audiostate });
+                  }}
+                />
+              )}
+              {this.state.videostate ? (
+                <IoVideocam
+                  color="#9FA9D8"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishVideo(!this.state.videostate);
+                    this.setState({ videostate: !this.state.videostate });
+                  }}
+                />
+              ) : (
+                <IoVideocamOff
+                  color="#50468c"
+                  size="24"
+                  onClick={() => {
+                    this.state.publisher.publishVideo(!this.state.videostate);
+                    this.setState({ videostate: !this.state.videostate });
+                  }}
+                />
+              )}
+              {this.state.screenstate ? (
+                <IoMdExpand
+                  color="#9FA9D8"
+                  size="24"
+                  onClick={() => {
+                    this.openFullScreenMode();
+                    this.setState({ screenstate: !this.state.screenstate });
+                  }}
+                />
+              ) : (
+                <IoMdContract
+                  color="#50468c"
+                  size="24"
+                  onClick={() => {
+                    this.closeFullScreenMode();
+                    this.setState({ screenstate: !this.state.screenstate });
+                  }}
+                />
+              )}
+              <IoImages
+                color="#50468c"
+                size="24"
+                onClick={() => {
+                  this.onCapture();
+                }}
+              />
+              )}
+            </div>
+            <div id="CntDown"></div>
+            {this.state.cnt ? <CountDown /> : <span></span>}
+
             <Container>
-              <Row></Row>
               <Row>
-                <Col></Col>
-                <Col xs={4}>
-                  <div id="join">
-                    <div id="img-div">
-                      <img
-                        src="/openvidu_grey_bg_transp_cropped.png"
-                        alt="OpenVidu logo"
+                <Col md={{ span: 10 }}>
+                  {this.state.mainStreamManager !== undefined ? (
+                    <div id="main-video" className="col-md-6">
+                      <UserVideoComponent
+                        streamManager={this.state.mainStreamManager}
                       />
                     </div>
-                    <div id="join-dialog" className="jumbotron vertical-center">
-                      <h1> Weclome to </h1>
-                      <h1> Home Lan Drink! </h1>
-                      <br></br>
-                      {/* form에 onSubmit={this.joinSession} */}
-                      {loginToken ? (
-                        <form className="form-group">
-                          <br></br>
-                          <h4 className="font-big-orange">
-                            {" "}
-                            방번호를 입력해주세요.{" "}
-                          </h4>
-                          <input
-                            className="form-control grey"
-                            type="text"
-                            id="sessionId"
-                            value={mySessionId}
-                            onChange={this.handleChangeSessionId}
-                            placeholder="방 번호"
-                            required
-                          />
-                          <div className="d-flex justify-content-center">
-                            <p className="text-center me-2">
-                              <br></br>
-                              <input
-                                className="btn btn-lg btn-warning"
-                                name="commit"
-                                type="submit"
-                                value="방 만들기"
-                                onClick={onCheckSession}
-                              />
-                            </p>
-                            <p className="text-center ms-2">
-                              <br />
-                              <input
-                                type="submit"
-                                value="JOIN"
-                                className="btn btn-lg btn-warning"
-                                onClick={this.joinSession}
-                              />
-                            </p>
-                          </div>
-                        </form>
-                      ) : (
-                        <form className="form-group">
-                          <h4 className="font-big-orange">
-                            닉네임을 입력해주세요.{" "}
-                          </h4>
-                          <input
-                            className="form-control grey"
-                            type="text"
-                            id="userName"
-                            value={myUserName}
-                            onChange={this.handleChangeUserName}
-                            placeholder="닉네임"
-                            required
-                          />
-                          <br></br>
-                          <h4 className="font-big-orange">
-                            {" "}
-                            방번호를 입력해주세요.{" "}
-                          </h4>
-                          <input
-                            className="form-control grey"
-                            type="text"
-                            id="sessionId"
-                            value={mySessionId}
-                            onChange={this.handleChangeSessionId}
-                            placeholder="방 번호"
-                            required
-                          />
-                          <p className="text-center">
-                            <br></br>
-                            <input
-                              className="btn btn-lg btn-warning"
-                              name="commit"
-                              type="submit"
-                              value="JOIN"
-                              onClick={onCheckSession}
-                            />
-                          </p>
-                        </form>
-                      )}
+                  ) : null}
+                  <div id="video-container" className="video-container">
+                    {this.state.publisher !== undefined ? (
+                      <div
+                        className="stream-container"
+                        onClick={() =>
+                          this.handleMainVi - deoStream(this.state.publisher)
+                        }
+                      >
+                        <UserVideoComponent
+                          streamManager={this.state.publisher}
+                        />
+                      </div>
+                    ) : null}
+                    {this.state.subscribers.map((sub, i) => (
+                      <div
+                        key={i}
+                        className="stream-container"
+                        onClick={() => this.handleMainVideoStream(sub)}
+                      >
+                        <UserVideoComponent streamManager={sub} />
+                      </div>
+                    ))}
+                  </div>
+                </Col>
+
+                <Col md={{ span: 2 }}>
+                  {/* chat */}
+                  <div className="chatbox">
+                    <div className="chat chatbox__support chatbox--active">
+                      <div className="chat chatbox__header">{mySessionId}</div>
+                      <div className="chatbox__messages">
+                        {/* {this.displayElements} */}
+                        <Messages messages={messages} />
+                        <div />
+                      </div>
+                      <div className="chat chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <p
+                          className="chat chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Send
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </Col>
-                <Col></Col>
               </Row>
-              <br></br>
-              <br></br>
             </Container>
-          ) : null}
+          </div>
+        ) : null}
 
-          {this.state.session !== undefined ? (
-            <div id="session">
-              <div id="session-header">
-                <h1 id="session-title">{mySessionId}</h1>
-                <input
-                  className="btn btn-large btn-danger"
-                  type="button"
-                  id="buttonLeaveSession"
-                  onClick={this.leaveSession}
-                  value="Leave session"
-                />
-              </div>
-
-              {this.state.mainStreamManager !== undefined ? (
-                <div id="main-video" className="col-md-6">
-                  <UserVideoComponent
-                    streamManager={this.state.mainStreamManager}
-                  />
-                </div>
-              ) : null}
-              <div id="video-container" className="col-md-6">
-                {this.state.publisher !== undefined ? (
-                  <div
-                    className="stream-container col-md-6 col-xs-6"
-                    onClick={() =>
-                      this.handleMainVi - deoStream(this.state.publisher)
-                    }
-                  >
-                    <UserVideoComponent streamManager={this.state.publisher} />
-                  </div>
-                ) : null}
-                {this.state.subscribers.map((sub, i) => (
-                  <div
-                    key={i}
-                    className="stream-container col-md-6 col-xs-6"
-                    onClick={() => this.handleMainVideoStream(sub)}
-                  >
-                    <UserVideoComponent streamManager={sub} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </>
+        {/* 스크린샷 모달창 */}
+        <Modal open={this.state.modalOpen} close={this.closeModal}>
+          <div id="preview"></div>
+          저장하시겠습니까?
+          <button
+            className="close"
+            onClick={() =>
+              this.onSaveAs(
+                this.state.captured.toDataURL("image/png"),
+                "HomeLanDrink.png"
+              )
+            }
+          >
+            네
+          </button>
+          <button className="close" onClick={this.closeModal}>
+            {" "}
+            아니오
+          </button>
+        </Modal>
+      </div>
     );
   }
 
@@ -471,6 +641,60 @@ class Main extends Component {
         })
         .catch((error) => reject(error));
     });
+  }
+  // 전체화면 설정
+  openFullScreenMode() {
+    console.log("fullscreen");
+    if (document.documentElement.requestFullscreen)
+      document.documentElement.requestFullscreen();
+    else if (document.webkitRequestFullscreen)
+      // Chrome, Safari (webkit)
+      document.documentElement.webkitRequestFullscreen();
+    else if (document.mozRequestFullScreen)
+      // Firefox
+      document.documentElement.mozRequestFullScreen();
+    else if (document.msRequestFullscreen)
+      // IE or Edge
+      document.documentElement.msRequestFullscreen();
+  }
+  // 전체화면 해제
+  closeFullScreenMode() {
+    console.log("closefullscreen");
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen)
+      // Chrome, Safari (webkit)
+      document.webkitExitFullscreen();
+    else if (document.mozCancelFullScreen)
+      // Firefox
+      document.mozCancelFullScreen();
+    else if (document.msExitFullscreen)
+      // IE or Edge
+      document.msExitFullscreen();
+  }
+  onCapture() {
+    console.log("onCapture");
+    this.setState({ cnt: true });
+    setTimeout(() => {
+      this.setState({ cnt: false });
+      html2canvas(document.getElementById("session")).then((canvas) => {
+        this.state.captured = canvas;
+        this.openModal();
+        document.getElementById("preview").appendChild(canvas);
+      });
+    }, 6000);
+  }
+
+  onSaveAs(uri, filename) {
+    console.log("onSaveAs");
+    var link = document.createElement("a");
+    document.body.appendChild(link);
+    link.href = uri;
+    link.download = filename;
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => {
+      this.closeModal();
+    }, 2000);
   }
 }
 
