@@ -11,6 +11,7 @@ import {
   IoVideocamOff,
   IoVideocam,
   IoImages,
+  IoExit,
 } from "react-icons/io5";
 
 import html2canvas from "html2canvas";
@@ -384,14 +385,76 @@ class Main extends Component {
           <div id="session">
             <div id="session-header">
               <h1 id="session-title">{mySessionId}</h1>
-              <input
-                className="btn btn-large btn-danger"
-                type="button"
-                id="buttonLeaveSession"
-                onClick={this.leaveSession}
-                value="Leave session"
-              />
             </div>
+
+            <Container>
+              <Row>
+                <Col md={{ span: 10 }} id="capture_screen">
+                  {/* screens */}
+                  <div id="video-container" className="video-container">
+                    {this.state.publisher !== undefined ? (
+                      <div
+                        className="stream-container"
+                        onClick={() =>
+                          this.handleMainVi - deoStream(this.state.publisher)
+                        }
+                      >
+                        <UserVideoComponent
+                          streamManager={this.state.publisher}
+                        />
+                      </div>
+                    ) : null}
+                    {this.state.subscribers.map((sub, i) => (
+                      <div
+                        key={i}
+                        className="stream-container"
+                        onClick={() => this.handleMainVideoStream(sub)}
+                      >
+                        <UserVideoComponent streamManager={sub} />
+                      </div>
+                    ))}
+                    {/* stage screen */}
+                  </div>
+                  {this.state.mainStreamManager !== undefined ? (
+                    <div id="main-video" className="col-md-6">
+                      <UserVideoComponent
+                        streamManager={this.state.mainStreamManager}
+                      />
+                    </div>
+                  ) : null}
+                </Col>
+
+                <Col md={{ span: 2 }}>
+                  {/* chat */}
+                  <div className="chatbox">
+                    <div className="chat chatbox__support chatbox--active">
+                      <div className="chat chatbox__header">{mySessionId}</div>
+                      <div className="chatbox__messages">
+                        {/* {this.displayElements} */}
+                        <Messages messages={messages} />
+                        <div />
+                      </div>
+                      <div className="chat chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <p
+                          className="chat chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Send
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
             {/* buttons */}
             <div>
               {this.state.audiostate ? (
@@ -458,76 +521,10 @@ class Main extends Component {
                   this.onCapture();
                 }}
               />
+              <IoExit color="#50468c" size="24" onClick={this.leaveSession} />
             </div>
             <div id="CntDown"></div>
             {this.state.cnt ? <CountDown /> : <span></span>}
-
-            <Container>
-              <Row>
-                <Col md={{ span: 10 }}>
-                  {this.state.mainStreamManager !== undefined ? (
-                    <div id="main-video" className="col-md-6">
-                      <UserVideoComponent
-                        streamManager={this.state.mainStreamManager}
-                      />
-                    </div>
-                  ) : null}
-                  <div id="video-container" className="video-container">
-                    {this.state.publisher !== undefined ? (
-                      <div
-                        className="stream-container"
-                        onClick={() =>
-                          this.handleMainVi - deoStream(this.state.publisher)
-                        }
-                      >
-                        <UserVideoComponent
-                          streamManager={this.state.publisher}
-                        />
-                      </div>
-                    ) : null}
-                    {this.state.subscribers.map((sub, i) => (
-                      <div
-                        key={i}
-                        className="stream-container"
-                        onClick={() => this.handleMainVideoStream(sub)}
-                      >
-                        <UserVideoComponent streamManager={sub} />
-                      </div>
-                    ))}
-                  </div>
-                </Col>
-
-                <Col md={{ span: 2 }}>
-                  {/* chat */}
-                  <div className="chatbox">
-                    <div className="chat chatbox__support chatbox--active">
-                      <div className="chat chatbox__header">{mySessionId}</div>
-                      <div className="chatbox__messages">
-                        {/* {this.displayElements} */}
-                        <Messages messages={messages} />
-                        <div />
-                      </div>
-                      <div className="chat chatbox__footer">
-                        <input
-                          id="chat_message"
-                          type="text"
-                          placeholder="Write a message..."
-                          onChange={this.handleChatMessageChange}
-                          onKeyPress={this.sendmessageByEnter}
-                          value={this.state.message}
-                        />
-                        <p
-                          className="chat chatbox__send--footer"
-                          onClick={this.sendmessageByClick}
-                        >
-                          Send
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </Container>
           </div>
         ) : null}
 
@@ -676,7 +673,7 @@ class Main extends Component {
     this.setState({ cnt: true });
     setTimeout(() => {
       this.setState({ cnt: false });
-      html2canvas(document.getElementById("session")).then((canvas) => {
+      html2canvas(document.getElementById("capture_screen")).then((canvas) => {
         this.state.captured = canvas;
         this.openModal();
         document.getElementById("preview").appendChild(canvas);

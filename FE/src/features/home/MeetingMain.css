@@ -1,6 +1,5 @@
 .stream-container {
-  width: calc(100% / 3);
-  padding-bottom: 30px;
+  width: calc(100% / 6);
 }
 
 .font-big-orange {
