@@ -38,9 +38,5 @@ public class Notice {
         this.updateAt = updateAt;
     }
 
-//    @PrePersist
-//    public void createdAt() {
-//        this.createdAt = LocalDateTime.now();
-//    }
-//
+
 }

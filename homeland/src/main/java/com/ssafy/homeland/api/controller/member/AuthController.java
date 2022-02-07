@@ -1,5 +1,6 @@
 package com.ssafy.homeland.api.controller.member;
 
+import com.ssafy.homeland.api.request.member.UserCheckPwReq;
 import com.ssafy.homeland.api.request.member.UserLoginPostReq;
 import com.ssafy.homeland.api.response.member.UserLoginPostRes;
 import com.ssafy.homeland.api.service.member.UserService;
@@ -21,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +30,7 @@ import java.util.Optional;
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
-@Api(value = "인증 API", tags = {"Auth."})
+@Api(value = "인증 API", tags = {"Auth"})
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/auth")
@@ -72,9 +74,16 @@ public class AuthController {
 
 	}
 
+
+	@ApiOperation(value = "비밀번호 체크", notes = "현재 로그인한 사용자와 제출한 비밀번호가 똑같은지 체크한다")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
 	@PostMapping("/check-password")
-	public ResponseEntity checkPassword(Authentication authentication, @RequestBody Map<String,Object> body) {
-		String password = body.get("password").toString();
+	public ResponseEntity checkPassword(@ApiIgnore Authentication authentication, @RequestBody @ApiParam(value="체크할 비밀번호", required = true) UserCheckPwReq userCheckPwReq) {
+		String password = userCheckPwReq.getPassword();
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
