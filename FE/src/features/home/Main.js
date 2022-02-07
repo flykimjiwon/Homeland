@@ -9,6 +9,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import MainAccordion from "./MainAccordion.js";
 import "aos/dist/aos.css";
 import backendUrl from "../setup/hld_url";
+import Home from "./Home";
 
 const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "HOMELAND";
@@ -230,163 +231,158 @@ class Main extends Component {
 
     return (
       <>
-      <Home></Home>
-      <div className="container">
-        
-        {this.state.session === undefined ? (
-          
-          <Container>        
-            <Row>
-
-              </Row> 
-            <Row>
-              <Col></Col>
-              <Col xs={4}>
-                <div id="join">
-                  <div id="img-div">
-                    <img
-                      src="/openvidu_grey_bg_transp_cropped.png"
-                      alt="OpenVidu logo"
-                    />
-                  </div>
-                  <div id="join-dialog" className="jumbotron vertical-center">
-                    <h1> Weclome to </h1>
-                    <h1> Home Lan Drink! </h1>
-                    <br></br>
-                    {/* form에 onSubmit={this.joinSession} */}
-                    {loginToken ? (
-                      <form className="form-group">
-                        <br></br>
-                        <h4 className="font-big-orange">
-                          {" "}
-                          방번호를 입력해주세요.{" "}
-                        </h4>
-                        <input
-                          className="form-control grey"
-                          type="text"
-                          id="sessionId"
-                          value={mySessionId}
-                          onChange={this.handleChangeSessionId}
-                          placeholder="방 번호"
-                          required
-                        />
-                        <div className="d-flex justify-content-center">
-                          <p className="text-center me-2">
+        <Home></Home>
+        <div className="container">
+          {this.state.session === undefined ? (
+            <Container>
+              <Row></Row>
+              <Row>
+                <Col></Col>
+                <Col xs={4}>
+                  <div id="join">
+                    <div id="img-div">
+                      <img
+                        src="/openvidu_grey_bg_transp_cropped.png"
+                        alt="OpenVidu logo"
+                      />
+                    </div>
+                    <div id="join-dialog" className="jumbotron vertical-center">
+                      <h1> Weclome to </h1>
+                      <h1> Home Lan Drink! </h1>
+                      <br></br>
+                      {/* form에 onSubmit={this.joinSession} */}
+                      {loginToken ? (
+                        <form className="form-group">
+                          <br></br>
+                          <h4 className="font-big-orange">
+                            {" "}
+                            방번호를 입력해주세요.{" "}
+                          </h4>
+                          <input
+                            className="form-control grey"
+                            type="text"
+                            id="sessionId"
+                            value={mySessionId}
+                            onChange={this.handleChangeSessionId}
+                            placeholder="방 번호"
+                            required
+                          />
+                          <div className="d-flex justify-content-center">
+                            <p className="text-center me-2">
+                              <br></br>
+                              <input
+                                className="btn btn-lg btn-warning"
+                                name="commit"
+                                type="submit"
+                                value="방 만들기"
+                                onClick={onCheckSession}
+                              />
+                            </p>
+                            <p className="text-center ms-2">
+                              <br />
+                              <input
+                                type="submit"
+                                value="JOIN"
+                                className="btn btn-lg btn-warning"
+                                onClick={this.joinSession}
+                              />
+                            </p>
+                          </div>
+                        </form>
+                      ) : (
+                        <form className="form-group">
+                          <h4 className="font-big-orange">
+                            닉네임을 입력해주세요.{" "}
+                          </h4>
+                          <input
+                            className="form-control grey"
+                            type="text"
+                            id="userName"
+                            value={myUserName}
+                            onChange={this.handleChangeUserName}
+                            placeholder="닉네임"
+                            required
+                          />
+                          <br></br>
+                          <h4 className="font-big-orange">
+                            {" "}
+                            방번호를 입력해주세요.{" "}
+                          </h4>
+                          <input
+                            className="form-control grey"
+                            type="text"
+                            id="sessionId"
+                            value={mySessionId}
+                            onChange={this.handleChangeSessionId}
+                            placeholder="방 번호"
+                            required
+                          />
+                          <p className="text-center">
                             <br></br>
                             <input
                               className="btn btn-lg btn-warning"
                               name="commit"
                               type="submit"
-                              value="방 만들기"
+                              value="JOIN"
                               onClick={onCheckSession}
                             />
                           </p>
-                          <p className="text-center ms-2">
-                            <br />
-                            <input
-                              type="submit"
-                              value="JOIN"
-                              className="btn btn-lg btn-warning"
-                              onClick={this.joinSession}
-                            />
-                          </p>
-                        </div>
-                      </form>
-                    ) : (
-                      <form className="form-group">
-                        <h4 className="font-big-orange">
-                          닉네임을 입력해주세요.{" "}
-                        </h4>
-                        <input
-                          className="form-control grey"
-                          type="text"
-                          id="userName"
-                          value={myUserName}
-                          onChange={this.handleChangeUserName}
-                          placeholder="닉네임"
-                          required
-                        />
-                        <br></br>
-                        <h4 className="font-big-orange">
-                          {" "}
-                          방번호를 입력해주세요.{" "}
-                        </h4>
-                        <input
-                          className="form-control grey"
-                          type="text"
-                          id="sessionId"
-                          value={mySessionId}
-                          onChange={this.handleChangeSessionId}
-                          placeholder="방 번호"
-                          required
-                        />
-                        <p className="text-center">
-                          <br></br>
-                          <input
-                            className="btn btn-lg btn-warning"
-                            name="commit"
-                            type="submit"
-                            value="JOIN"
-                            onClick={onCheckSession}
-                          />
-                        </p>
-                      </form>
-                    )}
+                        </form>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Col>
-              <Col></Col>
-            </Row>
-            <br></br>
-            <br></br>
-            
-          </Container>
-        ) : null}
+                </Col>
+                <Col></Col>
+              </Row>
+              <br></br>
+              <br></br>
+            </Container>
+          ) : null}
 
-        {this.state.session !== undefined ? (
-          <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
-              <input
-                className="btn btn-large btn-danger"
-                type="button"
-                id="buttonLeaveSession"
-                onClick={this.leaveSession}
-                value="Leave session"
-              />
-            </div>
-
-            {this.state.mainStreamManager !== undefined ? (
-              <div id="main-video" className="col-md-6">
-                <UserVideoComponent
-                  streamManager={this.state.mainStreamManager}
+          {this.state.session !== undefined ? (
+            <div id="session">
+              <div id="session-header">
+                <h1 id="session-title">{mySessionId}</h1>
+                <input
+                  className="btn btn-large btn-danger"
+                  type="button"
+                  id="buttonLeaveSession"
+                  onClick={this.leaveSession}
+                  value="Leave session"
                 />
               </div>
-            ) : null}
-            <div id="video-container" className="col-md-6">
-              {this.state.publisher !== undefined ? (
-                <div
-                  className="stream-container col-md-6 col-xs-6"
-                  onClick={() =>
-                    this.handleMainVi - deoStream(this.state.publisher)
-                  }
-                >
-                  <UserVideoComponent streamManager={this.state.publisher} />
+
+              {this.state.mainStreamManager !== undefined ? (
+                <div id="main-video" className="col-md-6">
+                  <UserVideoComponent
+                    streamManager={this.state.mainStreamManager}
+                  />
                 </div>
               ) : null}
-              {this.state.subscribers.map((sub, i) => (
-                <div
-                  key={i}
-                  className="stream-container col-md-6 col-xs-6"
-                  onClick={() => this.handleMainVideoStream(sub)}
-                >
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
+              <div id="video-container" className="col-md-6">
+                {this.state.publisher !== undefined ? (
+                  <div
+                    className="stream-container col-md-6 col-xs-6"
+                    onClick={() =>
+                      this.handleMainVi - deoStream(this.state.publisher)
+                    }
+                  >
+                    <UserVideoComponent streamManager={this.state.publisher} />
+                  </div>
+                ) : null}
+                {this.state.subscribers.map((sub, i) => (
+                  <div
+                    key={i}
+                    className="stream-container col-md-6 col-xs-6"
+                    onClick={() => this.handleMainVideoStream(sub)}
+                  >
+                    <UserVideoComponent streamManager={sub} />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : null}
-      </div>
+          ) : null}
+        </div>
       </>
     );
   }
