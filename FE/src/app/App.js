@@ -5,7 +5,6 @@ import Login from "../features/auth/Login";
 import Signup from "../features/auth/Signup";
 import Mypage from "../features/auth/Mypage";
 import Main from "../features/home/Main";
-import MainAccordion from "../features/home/MainAccordion";
 // import Test from "./Test";
 import EditProfile from "../features/auth/EditProfile";
 import EditPassword from "../features/auth/EditPassword";

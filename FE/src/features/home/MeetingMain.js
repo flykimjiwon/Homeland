@@ -6,7 +6,6 @@ import "./Main.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import MainAccordion from "./MainAccordion.js";
 import "aos/dist/aos.css";
 import backendUrl from "../setup/hld_url";
 import Home from "./Home";
