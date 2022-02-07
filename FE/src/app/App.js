@@ -15,6 +15,7 @@ import FindPassword from "../features/auth/FindPassword";
 import NoticeForm from "../features/notice/NoticeForm";
 import NoticeDetailPage from "../features/notice/NoticeDetailPage";
 import NoticeEdit from "../features/notice/NoticeEdit";
+import MeetingMain from "../features/home/MeetingMain";
 
 import React, { useContext, useState, lazy, Suspense, useEffect } from "react";
 import {
@@ -63,6 +64,9 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link eventKey="link-1" as={Link} to="/notice">
                 공지사항
+              </Nav.Link>
+              <Nav.Link eventKey="link-2" as={Link} to="/meeting-main">
+                참가
               </Nav.Link>
             </Nav>
 
@@ -132,6 +136,9 @@ function App() {
       </Route>
       <Route path="/mypage">
         <Mypage></Mypage>
+      </Route>
+      <Route path="/meeting-main">
+        <MeetingMain />
       </Route>
     </div>
   );
