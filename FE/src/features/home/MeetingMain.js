@@ -355,10 +355,7 @@ class Main extends Component {
               <Col xs={4}>
                 <div id="join">
                   <div id="img-div">
-                    <img
-                      src="/openvidu_grey_bg_transp_cropped.png"
-                      alt="OpenVidu logo"
-                    />
+                    <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
                   </div>
                   <div id="join-dialog" className="jumbotron vertical-center">
                     <h1> Weclome to </h1>
@@ -411,45 +408,34 @@ class Main extends Component {
 
         {this.state.session !== undefined ? (
           <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
-            </div>
-
             <Container>
-              {/* screens */}
-              <div id="video-container" className="video-container">
-                {this.state.publisher !== undefined ? (
-                  <div
-                    className="stream-container"
-                    onClick={() =>
-                      this.handleMainVi - deoStream(this.state.publisher)
-                    }
-                  >
-                    <UserVideoComponent streamManager={this.state.publisher} />
-                  </div>
-                ) : null}
-                {this.state.subscribers.map((sub, i) => (
-                  <div
-                    key={i}
-                    className="stream-container"
-                    onClick={() => this.handleMainVideoStream(sub)}
-                  >
-                    <UserVideoComponent streamManager={sub} />
-                  </div>
-                ))}
+              <div id="img-div">
+                <img
+                  src="/HLD_logo_150x150.png"
+                  alt="OpenVidu logo"
+                  sizes="24"
+                />
               </div>
               <Row>
                 <Col md={{ span: 9 }} id="capture_screen">
-                  {/* stage screen */}
-                  {this.state.mainStreamManager !== undefined ? (
-                    <div id="main-video" className="stage_screen">
-                      <UserVideoComponent
-                        streamManager={this.state.mainStreamManager}
-                      />
-                    </div>
-                  ) : null}
+                  {/* screens */}
+                  <div id="video-container" className="video-container">
+                    {this.state.publisher !== undefined ? (
+                      <div className="stream-container">
+                        <UserVideoComponent
+                          streamManager={this.state.publisher}
+                        />
+                      </div>
+                    ) : null}
+                    {this.state.subscribers.map((sub, i) => (
+                      <div key={i} className="stream-container">
+                        <UserVideoComponent streamManager={sub} />
+                      </div>
+                    ))}
+                  </div>
+
                   {/* buttons */}
-                  <div>
+                  <div className="btn_toolbar">
                     {this.state.audiostate ? (
                       <IoMicSharp
                         color="#50468c"
@@ -538,7 +524,7 @@ class Main extends Component {
                   {/* chat */}
                   <div className="">
                     <div className="chatbox__support chatbox--active">
-                      <div className="chatbox__header">ChatRoom</div>
+                      <div className="chatbox__header">{mySessionId}</div>
                       <div className="chatbox__messages">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
