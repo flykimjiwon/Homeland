@@ -62,7 +62,8 @@ class Main extends Component {
       screenstate: true,
       videostate: true,
       captured: "",
-      modalOpen: false,
+      modalOpen_capture: false,
+      modalOpen_leave: false,
       cnt: false,
     };
 
@@ -72,13 +73,22 @@ class Main extends Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
-
+    this.escFunction = this.escFunction.bind(this);
+    this.clickLeave = this.clickLeave.bind(this);
     // chat
     this.chattoggle = this.chattoggle.bind(this);
     this.messageContainer = createRef(null);
     this.sendmessageByClick = this.sendmessageByClick.bind(this);
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
+  }
+
+  escFunction(event) {
+    if ((event.key === 27) | (event.which === 27)) {
+      this.closeModalCapture();
+      this.closeModalLeave();
+      //Do whatever when esc is pressed
+    }
   }
 
   handleChatMessageChange(e) {
@@ -141,19 +151,35 @@ class Main extends Component {
     }
   }
 
-  openModal = () => {
-    this.setState({ modalOpen: true });
+  openModalCapture = () => {
+    this.setState({ modalOpen_capture: true });
   };
-  closeModal = () => {
-    this.setState({ modalOpen: false });
+
+  closeModalCapture = () => {
+    this.setState({ modalOpen_capture: false });
+  };
+
+  openModalLeave = () => {
+    this.setState({ modalOpen_leave: true });
+  };
+
+  closeModalLeave = () => {
+    this.setState({ modalOpen_leave: false });
+  };
+
+  clickLeave = () => {
+    this.closeModalLeave();
+    this.leaveSession();
   };
 
   componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
+    document.addEventListener("keydown", this.escFunction, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+    document.removeEventListener("keydown", this.escFunction, false);
   }
 
   onbeforeunload(event) {
@@ -502,7 +528,7 @@ class Main extends Component {
                     <IoExit
                       color="#50468c"
                       size={btn_size}
-                      onClick={this.leaveSession}
+                      onClick={this.openModalLeave}
                     />
                   </div>
                 </Col>
@@ -545,7 +571,10 @@ class Main extends Component {
         ) : null}
 
         {/* 스크린샷 모달창 */}
-        <Modal open={this.state.modalOpen} close={this.closeModal}>
+        <Modal
+          open={this.state.modalOpen_capture}
+          close={this.closeModalCapture}
+        >
           <div id="preview"></div>
           저장하시겠습니까?
           <button
@@ -559,7 +588,19 @@ class Main extends Component {
           >
             네
           </button>
-          <button className="close" onClick={this.closeModal}>
+          <button className="close" onClick={this.closeModalCapture}>
+            {" "}
+            아니오
+          </button>
+        </Modal>
+
+        {/* 종료창 모달창 */}
+        <Modal open={this.state.modalOpen_leave} close={this.closeModalLeave}>
+          종료하시겠습니까?
+          <button className="close" onClick={this.clickLeave}>
+            네
+          </button>
+          <button className="close" onClick={this.closeModalLeave}>
             {" "}
             아니오
           </button>
@@ -691,7 +732,7 @@ class Main extends Component {
       this.setState({ cnt: false });
       html2canvas(document.getElementById("capture_screen")).then((canvas) => {
         this.state.captured = canvas;
-        this.openModal();
+        this.openModalCapture();
         document.getElementById("preview").appendChild(canvas);
       });
     }, 6000);
@@ -706,7 +747,7 @@ class Main extends Component {
     link.click();
     document.body.removeChild(link);
     setTimeout(() => {
-      this.closeModal();
+      this.closeModalCapture();
     }, 500);
   }
 }
