@@ -529,22 +529,22 @@ class Main extends Component {
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
                         <div />
-                      </div>
-                      <div className="chatbox__footer">
-                        <input
-                          id="chat_message"
-                          type="text"
-                          placeholder="Write a message..."
-                          onChange={this.handleChatMessageChange}
-                          onKeyPress={this.sendmessageByEnter}
-                          value={this.state.message}
-                        />
-                        <button
-                          className="chatbox__send--footer"
-                          onClick={this.sendmessageByClick}
-                        >
-                          Enter
-                        </button>
+                        <div className="chatbox__footer">
+                          <input
+                            id="chat_message"
+                            type="text"
+                            placeholder="Write a message..."
+                            onChange={this.handleChatMessageChange}
+                            onKeyPress={this.sendmessageByEnter}
+                            value={this.state.message}
+                          />
+                          <button
+                            className="chatbox__send--footer"
+                            onClick={this.sendmessageByClick}
+                          >
+                            Enter
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
