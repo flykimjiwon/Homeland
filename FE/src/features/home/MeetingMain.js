@@ -13,7 +13,6 @@ import {
   IoCameraSharp,
   IoExit,
 } from "react-icons/io5";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
 import CountDown from "./CountDown";
