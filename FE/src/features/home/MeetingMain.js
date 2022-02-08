@@ -48,7 +48,7 @@ class Main extends Component {
       captured: "",
       modalOpen: false,
       cnt: false,
-      userId: "",
+      userId: "guest",
       connectionId: "",
     };
 
@@ -305,13 +305,23 @@ class Main extends Component {
       mySession.disconnect();
     }
 
+    axios({
+      url: `${BEUrl}/api/v1/room/leave/${this.state.mySessionId}`,
+      method: "post",
+      data: {
+        nickname: this.state.myUserName,
+        connectionId: this.state.connectionId,
+        userId: this.state.userId,
+      },
+    });
+
     // Empty all properties...
     this.OV = null;
     this.setState({
       session: undefined,
       subscribers: [],
       mySessionId: "",
-      myUserName: this.myUserName,
+      myUserName: this.state.myUserName,
       mainStreamManager: undefined,
       publisher: undefined,
     });
@@ -324,6 +334,34 @@ class Main extends Component {
     const loginToken = localStorage.getItem("jwt");
     const onIsSession = this.props.onIsSession;
 
+    const onCheckNickname = () => {
+      axios({
+        url: `${BEUrl}/api/v1/room/join/${mySessionId}`,
+        method: "post",
+        data: {
+          nickname: this.state.myUserName,
+          connectionId: this.state.connectionId,
+          userId: this.state.userId,
+        },
+      })
+        .then((res) => {
+          console.log(this.state.myUserName);
+          console.log(this.state.connectionId);
+          console.log(res);
+          if (res.status === 226) {
+            alert("중복된 닉네임입니다.");
+          } else {
+            onIsSession(true);
+            this.joinSession();
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 406) {
+            alert("방이 꽉 찼습니다...ㅜㅜ");
+          }
+        });
+    };
+
     const onCheckSession = (event) => {
       event.preventDefault();
       axios({
@@ -334,9 +372,9 @@ class Main extends Component {
         },
       })
         .then(() => {
-          onIsSession(true);
-          this.joinSession();
+          onCheckNickname();
         })
+
         .catch((err) => {
           if (err.response.status === 404) {
             alert("방이 존재하지 않습니다.");
@@ -350,11 +388,9 @@ class Main extends Component {
         method: "put",
         data: {
           userId: this.state.userId,
-          nickName: myUserName,
+          nickname: this.state.myUserName,
           connectionId: this.state.connectionId,
         },
-      }).then((res) => {
-        console.log(res);
       });
     };
 
@@ -397,7 +433,7 @@ class Main extends Component {
                     />
                   </div>
                   <div id="join-dialog" className="jumbotron vertical-center">
-                    <h1> Weclome to </h1>
+                    <h1> Welcome to </h1>
                     <h1> Home Lan Drink! </h1>
                     <br></br>
                     {loginToken ? (
