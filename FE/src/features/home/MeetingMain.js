@@ -13,7 +13,7 @@ import {
   IoCameraSharp,
   IoExit,
 } from "react-icons/io5";
-
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
 import CountDown from "./CountDown";
@@ -65,6 +65,7 @@ class Main extends Component {
       modalOpen_capture: false,
       modalOpen_leave: false,
       cnt: false,
+      previewOpen: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -157,6 +158,7 @@ class Main extends Component {
 
   closeModalCapture = () => {
     this.setState({ modalOpen_capture: false });
+    this.setState({ previewOpen: false });
   };
 
   openModalLeave = () => {
@@ -727,15 +729,21 @@ class Main extends Component {
   }
   onCapture() {
     console.log("onCapture");
-    this.setState({ cnt: true });
-    setTimeout(() => {
-      this.setState({ cnt: false });
-      html2canvas(document.getElementById("capture_screen")).then((canvas) => {
-        this.state.captured = canvas;
-        this.openModalCapture();
-        document.getElementById("preview").appendChild(canvas);
-      });
-    }, 6000);
+    if (!this.state.previewOpen) {
+      this.setState({ cnt: true, previewOpen: true });
+      setTimeout(() => {
+        {
+          this.setState({ cnt: false });
+          html2canvas(document.getElementById("capture_screen")).then(
+            (canvas) => {
+              this.state.captured = canvas;
+              this.openModalCapture();
+              document.getElementById("preview").appendChild(canvas);
+            }
+          );
+        }
+      }, 6000);
+    }
   }
 
   onSaveAs(uri, filename) {
