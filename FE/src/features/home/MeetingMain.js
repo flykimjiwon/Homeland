@@ -532,6 +532,9 @@ class Main extends Component {
                       onClick={this.openModalLeave}
                     />
                   </div>
+                  {/* 스크린샷 타이머 */}
+                  <div id="CntDown"></div>
+                  {this.state.cnt ? <CountDown /> : <span></span>}
                 </Col>
 
                 <Col md={{ span: 3 }}>
@@ -565,9 +568,6 @@ class Main extends Component {
                 </Col>
               </Row>
             </Container>
-
-            <div id="CntDown"></div>
-            {this.state.cnt ? <CountDown /> : <span></span>}
           </div>
         ) : null}
 
