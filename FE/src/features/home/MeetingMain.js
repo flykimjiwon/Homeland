@@ -413,8 +413,8 @@ class Main extends Component {
         ) : null}
 
         {this.state.session !== undefined ? (
-          <div id="session" className="height_100">
-            <Container className="height_100">
+          <div id="session" className="height-100">
+            <Container className="height-100">
               <div id="img-div">
                 <img
                   src="/HLD_logo_150x150.png"
@@ -422,7 +422,7 @@ class Main extends Component {
                   sizes="24"
                 />
               </div>
-              <Row>
+              <Row className="height-calc">
                 <Col md={{ span: 9 }} id="capture_screen">
                   {/* screens */}
                   <div id="video-container" className="video-container">
@@ -528,8 +528,8 @@ class Main extends Component {
 
                 <Col md={{ span: 3 }}>
                   {/* chat */}
-                  <div>
-                    <div className="chatbox__support chatbox--active">
+                  <div className="height-80">
+                    <div className="chatbox__support">
                       <div className="chatbox__header">{mySessionId}</div>
                       <div className="chatbox__messages" ref="chatoutput">
                         {/* {this.displayElements} */}
