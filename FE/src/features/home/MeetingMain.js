@@ -14,7 +14,6 @@ import {
   IoCameraSharp,
   IoExit,
 } from "react-icons/io5";
-
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
 import CountDown from "./CountDown";
@@ -46,8 +45,10 @@ class Main extends Component {
       screenstate: true,
       videostate: true,
       captured: "",
-      modalOpen: false,
+      modalOpen_capture: false,
+      modalOpen_leave: false,
       cnt: false,
+      previewOpen: false,
       userId: "guest",
       connectionId: "",
     };
@@ -58,13 +59,22 @@ class Main extends Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
-
+    this.escFunction = this.escFunction.bind(this);
+    this.clickLeave = this.clickLeave.bind(this);
     // chat
     this.chattoggle = this.chattoggle.bind(this);
     this.messageContainer = createRef(null);
     this.sendmessageByClick = this.sendmessageByClick.bind(this);
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
+  }
+
+  escFunction(event) {
+    if ((event.key === 27) | (event.which === 27)) {
+      this.closeModalCapture();
+      this.closeModalLeave();
+      //Do whatever when esc is pressed
+    }
   }
 
   handleChatMessageChange(e) {
@@ -127,11 +137,26 @@ class Main extends Component {
     }
   }
 
-  openModal = () => {
-    this.setState({ modalOpen: true });
+  openModalCapture = () => {
+    this.setState({ modalOpen_capture: true });
   };
-  closeModal = () => {
-    this.setState({ modalOpen: false });
+
+  closeModalCapture = () => {
+    this.setState({ modalOpen_capture: false });
+    this.setState({ previewOpen: false });
+  };
+
+  openModalLeave = () => {
+    this.setState({ modalOpen_leave: true });
+  };
+
+  closeModalLeave = () => {
+    this.setState({ modalOpen_leave: false });
+  };
+
+  clickLeave = () => {
+    this.closeModalLeave();
+    this.leaveSession();
   };
 
   componentDidMount() {
@@ -152,10 +177,12 @@ class Main extends Component {
       });
     }
     window.addEventListener("beforeunload", this.onbeforeunload);
+    document.addEventListener("keydown", this.escFunction, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+    document.removeEventListener("keydown", this.escFunction, false);
   }
 
   onbeforeunload(event) {
@@ -427,10 +454,7 @@ class Main extends Component {
               <Col xs={4}>
                 <div id="join">
                   <div id="img-div">
-                    <img
-                      src="/openvidu_grey_bg_transp_cropped.png"
-                      alt="OpenVidu logo"
-                    />
+                    <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
                   </div>
                   <div id="join-dialog" className="jumbotron vertical-center">
                     <h1> Welcome to </h1>
@@ -528,45 +552,34 @@ class Main extends Component {
 
         {this.state.session !== undefined ? (
           <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
-            </div>
-
             <Container>
-              {/* screens */}
-              <div id="video-container" className="video-container">
-                {this.state.publisher !== undefined ? (
-                  <div
-                    className="stream-container"
-                    onClick={() =>
-                      this.handleMainVi - deoStream(this.state.publisher)
-                    }
-                  >
-                    <UserVideoComponent streamManager={this.state.publisher} />
-                  </div>
-                ) : null}
-                {this.state.subscribers.map((sub, i) => (
-                  <div
-                    key={i}
-                    className="stream-container"
-                    onClick={() => this.handleMainVideoStream(sub)}
-                  >
-                    <UserVideoComponent streamManager={sub} />
-                  </div>
-                ))}
+              <div id="img-div">
+                <img
+                  src="/HLD_logo_150x150.png"
+                  alt="OpenVidu logo"
+                  sizes="24"
+                />
               </div>
               <Row>
                 <Col md={{ span: 9 }} id="capture_screen">
-                  {/* stage screen */}
-                  {this.state.mainStreamManager !== undefined ? (
-                    <div id="main-video" className="stage_screen">
-                      <UserVideoComponent
-                        streamManager={this.state.mainStreamManager}
-                      />
-                    </div>
-                  ) : null}
+                  {/* screens */}
+                  <div id="video-container" className="video-container">
+                    {this.state.publisher !== undefined ? (
+                      <div className="stream-container">
+                        <UserVideoComponent
+                          streamManager={this.state.publisher}
+                        />
+                      </div>
+                    ) : null}
+                    {this.state.subscribers.map((sub, i) => (
+                      <div key={i} className="stream-container">
+                        <UserVideoComponent streamManager={sub} />
+                      </div>
+                    ))}
+                  </div>
+
                   {/* buttons */}
-                  <div>
+                  <div className="btn_toolbar">
                     {this.state.audiostate ? (
                       <IoMicSharp
                         color="#50468c"
@@ -646,7 +659,7 @@ class Main extends Component {
                     <IoExit
                       color="#50468c"
                       size={btn_size}
-                      onClick={this.leaveSession}
+                      onClick={this.openModalLeave}
                     />
                   </div>
                 </Col>
@@ -655,27 +668,27 @@ class Main extends Component {
                   {/* chat */}
                   <div className="">
                     <div className="chatbox__support chatbox--active">
-                      <div className="chatbox__header">ChatRoom</div>
+                      <div className="chatbox__header">{mySessionId}</div>
                       <div className="chatbox__messages">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
                         <div />
-                      </div>
-                      <div className="chatbox__footer">
-                        <input
-                          id="chat_message"
-                          type="text"
-                          placeholder="Write a message..."
-                          onChange={this.handleChatMessageChange}
-                          onKeyPress={this.sendmessageByEnter}
-                          value={this.state.message}
-                        />
-                        <button
-                          className="chatbox__send--footer"
-                          onClick={this.sendmessageByClick}
-                        >
-                          Enter
-                        </button>
+                        <div className="chatbox__footer">
+                          <input
+                            id="chat_message"
+                            type="text"
+                            placeholder="Write a message..."
+                            onChange={this.handleChatMessageChange}
+                            onKeyPress={this.sendmessageByEnter}
+                            value={this.state.message}
+                          />
+                          <button
+                            className="chatbox__send--footer"
+                            onClick={this.sendmessageByClick}
+                          >
+                            Enter
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -689,7 +702,10 @@ class Main extends Component {
         ) : null}
 
         {/* 스크린샷 모달창 */}
-        <Modal open={this.state.modalOpen} close={this.closeModal}>
+        <Modal
+          open={this.state.modalOpen_capture}
+          close={this.closeModalCapture}
+        >
           <div id="preview"></div>
           저장하시겠습니까?
           <button
@@ -703,7 +719,19 @@ class Main extends Component {
           >
             네
           </button>
-          <button className="close" onClick={this.closeModal}>
+          <button className="close" onClick={this.closeModalCapture}>
+            {" "}
+            아니오
+          </button>
+        </Modal>
+
+        {/* 종료창 모달창 */}
+        <Modal open={this.state.modalOpen_leave} close={this.closeModalLeave}>
+          종료하시겠습니까?
+          <button className="close" onClick={this.clickLeave}>
+            네
+          </button>
+          <button className="close" onClick={this.closeModalLeave}>
             {" "}
             아니오
           </button>
@@ -833,15 +861,21 @@ class Main extends Component {
   }
   onCapture() {
     console.log("onCapture");
-    this.setState({ cnt: true });
-    setTimeout(() => {
-      this.setState({ cnt: false });
-      html2canvas(document.getElementById("capture_screen")).then((canvas) => {
-        this.state.captured = canvas;
-        this.openModal();
-        document.getElementById("preview").appendChild(canvas);
-      });
-    }, 6000);
+    if (!this.state.previewOpen) {
+      this.setState({ cnt: true, previewOpen: true });
+      setTimeout(() => {
+        {
+          this.setState({ cnt: false });
+          html2canvas(document.getElementById("capture_screen")).then(
+            (canvas) => {
+              this.state.captured = canvas;
+              this.openModalCapture();
+              document.getElementById("preview").appendChild(canvas);
+            }
+          );
+        }
+      }, 6000);
+    }
   }
 
   onSaveAs(uri, filename) {
@@ -853,7 +887,7 @@ class Main extends Component {
     link.click();
     document.body.removeChild(link);
     setTimeout(() => {
-      this.closeModal();
+      this.closeModalCapture();
     }, 500);
   }
 }

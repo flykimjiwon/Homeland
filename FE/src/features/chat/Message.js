@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 const Username = styled.p`
-  color: #42387a;
   font-size: 0.8rem;
   font-weight: 600;
   padding: 5px 0 10px 0;
