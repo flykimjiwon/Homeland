@@ -96,6 +96,12 @@ class Main extends Component {
       message: e.target.value,
     });
   }
+  // 채팅 자동 하단 스크롤
+  componentDidUpdate(previousProps, previousState) {
+    if (this.refs.chatoutput != null) {
+      this.refs.chatoutput.scrollTop = this.refs.chatoutput.scrollHeight;
+    }
+  }
 
   chattoggle() {
     this.setState({ chaton: !this.state.chaton });
@@ -525,26 +531,26 @@ class Main extends Component {
                   <div className="">
                     <div className="chatbox__support chatbox--active">
                       <div className="chatbox__header">{mySessionId}</div>
-                      <div className="chatbox__messages">
+                      <div className="chatbox__messages" ref="chatoutput">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
                         <div />
-                        <div className="chatbox__footer">
-                          <input
-                            id="chat_message"
-                            type="text"
-                            placeholder="Write a message..."
-                            onChange={this.handleChatMessageChange}
-                            onKeyPress={this.sendmessageByEnter}
-                            value={this.state.message}
-                          />
-                          <button
-                            className="chatbox__send--footer"
-                            onClick={this.sendmessageByClick}
-                          >
-                            Enter
-                          </button>
-                        </div>
+                      </div>
+                      <div className="chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <button
+                          className="chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Enter
+                        </button>
                       </div>
                     </div>
                   </div>
