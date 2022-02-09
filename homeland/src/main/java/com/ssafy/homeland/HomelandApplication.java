@@ -41,25 +41,7 @@ public class HomelandApplication implements WebSocketConfigurer {
 		return characterEncodingFilter;
 	}
 
-//	@Bean
-//	public UserRegistry registry() {
-//		return new UserRegistry();
-//	}
-//
-//	@Bean
-//	public RoomManager roomManager() {
-//		return new RoomManager();
-//	}
-//
-//	@Bean
-//	public CallHandler groupCallHandler() {
-//		return new CallHandler();
-//	}
 
-//	@Bean
-//	public KurentoClient kurentoClient() {
-//		return KurentoClient.create();
-//	}
 
 	@Bean
 	public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
@@ -74,6 +56,6 @@ public class HomelandApplication implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		//registry.addHandler(groupCallHandler(), "/groupcall");
+
 	}
 }
