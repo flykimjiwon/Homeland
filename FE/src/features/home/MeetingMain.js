@@ -413,8 +413,8 @@ class Main extends Component {
         ) : null}
 
         {this.state.session !== undefined ? (
-          <div id="session">
-            <Container>
+          <div id="session" className="height_100">
+            <Container className="height_100">
               <div id="img-div">
                 <img
                   src="/HLD_logo_150x150.png"
@@ -528,7 +528,7 @@ class Main extends Component {
 
                 <Col md={{ span: 3 }}>
                   {/* chat */}
-                  <div className="">
+                  <div>
                     <div className="chatbox__support chatbox--active">
                       <div className="chatbox__header">{mySessionId}</div>
                       <div className="chatbox__messages" ref="chatoutput">

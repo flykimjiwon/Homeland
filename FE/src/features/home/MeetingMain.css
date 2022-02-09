@@ -1,3 +1,7 @@
+.height_100 {
+  height: 100%;
+}
+
 .font-big-orange {
   color: orange;
   font-weight: bold;
@@ -25,7 +29,7 @@
 
 .bg-test {
   background-color: #fae18f8e;
-  min-height: 94vh;
+  height: 100vh;
 }
 /* chat */
 
@@ -41,7 +45,6 @@
 }
 
 .chatbox--active {
-  min-height: 70vh;
   z-index: 123456;
   opacity: 1;
 }
