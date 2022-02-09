@@ -108,31 +108,7 @@ class Main extends Component {
   }
 
   sendmessageByClick() {
-    this.setState({
-      messages: [
-        ...this.state.messages,
-        {
-          userName: this.state.myUserName,
-          text: this.state.message,
-          chatClass: "messages__item--operator",
-        },
-      ],
-    });
-    const mySession = this.state.session;
-
-    mySession.signal({
-      data: `${this.state.myUserName},${this.state.message}`,
-      to: [],
-      type: "chat",
-    });
-
-    this.setState({
-      message: "",
-    });
-  }
-
-  sendmessageByEnter(e) {
-    if (e.key === "Enter") {
+    if (this.state.message !== "") {
       this.setState({
         messages: [
           ...this.state.messages,
@@ -150,10 +126,38 @@ class Main extends Component {
         to: [],
         type: "chat",
       });
+    }
 
-      this.setState({
-        message: "",
-      });
+    this.setState({
+      message: "",
+    });
+  }
+
+  sendmessageByEnter(e) {
+    if (e.key === "Enter") {
+      if (this.state.message !== "") {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            {
+              userName: this.state.myUserName,
+              text: this.state.message,
+              chatClass: "messages__item--operator",
+            },
+          ],
+        });
+        const mySession = this.state.session;
+
+        mySession.signal({
+          data: `${this.state.myUserName},${this.state.message}`,
+          to: [],
+          type: "chat",
+        });
+
+        this.setState({
+          message: "",
+        });
+      }
     }
   }
 
