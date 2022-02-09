@@ -427,9 +427,13 @@ class Main extends Component {
                 />
               </div>
               <Row className="height-calc">
-                <Col md={{ span: 9 }} id="capture_screen">
+                <Col md={{ span: 9 }}>
                   {/* screens */}
-                  <div id="video-container" className="video-container">
+                  <div
+                    id="video-container"
+                    className="video-container"
+                    id="capture_screen"
+                  >
                     {this.state.publisher !== undefined ? (
                       <div className="stream-container">
                         <UserVideoComponent
