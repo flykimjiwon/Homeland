@@ -48,6 +48,8 @@
   width: auto;
   height: 700px;
   transition: all 0.5s ease-in-out;
+
+  background-color: rgb(204, 222, 255);
 }
 
 .chatbox__header {
@@ -65,27 +67,25 @@
   flex-direction: column;
 }
 
-.messages__item {
-  max-width: 6 0.6%;
-  width: fit-content;
-}
-
 .messages__item--operator {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border-bottom-left-radius: 20px;
   background: var(--primary);
-  margin-left: auto;
-  color: red;
-  background-color: blue;
+  width: 70%;
+  margin-left: 30%;
+  margin-bottom: 15px;
+  background-color: rgb(228, 228, 123);
 }
 
 .messages__item--visitor {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
-  margin-right: auto;
-  background-color: orange;
+  width: 70%;
+  margin-right: 30%;
+  margin-bottom: 15px;
+  background-color: white;
 }
 
 .chatbox__footer input {
