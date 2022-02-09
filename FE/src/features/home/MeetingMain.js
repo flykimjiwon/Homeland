@@ -5,6 +5,8 @@ import React, { useEffect, useState, Component, createRef } from "react";
 import "./MeetingMain.css";
 import UserVideoComponent from "./UserVideoComponent";
 import backendUrl from "../setup/hld_url";
+import OPENVIDU_URL from "../setup/openvidu_url";
+import OPENVIDU_SECET from "../setup/openvidu_secret";
 import Messages from "../chat/Messages";
 import {
   IoMicSharp,
@@ -22,8 +24,12 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 
-const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
-const OPENVIDU_SERVER_SECRET = "HOMELAND";
+
+const OPENVIDU_SERVER_URL = OPENVIDU_URL;
+const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
+// const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
+// const OPENVIDU_SERVER_SECRET = "HOMELAND";
+
 const BEUrl = backendUrl;
 const btn_size = "36";
 
