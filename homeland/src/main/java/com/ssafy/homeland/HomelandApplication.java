@@ -24,9 +24,6 @@ import java.nio.charset.StandardCharsets;
 @EnableWebSocket
 public class HomelandApplication implements WebSocketConfigurer {
 
-//	static {
-//		// System.setProperty("kms.url","ws://3.35.136.195:8888/kurento");
-//	}
 
 	@Bean
 	public HttpMessageConverter<String> responseBodyConverter() {
@@ -40,7 +37,6 @@ public class HomelandApplication implements WebSocketConfigurer {
 		characterEncodingFilter.setForceEncoding(true);
 		return characterEncodingFilter;
 	}
-
 
 
 	@Bean
