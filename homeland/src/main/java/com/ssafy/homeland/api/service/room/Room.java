@@ -46,9 +46,12 @@ public class Room  {
         return true;
     }
 
-    public void removeParticipant(String nickName){
-        this.participants.remove(nickName);
-        this.joinCnt--;
+    public int removeParticipant(String nickName){
+        if(participants.containsKey(nickName)) {
+            this.participants.remove(nickName);
+            return --joinCnt;
+        }
+        return -1;
     }
 
     public Participant findOneParticipantByNickName(String nickName){

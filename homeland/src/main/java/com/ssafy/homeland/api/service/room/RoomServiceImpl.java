@@ -55,7 +55,7 @@ public class RoomServiceImpl implements RoomService{
         if (exist) {
             log.debug("room:{} found in openVidu Server!", roomId);
         } else {
-            log.debug("room not found in openVidu Server!");
+            log.debug("room:{} not found in openVidu Server!",roomId);
         }
 
         // RoomService에서 관리하는 rooms에 해당 룸이 있는지 확인
@@ -66,7 +66,7 @@ public class RoomServiceImpl implements RoomService{
                 log.debug("room:{} found in memory!", room.getRoomId());
                 return new ResponseEntity(room.getRoomId(), HttpStatus.OK);
             } else {// 찾는 방이 없다면 비정상-> 메모리에 넣고 리턴
-                log.debug("room not found in memory!");
+                log.debug("room:{} not found in memory!",roomId);
                 this.createAndPutRoom(roomId);
                 room=this.getRoom(roomId);
                 return new ResponseEntity(room.getRoomId(), HttpStatus.OK);
@@ -161,11 +161,26 @@ public class RoomServiceImpl implements RoomService{
     public boolean checkNicknameDuplicate(String roomId, String nickname) {
 
         Room room=rooms.get(roomId);
-        for(Participant participant:room.getParticipants().values()){
-            if(participant.getNickname()==nickname) return false;
-        }
+        if(room.getParticipants().containsKey(nickname)) return true;
 
-        return true;
+        return false;
+    }
+
+    @Override
+    public void leaveRoom(String roomId, String nickname) {
+
+        Room room=rooms.get(roomId);
+
+        if(room!=null) {
+            int res=room.removeParticipant(nickname);
+            if(res!=-1)
+                log.debug("participant {} leaved room {}", nickname, roomId);
+            if(res==0) {
+                log.debug("room {} removed ", roomId);
+                rooms.remove(roomId);
+            }
+            return;
+        }
     }
 
 }

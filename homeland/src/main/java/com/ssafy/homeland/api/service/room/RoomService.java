@@ -26,4 +26,6 @@ public interface RoomService {
 
     boolean checkNicknameDuplicate(String roomId,String nickname);
 
+    void leaveRoom(String roomId, String nickname);
+
 }

@@ -129,7 +129,11 @@ public class RoomController {
         else return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE); //코드 406
     }
 
-
+    @PostMapping("/leave/{roomId}")
+    public ResponseEntity leaveRoom(@PathVariable String roomId, @RequestBody ParticipantPostReq participantPostReq){
+        roomService.leaveRoom(roomId,participantPostReq.getNickname());
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 
 }
