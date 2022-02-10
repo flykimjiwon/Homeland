@@ -19,3 +19,16 @@ video {
 p {
   margin: 0;
 }
+
+/* 전체화면 버튼 */
+video::-webkit-media-controls-fullscreen-button,
+/* 일시정지, 재생 버튼 */
+video::-webkit-media-controls-play-button,
+/* 재생 슬라이드 */ 
+video::-webkit-media-controls-timeline,
+/* 현재 진행 시간 */
+video::-webkit-media-controls-current-time-display,
+/* 전체 시간 */
+video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}

@@ -1,3 +1,15 @@
+.height-100 {
+  height: 100%;
+}
+
+.height-80 {
+  height: 80%;
+}
+
+.height-calc {
+  height: calc(100% - 150px);
+}
+
 .font-big-orange {
   color: orange;
   font-weight: bold;
@@ -23,9 +35,9 @@
   margin: 0.75%;
 }
 
-.bg-test {
+.bg {
   background-color: #fae18f8e;
-  min-height: 94vh;
+  height: 100vh;
 }
 /* chat */
 
@@ -34,16 +46,10 @@
   flex-direction: column;
   background: #eee;
   width: auto;
-  height: 450px;
-  z-index: -123456;
-  opacity: 0;
+  height: 700px;
   transition: all 0.5s ease-in-out;
-}
 
-.chatbox--active {
-  min-height: 70vh;
-  z-index: 123456;
-  opacity: 1;
+  background-color: rgb(204, 222, 255);
 }
 
 .chatbox__header {
@@ -61,23 +67,63 @@
   flex-direction: column;
 }
 
-.messages__item {
-  max-width: 6 0.6%;
-  width: fit-content;
-}
-
 .messages__item--operator {
-  margin-left: auto;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background: var(--primary);
+  width: 70%;
+  margin-left: 30%;
+  margin-bottom: 15px;
+  background-color: rgb(241, 241, 57);
 }
 
 .messages__item--visitor {
-  margin-right: auto;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 70%;
+  margin-right: 30%;
+  margin-bottom: 15px;
+  background-color: white;
 }
 
 .chatbox__footer input {
-  width: 65%;
+  width: 60%;
+
+  border: 1.5px solid white; /*테두리 두께, 선스타일, 색상*/
+
+  border-radius: 10px; /*테두리 둥글게*/
+
+  outline: none; /*기본테두리안보이게*/
+
+  padding: 3px 3px 2px 7px; /*안쪽여백*/
+
+  box-sizing: border-box; /*테두리를 기준으로 박스크기 설정*/
+
+  transition: 0.3s; /*서서히 나타내기*/
+}
+.chatbox__footer input:focus {
+  border: 2px solid #4285f4;
+
+  box-shadow: 0 0 8px 0 #4285f4;
+
+  background-color: #ffffff;
 }
 
 .chatbox__send--footer {
   width: 25%;
+  background-color: #fafafa; /*배경색*/
+
+  border: 1.5px solid white; /*테두리 두께, 선스타일, 색상*/
+
+  border-radius: 4px; /*테두리 둥글게*/
+
+  outline: none; /*기본테두리안보이게*/
+
+  padding: 3px 3px 2px 7px; /*안쪽여백*/
+
+  box-sizing: border-box; /*테두리를 기준으로 박스크기 설정*/
+
+  transition: 0.3s; /*서서히 나타내기*/
 }

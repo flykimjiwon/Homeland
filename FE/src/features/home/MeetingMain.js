@@ -54,6 +54,7 @@ class Main extends Component {
       modalOpen_leave: false,
       cnt: false,
       previewOpen: false,
+      connectionUser: [],
       userId: "guest",
       connectionId: "",
     };
@@ -87,37 +88,20 @@ class Main extends Component {
       message: e.target.value,
     });
   }
+  // 채팅 자동 하단 스크롤
+  componentDidUpdate(previousProps, previousState) {
+    if (this.refs.chatoutput != null) {
+      this.refs.chatoutput.scrollTop = this.refs.chatoutput.scrollHeight;
+    }
+    this.showVideoControls();
+  }
 
   chattoggle() {
     this.setState({ chaton: !this.state.chaton });
   }
 
   sendmessageByClick() {
-    this.setState({
-      messages: [
-        ...this.state.messages,
-        {
-          userName: this.state.myUserName,
-          text: this.state.message,
-          chatClass: "messages__item--operator",
-        },
-      ],
-    });
-    const mySession = this.state.session;
-
-    mySession.signal({
-      data: `${this.state.myUserName},${this.state.message}`,
-      to: [],
-      type: "chat",
-    });
-
-    this.setState({
-      message: "",
-    });
-  }
-
-  sendmessageByEnter(e) {
-    if (e.key === "Enter") {
+    if (this.state.message !== "") {
       this.setState({
         messages: [
           ...this.state.messages,
@@ -135,10 +119,38 @@ class Main extends Component {
         to: [],
         type: "chat",
       });
+    }
 
-      this.setState({
-        message: "",
-      });
+    this.setState({
+      message: "",
+    });
+  }
+
+  sendmessageByEnter(e) {
+    if (e.key === "Enter") {
+      if (this.state.message !== "") {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            {
+              userName: this.state.myUserName,
+              text: this.state.message,
+              chatClass: "messages__item--operator",
+            },
+          ],
+        });
+        const mySession = this.state.session;
+
+        mySession.signal({
+          data: `${this.state.myUserName},${this.state.message}`,
+          to: [],
+          type: "chat",
+        });
+
+        this.setState({
+          message: "",
+        });
+      }
     }
   }
 
@@ -240,7 +252,19 @@ class Main extends Component {
         var mySession = this.state.session;
 
         // --- 3) Specify the actions when events take place in the session ---
-
+        mySession.on("connectionCreated", (event) => {
+          console.log("connection");
+          console.log(event.connection);
+          // var connection = event.connection.connectionId
+          // Object형을 넣어줘야한다.
+          var connection = event.connection;
+          var connectionUser = this.state.connectionUser;
+          connectionUser.push(connection);
+          //Update
+          this.setState({
+            connectionUser: connectionUser,
+          });
+        });
         // On every new Stream received...
         mySession.on("streamCreated", (event) => {
           // Subscribe to the Stream to receive it. Second parameter is undefined
@@ -268,6 +292,9 @@ class Main extends Component {
               ],
             });
           }
+        });
+        mySession.on("signal:captureSignal", (event) => {
+          this.onCapture();
         });
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
@@ -451,7 +478,7 @@ class Main extends Component {
 
     const { mypage } = this.props;
     return (
-      <div className="container" className="bg-test">
+      <div className="container" className="bg">
         {this.state.session === undefined ? (
           <Container>
             <Row>
@@ -556,8 +583,8 @@ class Main extends Component {
         ) : null}
 
         {this.state.session !== undefined ? (
-          <div id="session">
-            <Container>
+          <div id="session" className="height-100">
+            <Container className="height-100">
               <div id="img-div">
                 <img
                   src="/HLD_logo_150x150.png"
@@ -565,10 +592,14 @@ class Main extends Component {
                   sizes="24"
                 />
               </div>
-              <Row>
-                <Col md={{ span: 9 }} id="capture_screen">
+              <Row className="height-calc">
+                <Col md={{ span: 9 }}>
                   {/* screens */}
-                  <div id="video-container" className="video-container">
+                  <div
+                    id="video-container"
+                    className="video-container "
+                    id="capture_screen"
+                  >
                     {this.state.publisher !== undefined ? (
                       <div className="stream-container">
                         <UserVideoComponent
@@ -658,7 +689,7 @@ class Main extends Component {
                       color="#50468c"
                       size={btn_size}
                       onClick={() => {
-                        this.onCapture();
+                        this.sendCaptureSignal();
                       }}
                     />
                     <IoExit
@@ -667,42 +698,42 @@ class Main extends Component {
                       onClick={this.openModalLeave}
                     />
                   </div>
+                  {/* 스크린샷 타이머 */}
+                  <div id="CntDown"></div>
+                  {this.state.cnt ? <CountDown /> : <span></span>}
                 </Col>
 
                 <Col md={{ span: 3 }}>
                   {/* chat */}
-                  <div className="">
-                    <div className="chatbox__support chatbox--active">
+                  <div className="height-80">
+                    <div className="chatbox__support">
                       <div className="chatbox__header">{mySessionId}</div>
-                      <div className="chatbox__messages">
+                      <div className="chatbox__messages" ref="chatoutput">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
                         <div />
-                        <div className="chatbox__footer">
-                          <input
-                            id="chat_message"
-                            type="text"
-                            placeholder="Write a message..."
-                            onChange={this.handleChatMessageChange}
-                            onKeyPress={this.sendmessageByEnter}
-                            value={this.state.message}
-                          />
-                          <button
-                            className="chatbox__send--footer"
-                            onClick={this.sendmessageByClick}
-                          >
-                            Enter
-                          </button>
-                        </div>
+                      </div>
+                      <div className="chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <button
+                          className="chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Enter
+                        </button>
                       </div>
                     </div>
                   </div>
                 </Col>
               </Row>
             </Container>
-
-            <div id="CntDown"></div>
-            {this.state.cnt ? <CountDown /> : <span></span>}
           </div>
         ) : null}
 
@@ -864,6 +895,15 @@ class Main extends Component {
       // IE or Edge
       document.msExitFullscreen();
   }
+  sendCaptureSignal() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "start capture",
+      to: [],
+      type: "captureSignal",
+    });
+  }
   onCapture() {
     console.log("onCapture");
     if (!this.state.previewOpen) {
@@ -894,6 +934,12 @@ class Main extends Component {
     setTimeout(() => {
       this.closeModalCapture();
     }, 500);
+  }
+  showVideoControls() {
+    var video = document.getElementsByTagName("video");
+    for (var i = 0; i < video.length; i++) {
+      video[i].controls = true;
+    }
   }
 }
 
