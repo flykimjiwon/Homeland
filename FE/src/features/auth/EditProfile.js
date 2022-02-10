@@ -38,7 +38,7 @@ function EditProfile() {
   };
   const getProfile = () => {
     axios({
-      url: `${BEUrl}:8080/api/v1/users/me`,
+      url: `${BEUrl}/api/v1/users/me`,
       method: "get",
       headers: setToken(),
     }).then((res) => {

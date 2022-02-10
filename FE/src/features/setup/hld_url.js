@@ -1,4 +1,4 @@
 /* eslint-disable */
-export default ["https://i6c202.p.ssafy.io:8080"];
+export default [process.env.REACT_APP_BACKEND_URL];
 // https://i6c202.p.ssafy.io:8080
 // https://localhost:8080
