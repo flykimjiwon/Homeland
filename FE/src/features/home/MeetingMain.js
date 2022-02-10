@@ -15,6 +15,7 @@ import {
   IoVideocam,
   IoCameraSharp,
   IoExit,
+  IoMdCopy,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
@@ -24,11 +25,10 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 
-
-const OPENVIDU_SERVER_URL = OPENVIDU_URL;
-const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
-// const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
-// const OPENVIDU_SERVER_SECRET = "HOMELAND";
+// const OPENVIDU_SERVER_URL = OPENVIDU_URL;
+// const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
+const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
+const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
 const btn_size = "36";
@@ -75,6 +75,11 @@ class Main extends Component {
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
   }
+  useEffect() {
+    window.onpopstate = () => {
+      console.log("뒤로간다!!!!!!!!!!!");
+    };
+  }
 
   escFunction(event) {
     if ((event.key === 27) | (event.which === 27)) {
@@ -83,7 +88,6 @@ class Main extends Component {
       //Do whatever when esc is pressed
     }
   }
-
   handleChatMessageChange(e) {
     this.setState({
       message: e.target.value,
@@ -708,7 +712,15 @@ class Main extends Component {
                   {/* chat */}
                   <div className="height-80">
                     <div className="chatbox__support">
-                      <div className="chatbox__header">{mySessionId}</div>
+                      <div className="chatbox__header">
+                        방코드: {mySessionId}
+                        <IoExit
+                          onClick={() =>
+                            navigator.clipboard.writeText(mySessionId)
+                          }
+                        />
+                      </div>
+
                       <div className="chatbox__messages" ref="chatoutput">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
