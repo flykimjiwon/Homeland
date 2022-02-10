@@ -24,7 +24,6 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 
-
 const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
 // const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
@@ -489,7 +488,7 @@ class Main extends Component {
                             type="submit"
                             value="JOIN"
                             className="btn btn-lg btn-warning"
-                            onClick={this.joinSession}
+                            onClick={onCheckSession}
                           />
                         </InputGroup>
 
