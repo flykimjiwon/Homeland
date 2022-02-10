@@ -10,6 +10,7 @@ import backEndUrl from "../setup/hld_url";
 function Notice() {
   const BEUrl = backEndUrl;
   const [noticeItems, setNoticeItems] = useState([]);
+  const [userAuthority, setUserAuthority] = useState("");
   const getNoticeItems = () => {
     axios({
       url: `${BEUrl}/api/v1/notice`,
@@ -22,7 +23,24 @@ function Notice() {
         console.log(err);
       });
   };
+  const setToken = () => {
+    const token = localStorage.getItem("jwt");
+    const config = {
+      Authorization: `Bearer ${token}`,
+    };
+    return config;
+  };
+  const getAuthority = () => {
+    axios({
+      url: `${BEUrl}/api/v1/users/check-authority`,
+      method: "get",
+      headers: setToken(),
+    }).then((res) => {
+      setUserAuthority(res.data);
+    });
+  };
   useEffect(getNoticeItems, []);
+  useEffect(getAuthority, []);
   return (
     <div className="mt-3">
       <h1>공지사항입니다.</h1>
@@ -50,9 +68,11 @@ function Notice() {
           </tbody>
         </Table>
       </Container>
-      <Link to="/notice-form">
-        <Button>글 작성</Button>
-      </Link>
+      {userAuthority === "admin" ? (
+        <Link to="/notice-form">
+          <Button>글 작성</Button>
+        </Link>
+      ) : null}
     </div>
   );
 }
