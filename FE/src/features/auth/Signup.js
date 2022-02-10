@@ -1,13 +1,5 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { Form, Button, InputGroup } from "react-bootstrap";
-import "./Signup.css";
-import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
-
-function Sign() {
-=======
 import { Form, InputGroup, FormControl } from "react-bootstrap";
 import "./Signup.css";
 import { Link, useHistory } from "react-router-dom";
@@ -29,17 +21,13 @@ const theme = createTheme();
 
 function Sign() {
   const BEUrl = backEndUrl;
->>>>>>> dev
   const history = useHistory();
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
-<<<<<<< HEAD
-=======
   const [emailError, setEmailError] = useState("");
->>>>>>> dev
 
   const handleId = (event) => {
     event.preventDefault();
@@ -64,78 +52,6 @@ function Sign() {
 
   const onSubmit = (event) => {
     event.preventDefault();
-<<<<<<< HEAD
-    axios({
-      url: "http://localhost:8080/api/v1/users",
-      method: "post",
-      data: {
-        id: id,
-        nickname: nickname,
-        password: password,
-        email: email,
-      },
-    }).then(() => {
-      history.push("/login");
-    });
-  };
-
-  return (
-    <div>
-      <h1 className="mt-3">회원가입</h1>
-      <Form className="container signup-form">
-        <Form.Group className="mb-3" controlId="formGroupID">
-          <Form.Label>아이디</Form.Label>
-          <Form.Control
-            value={id}
-            onChange={handleId}
-            type="text"
-            placeholder="아이디 입력"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupNickname">
-          <Form.Label>닉네임</Form.Label>
-          <Form.Control
-            value={nickname}
-            onChange={handleNickname}
-            type="text"
-            placeholder="닉네임 입력"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupPassword">
-          <Form.Label>비밀번호</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={handlePassword}
-            type="password"
-            placeholder="비밀번호 입력"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupCheckPassword">
-          <Form.Label>비밀번호 확인</Form.Label>
-          <Form.Control
-            value={passwordConfirm}
-            onChange={handlePasswordConfirm}
-            type="password"
-            placeholder="비밀번호 확인"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>e-mail</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={handleEmail}
-            type="email"
-            placeholder="e-mail 입력"
-          />
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onSubmit}>
-            가입하기
-          </Button>
-        </Form.Group>
-      </Form>
-    </div>
-=======
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegex.test(email)) {
@@ -335,7 +251,6 @@ function Sign() {
         </Box>
       </Container>
     </ThemeProvider>
->>>>>>> dev
   );
 }
 

@@ -1,19 +1,6 @@
 /* eslint-disable */
 // import axios from 'axios';
 import { useState, useEffect } from "react";
-<<<<<<< HEAD
-import { Table, Pagination, Button } from "react-bootstrap";
-import "./Notice.css";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import NoticeDetail from "./NoticeDetail";
-
-function Notice() {
-  const [noticeItems, setNoticeItems] = useState([]);
-  const getNoticeItems = () => {
-    axios({
-      url: "http://localhost:8080/api/v1/notice",
-=======
 import { Table, Pagination, Button, Container } from "react-bootstrap";
 import "./Notice.css";
 import { Link } from "react-router-dom";
@@ -27,7 +14,6 @@ function Notice() {
   const getNoticeItems = () => {
     axios({
       url: `${BEUrl}/api/v1/notice`,
->>>>>>> dev
       method: "get",
     })
       .then((res) => {
@@ -37,27 +23,6 @@ function Notice() {
         console.log(err);
       });
   };
-<<<<<<< HEAD
-  useEffect(getNoticeItems, []);
-  return (
-    <div className="mt-3">
-      <h1>공지사항입니다.</h1>
-      <ul>
-        {noticeItems.map((item, index) => {
-          return (
-            <NoticeDetail
-              key={index}
-              id={item.id}
-              title={item.title}
-              updatedAt={item.updatedAt}
-            />
-          );
-        })}
-      </ul>
-      <Link to="/notice-form">
-        <Button>글 작성</Button>
-      </Link>
-=======
   const setToken = () => {
     const token = localStorage.getItem("jwt");
     const config = {
@@ -108,7 +73,6 @@ function Notice() {
           <Button>글 작성</Button>
         </Link>
       ) : null}
->>>>>>> dev
     </div>
   );
 }

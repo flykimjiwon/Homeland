@@ -2,15 +2,10 @@ import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-<<<<<<< HEAD
-
-function NoticeForm() {
-=======
 import backEndUrl from "../setup/hld_url";
 
 function NoticeForm() {
   const BEUrl = backEndUrl;
->>>>>>> dev
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -32,11 +27,7 @@ function NoticeForm() {
   const onCreateNotice = (event) => {
     event.preventDefault();
     axios({
-<<<<<<< HEAD
-      url: "http://localhost:8080/api/v1/notice",
-=======
       url: `${BEUrl}/api/v1/notice`,
->>>>>>> dev
       method: "post",
       headers: setToken(),
       data: {

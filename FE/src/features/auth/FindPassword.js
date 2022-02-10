@@ -2,15 +2,10 @@ import { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
-<<<<<<< HEAD
-
-function FindPassword() {
-=======
 import backEndUrl from "../setup/hld_url";
 
 function FindPassword() {
   const BEUrl = backEndUrl;
->>>>>>> dev
   const history = useHistory();
   const { key } = useParams();
   const [newPassword, setNewPassword] = useState("");
@@ -27,11 +22,7 @@ function FindPassword() {
     event.preventDefault();
     if (newPassword && newPassword === confirmNewPassword) {
       axios({
-<<<<<<< HEAD
-        url: `http://localhost:8080/api/v1/users/password/${key}`,
-=======
         url: `${BEUrl}/api/v1/users/password/${key}`,
->>>>>>> dev
         method: "put",
         data: {
           password: newPassword,

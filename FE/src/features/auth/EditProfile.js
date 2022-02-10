@@ -3,15 +3,10 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
-<<<<<<< HEAD
-
-function EditProfile() {
-=======
 import backEndUrl from "../setup/hld_url";
 
 function EditProfile() {
   const BEUrl = backEndUrl;
->>>>>>> dev
   const history = useHistory();
   const [newNickname, setNewNickname] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -26,11 +21,7 @@ function EditProfile() {
   const onEdit = (event) => {
     event.preventDefault();
     axios({
-<<<<<<< HEAD
-      url: "http://localhost:8080/api/v1/users/edit",
-=======
       url: `${BEUrl}/api/v1/users/edit`,
->>>>>>> dev
       method: "put",
       headers: setToken(),
       data: {
@@ -47,11 +38,7 @@ function EditProfile() {
   };
   const getProfile = () => {
     axios({
-<<<<<<< HEAD
-      url: "http://localhost:8080/api/v1/users/me",
-=======
       url: `${BEUrl}/api/v1/users/me`,
->>>>>>> dev
       method: "get",
       headers: setToken(),
     }).then((res) => {
