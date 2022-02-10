@@ -24,9 +24,6 @@ import java.nio.charset.StandardCharsets;
 @EnableWebSocket
 public class HomelandApplication implements WebSocketConfigurer {
 
-//	static {
-//		// System.setProperty("kms.url","ws://3.35.136.195:8888/kurento");
-//	}
 
 	@Bean
 	public HttpMessageConverter<String> responseBodyConverter() {
@@ -41,25 +38,6 @@ public class HomelandApplication implements WebSocketConfigurer {
 		return characterEncodingFilter;
 	}
 
-//	@Bean
-//	public UserRegistry registry() {
-//		return new UserRegistry();
-//	}
-//
-//	@Bean
-//	public RoomManager roomManager() {
-//		return new RoomManager();
-//	}
-//
-//	@Bean
-//	public CallHandler groupCallHandler() {
-//		return new CallHandler();
-//	}
-
-//	@Bean
-//	public KurentoClient kurentoClient() {
-//		return KurentoClient.create();
-//	}
 
 	@Bean
 	public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
@@ -74,6 +52,6 @@ public class HomelandApplication implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		//registry.addHandler(groupCallHandler(), "/groupcall");
+
 	}
 }

@@ -28,9 +28,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		User user = new User();
-		user.setUserId(userRegisterInfo.getId());
-		user.setNickname(userRegisterInfo.getNickname());
-		user.setEmail(userRegisterInfo.getEmail());
+		String id = userRegisterInfo.getId();
+		if (id.isBlank()) {
+			id = null;
+		}
+		user.setUserId(id);
+		String nickname = userRegisterInfo.getNickname();
+		if (nickname.isBlank()) {
+			nickname = null;
+		}
+		user.setNickname(nickname);
+		String email = userRegisterInfo.getEmail();
+		if (email.isBlank()) {
+			email = null;
+		}
+		user.setEmail(email);
 		user.setAuthority("user");
 		user.setCreatedAt(LocalDateTime.now());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
