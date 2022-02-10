@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"userId", "email", "nickname"})})
 public class User  {
 
     @Id
@@ -26,13 +25,13 @@ public class User  {
     @Column(nullable = false)
     private String authority;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nickname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userId;
 
     @Column(nullable = false)
@@ -40,6 +39,7 @@ public class User  {
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(nullable = false)
     String password;
 
 
