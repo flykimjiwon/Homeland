@@ -65,6 +65,7 @@ class Main extends Component {
       modalOpen_leave: false,
       cnt: false,
       previewOpen: false,
+      connectionUser: [],
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -101,6 +102,7 @@ class Main extends Component {
     if (this.refs.chatoutput != null) {
       this.refs.chatoutput.scrollTop = this.refs.chatoutput.scrollHeight;
     }
+    this.showVideoControls();
   }
 
   chattoggle() {
@@ -243,7 +245,19 @@ class Main extends Component {
         var mySession = this.state.session;
 
         // --- 3) Specify the actions when events take place in the session ---
-
+        mySession.on("connectionCreated", (event) => {
+          console.log("connection");
+          console.log(event.connection);
+          // var connection = event.connection.connectionId
+          // Object형을 넣어줘야한다.
+          var connection = event.connection;
+          var connectionUser = this.state.connectionUser;
+          connectionUser.push(connection);
+          //Update
+          this.setState({
+            connectionUser: connectionUser,
+          });
+        });
         // On every new Stream received...
         mySession.on("streamCreated", (event) => {
           // Subscribe to the Stream to receive it. Second parameter is undefined
@@ -271,6 +285,9 @@ class Main extends Component {
               ],
             });
           }
+        });
+        mySession.on("signal:captureSignal", (event) => {
+          this.onCapture();
         });
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
@@ -357,7 +374,7 @@ class Main extends Component {
     const myUserName = this.state.myUserName;
     const { mypage } = this.props;
     return (
-      <div className="container" className="bg-test">
+      <div className="container" className="bg">
         {this.state.session === undefined ? (
           <Container>
             <Row>
@@ -431,7 +448,7 @@ class Main extends Component {
                   {/* screens */}
                   <div
                     id="video-container"
-                    className="video-container"
+                    className="video-container "
                     id="capture_screen"
                   >
                     {this.state.publisher !== undefined ? (
@@ -523,7 +540,7 @@ class Main extends Component {
                       color="#50468c"
                       size={btn_size}
                       onClick={() => {
-                        this.onCapture();
+                        this.sendCaptureSignal();
                       }}
                     />
                     <IoExit
@@ -726,6 +743,15 @@ class Main extends Component {
       // IE or Edge
       document.msExitFullscreen();
   }
+  sendCaptureSignal() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "start capture",
+      to: [],
+      type: "captureSignal",
+    });
+  }
   onCapture() {
     console.log("onCapture");
     if (!this.state.previewOpen) {
@@ -756,6 +782,12 @@ class Main extends Component {
     setTimeout(() => {
       this.closeModalCapture();
     }, 500);
+  }
+  showVideoControls() {
+    var video = document.getElementsByTagName("video");
+    for (var i = 0; i < video.length; i++) {
+      video[i].controls = true;
+    }
   }
 }
 
