@@ -5,7 +5,10 @@ import Login from "../features/auth/Login";
 import Signup from "../features/auth/Signup";
 import Mypage from "../features/auth/Mypage";
 import Main from "../features/home/Main";
+<<<<<<< HEAD
 import MainAccordion from "../features/home/MainAccordion";
+=======
+>>>>>>> dev
 // import Test from "./Test";
 import EditProfile from "../features/auth/EditProfile";
 import EditPassword from "../features/auth/EditPassword";
@@ -15,6 +18,11 @@ import FindPassword from "../features/auth/FindPassword";
 import NoticeForm from "../features/notice/NoticeForm";
 import NoticeDetailPage from "../features/notice/NoticeDetailPage";
 import NoticeEdit from "../features/notice/NoticeEdit";
+<<<<<<< HEAD
+=======
+import MeetingMain from "../features/home/MeetingMain";
+import Home from "../features/home/Home";
+>>>>>>> dev
 
 import React, { useContext, useState, lazy, Suspense, useEffect } from "react";
 import {
@@ -33,10 +41,20 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 function App() {
   const history = useHistory();
   const [isLogin, setIsLogin] = useState(false);
+<<<<<<< HEAD
   // console.log(isLogin);
   const onIsLogin = (e) => {
     setIsLogin(e);
   };
+=======
+  const [isSession, setIsSession] = useState(false);
+  const onIsLogin = (e) => {
+    setIsLogin(e);
+  };
+  const onIsSession = (data) => {
+    setIsSession(data);
+  };
+>>>>>>> dev
 
   const onLogout = (event) => {
     event.preventDefault();
@@ -54,6 +72,7 @@ function App() {
 
   return (
     <div className="App">
+<<<<<<< HEAD
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
           <Navbar.Brand as={Link} to="/">
@@ -94,6 +113,53 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+=======
+      {isSession ? null : (
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand as={Link} to="/">
+              HomeLanDrink
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link eventKey="link-1" as={Link} to="/notice">
+                  공지사항
+                </Nav.Link>
+                <Nav.Link eventKey="link-2" as={Link} to="/meeting-main">
+                  참가
+                </Nav.Link>
+              </Nav>
+
+              {isLogin ? (
+                <Nav>
+                  <Nav.Link
+                    onClick={onLogout}
+                    eventKey="link-4"
+                    as={Link}
+                    to="/logout"
+                  >
+                    로그아웃
+                  </Nav.Link>
+                  <Nav.Link eventKey="link-6" as={Link} to="/mypage">
+                    마이페이지
+                  </Nav.Link>
+                </Nav>
+              ) : (
+                <Nav>
+                  <Nav.Link eventKey="link-3" as={Link} to="/login">
+                    로그인
+                  </Nav.Link>
+                  <Nav.Link eventKey="link-5" as={Link} to="/signup">
+                    회원가입
+                  </Nav.Link>
+                </Nav>
+              )}
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      )}
+>>>>>>> dev
 
       <Route path="/notice-edit/:id">
         <NoticeEdit />
@@ -120,7 +186,11 @@ function App() {
         <CheckPassword></CheckPassword>
       </Route>
       <Route exact path="/">
+<<<<<<< HEAD
         <Main onIsLogin={onIsLogin}></Main>
+=======
+        <Home onIsLogin={onIsLogin}></Home>
+>>>>>>> dev
       </Route>
       <Route path="/notice">
         <Notice></Notice>
@@ -134,6 +204,12 @@ function App() {
       <Route path="/mypage">
         <Mypage></Mypage>
       </Route>
+<<<<<<< HEAD
+=======
+      <Route path="/meeting-main">
+        <MeetingMain onIsSession={onIsSession} />
+      </Route>
+>>>>>>> dev
     </div>
   );
 }

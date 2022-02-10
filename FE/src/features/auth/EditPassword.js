@@ -3,8 +3,15 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 
 function EditPassword() {
+=======
+import backEndUrl from "../setup/hld_url";
+
+function EditPassword() {
+  const BEUrl = backEndUrl;
+>>>>>>> dev
   const history = useHistory();
   const setToken = () => {
     const token = localStorage.getItem("jwt");
@@ -27,7 +34,11 @@ function EditPassword() {
   const onEditPassword = (event) => {
     event.preventDefault();
     axios({
+<<<<<<< HEAD
       url: "http://localhost:8080/api/v1/users/edit-password",
+=======
+      url: `${BEUrl}/api/v1/users/edit-password`,
+>>>>>>> dev
       method: "put",
       headers: setToken(),
       data: {

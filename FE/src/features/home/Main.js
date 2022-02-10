@@ -1,4 +1,5 @@
 /* eslint-disable */
+<<<<<<< HEAD
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState, Component } from "react";
@@ -410,6 +411,15 @@ class Main extends Component {
         .catch((error) => reject(error));
     });
   }
+=======
+import React, { Component } from "react";
+import "./Main.css";
+import "aos/dist/aos.css";
+import Home from "./Home";
+
+function Main() {
+  return <Home></Home>;
+>>>>>>> dev
 }
 
 export default Main;

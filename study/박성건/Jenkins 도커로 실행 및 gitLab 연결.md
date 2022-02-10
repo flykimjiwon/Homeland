@@ -4,8 +4,6 @@
 
 ### AWS Ubuntu 20 TLS, t2.medium
 
-
-
 ## 1. Docker 설치
 
 - 참고 - https://docs.docker.com/engine/install/ubuntu/
@@ -16,7 +14,7 @@
 
    ```bash
     sudo apt-get update
-    
+
     sudo apt-get install \
        ca-certificates \
        curl \
@@ -24,15 +22,11 @@
        lsb-release
    ```
 
-   
-
 2. Add Docker’s official GPG key:
 
    ```bash
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
    ```
-
-   
 
 3. Use the following command to set up the **stable** repository. To add the **nightly** or **test** repository, add the word `nightly` or `test` (or both) after the word `stable` in the commands below. [Learn about **nightly** and **test** channels](https://docs.docker.com/engine/install/).
 
@@ -42,20 +36,17 @@
      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
    ```
 
-   -------------------------------------
+   ***
 
 #### Install Docker Engine
 
- 1. Update the `apt` package index, and install the *latest version* of Docker Engine and containerd, or go to the next step to install a specific version:
+1.  Update the `apt` package index, and install the _latest version_ of Docker Engine and containerd, or go to the next step to install a specific version:
 
     ```bash
-    sudo apt-get update
     sudo apt-get install docker-ce docker-ce-cli containerd.io
     ```
 
-
-
-+ 특정 버전의 docker-compose 설치
+- 특정 버전의 docker-compose 설치
 
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -63,15 +54,11 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 
 ![image-20220112162512840](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220112162512840.png)
 
-
-
-+ 권한설정
+- 권한설정
 
   ```bash
   sudo chmod +x /usr/local/bin/docker-compose
   ```
-
-  
 
 ## 1-2 도커 jenkins 이미지 설치 및 실행
 
@@ -111,39 +98,27 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -v /srv/jenkins/home:/va
 
 ![image-20220120125810208](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120125810208.png)
 
-
-
 플러그인 추천해준걸 설치한다.(Git, Gradle 등 여러개 포함되어있음)
 
 ![image-20220120125909640](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120125909640.png)
 
-
-
 Admin 계정 설정
 
-
-
 ![image-20220120130350278](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120130350278.png)
-
-
 
 설정하고 넘기다 보면 아래 같은 홈 화면이 뜬다.(jenkins 설치는 끝)
 
 ![image-20220120130451462](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120130451462.png)
 
-----------------------------------------------------
+---
 
 ## GitLab과 연결
-
-
 
 ## 1. gitLab Plugin 설치
 
 ![image-20220120131515000](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120131515000.png)
 
 ![image-20220120131600753](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120131600753.png)
-
-
 
 설치완료
 
@@ -159,19 +134,15 @@ Admin 계정 설정
 
 생성이 되면 클릭해서 들어감
 
-
-
 ![image-20220120132543593](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120132543593.png)
 
 구성 클릭
-
-
 
 소스 코드 관리 보면 git Repository랑 연결할 수 있는데
 
 GitLab이나 GitHub이나 SSH, Http 둘다 연결 가능하다.
 
-SSH연결은 포트가 허용되어있고 공개키를 생성해서 
+SSH연결은 포트가 허용되어있고 공개키를 생성해서
 
 GitLab이나 GitHub에서 키 등록을 해주고 사용하면 된다.
 
@@ -179,11 +150,7 @@ GitLab이나 GitHub에서 키 등록을 해주고 사용하면 된다.
 
 ![image-20220120132716685](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120132716685.png)
 
-
-
 연결이 되면 빨간 에러 글씨가 사라진다.
-
-
 
 아래 그림처럼 빌드유발(트리거 설정), 빌드환경, 빌드를 설정할 수 있고
 
@@ -207,8 +174,6 @@ Build Now를 누르면
 
 echo "jenkins test"가 출력된것을 볼 수 있다.
 
-
-
 프로젝트가 정상적으로 clone 된것을 확인하고 싶다면 아래 명령어를 통해 컨테이너 내부로 들어간다.
 
 ```bash
@@ -221,13 +186,9 @@ sudo docker exec -it -u 0 jenkins bash
 cd /var/jenkins_home/workspace
 ```
 
-
-
 ![image-20220120134428917](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120134428917.png)
 
 ![image-20220120134934521](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120165645719.png)
-
-
 
 jenkins-test-app --> jenkins에서 만든 아이템
 
@@ -237,17 +198,13 @@ springmvc--> 내가 gitLab에 만들어놓은 스프링부트 프로젝트
 
 요약하자면 gitLab이랑 연결되어서 프로젝트를 자동으로 받아오는것 까지 설정 완료
 
-
-
--------------------------
+---
 
 ## Gradle로 빌드하기
 
 Gradle로 빌드하기 전에 먼저 Global Tool Configuration에서 gradle 설정을 해줘야한다.
 
 ![image-20220120135304593](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120135304593.png)
-
-
 
 Invoke Gralde script를 간단하게 작성하면 clean->build->bootRun 순서이다.
 
@@ -257,8 +214,6 @@ Invoke Gralde script를 간단하게 작성하면 clean->build->bootRun 순서�
 
 빌드 Console OutPut을 보면 task가 단계별로 실행된다.
 
-
-
 빌드 후 스프링 부트를 실행한 화면이다.
 
 하지만 Port 번호를 Jenkins와 같이 설정해놔서 충돌이 발생한다.
@@ -267,55 +222,34 @@ Jenkins의 포트를 바꾸던가 프로젝트의 포트를 바꾸면 정상 실
 
 ![image-20220120135844326](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120135844326.png)
 
-
-
-
-
-내 프로젝트의 포트 번호를 8080에서 8081로 변경한후 gitLab에 push하고 
+내 프로젝트의 포트 번호를 8080에서 8081로 변경한후 gitLab에 push하고
 
 빌드를 실행한 결과(빌드 버튼 한번만 누르면 됨 편하긴 함, 트리거를 설정안해서 빌드 버튼을 수동으로 누름)
-
-
-
-
 
 ![image-20220120140455306](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120140455306.png)
 
 정상 실행된것을 확인 할 수 있다.
 
-
-
 빌드 버튼을 누르면 gitLab에서 변경부분이 발견되면 다시 받아서 빌드하기 때문에 수정된 내용이 즉각 반영되었다.
-
-
 
 도커 jenkins 컨테이너 내부에서 8081로 띄어져 있는것을 확인 할 수 있다.
 
 컨테이너를 실행할 때 -p 8080:8080 -p 50000:50000 이외에도 -p 8081:8081을 넣어줘서
 
-http://서버주소:8081 
+http://서버주소:8081
 
 하면 포트포워딩이 되어서 컨테이너 내부에 스프링부트로 띄워진 웹서버에도 접근이 가능하다.
 
 ![image-20220120141021355](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120141021355.png)
 
-
-
 도커 jenkins 내부에서 빌드되어 실행된 스프링 부트 기반 WAS
 
 ![image-20220120143637323](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220120143637323.png)
 
-
-
-
-
----------------------------------
+---
 
 # 추가 공부 사항
 
 ## jenkins로 자동 빌드 트리거 설정
 
-## 쉘 스트립트 공부해서 자동화 등 
-
-
-
+## 쉘 스트립트 공부해서 자동화 등
