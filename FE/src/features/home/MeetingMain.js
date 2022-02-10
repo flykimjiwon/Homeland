@@ -16,6 +16,7 @@ import {
   IoCameraSharp,
   IoExit,
   IoMdCopy,
+  IoCopy,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
@@ -714,7 +715,10 @@ class Main extends Component {
                     <div className="chatbox__support">
                       <div className="chatbox__header">
                         방코드: {mySessionId}
-                        <IoExit
+                        <IoCopy
+                          color="#50468c"
+                          size="18"
+                          alt="copy"
                           onClick={() =>
                             navigator.clipboard.writeText(mySessionId)
                           }
