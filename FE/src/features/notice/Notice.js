@@ -6,6 +6,10 @@ import "./Notice.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import backEndUrl from "../setup/hld_url";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+
+dayjs.locale("ko");
 
 function Notice() {
   const BEUrl = backEndUrl;
@@ -48,9 +52,9 @@ function Notice() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성시간</th>
             </tr>
           </thead>
           <tbody>
@@ -59,9 +63,16 @@ function Notice() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>
-                    <Link to={`/notice-detail/${item.id}`}>{item.title}</Link>
+                    <Link
+                      className="text-decoration-none text-black"
+                      to={`/notice-detail/${item.id}`}
+                    >
+                      {item.title}
+                    </Link>
                   </td>
-                  <td>{item.updatedAt}</td>
+                  <td>
+                    {dayjs(item.updatedAt).format("YYYY년 MM월 DD일 HH:mm")}
+                  </td>
                 </tr>
               );
             })}

@@ -33,7 +33,6 @@ function Mypage() {
     <div>
       <h1 className="mt-3">마이페이지</h1>
       <Container>
-        <div>id: {profile.id}</div>
         <div>닉네임: {profile.nickname}</div>
         <div>이메일: {profile.email}</div>
       </Container>
