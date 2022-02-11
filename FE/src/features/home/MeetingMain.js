@@ -554,7 +554,7 @@ class Main extends Component {
                                     type="submit"
                                     value="JOIN"
                                     className="btn btn-lg btn-color margin-right10"
-                                    onClick={this.joinSession}
+                                    onClick={onCheckSession}
                                   />
                                 </InputGroup>
                               </div>
