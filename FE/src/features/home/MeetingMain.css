@@ -6,6 +6,12 @@
   height: 80%;
 }
 
+.height-without-navbar {
+  height: calc(100% - 56px);
+}
+.height-main {
+  height: calc(100% - 242px);
+}
 .height-calc {
   height: calc(100% - 150px);
 }
@@ -16,9 +22,6 @@
   font-size: larger;
 }
 
-.grey {
-  color: grey;
-}
 .stage_screen {
   max-height: 50px;
 }
@@ -36,7 +39,7 @@
 }
 
 .bg {
-  background-color: #fae18f8e;
+  background-color: #f5ebe9;
   height: 100vh;
 }
 /* chat */
@@ -132,4 +135,51 @@
   box-sizing: border-box; /*테두리를 기준으로 박스크기 설정*/
 
   transition: 0.3s; /*서서히 나타내기*/
+}
+
+.join-box {
+  height: 40vh;
+  width: 100%;
+  background-color: #d3e5e8;
+  border-radius: 20px;
+  border: solid 5px #353f71;
+}
+
+.join-box div {
+  margin-top: 15px;
+  color: #353f71;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.join-box-inner {
+  background-color: #353f71;
+  color: #d3e5e8;
+  font-size: 24px;
+  margin-top: 25%;
+  height: 30%;
+  width: 80%;
+}
+
+.join-box p {
+  font-size: 20px;
+  color: #353f71;
+  font-weight: 600;
+}
+.btn-color {
+  color: white;
+  background-color: #353f71;
+}
+
+.margin-10 {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.color-353f71 {
+  color: #353f71;
 }
