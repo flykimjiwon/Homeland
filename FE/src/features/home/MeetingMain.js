@@ -394,7 +394,7 @@ class Main extends Component {
     const onIsSession = this.props.onIsSession;
 
     const onCheckNickname = () => {
-      if (!this.state.nickname) {
+      if (!this.state.myUserName) {
         alert("닉네임을 입력해주세요.");
       } else {
         axios({
