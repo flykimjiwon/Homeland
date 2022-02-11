@@ -2,6 +2,7 @@ package com.ssafy.homeland.api.service.room;
 
 
 import com.ssafy.homeland.api.controller.room.RoomController;
+import com.ssafy.homeland.api.response.room.RoomInfoRes;
 import com.ssafy.homeland.db.entity.Participant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -67,7 +69,7 @@ public class RoomServiceImpl implements RoomService{
                 return new ResponseEntity(room.getRoomId(), HttpStatus.OK);
             } else {// 찾는 방이 없다면 비정상-> 메모리에 넣고 리턴
                 log.debug("room:{} not found in memory!",roomId);
-                this.createAndPutRoom(roomId);
+                this.createAndPutRoom(roomId,false);
                 room=this.getRoom(roomId);
                 return new ResponseEntity(room.getRoomId(), HttpStatus.OK);
             }
@@ -86,8 +88,8 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public Room createAndPutRoom(String roomId) {
-        Room room=new Room(roomId);
+    public Room createAndPutRoom(String roomId, boolean randomJoin) {
+        Room room=new Room(roomId,randomJoin);
         rooms.put(roomId,room);
         return room;
     }
@@ -181,6 +183,52 @@ public class RoomServiceImpl implements RoomService{
             }
             return;
         }
+    }
+
+    @Override //사용자가 랜덤입장을 하고 싶을 때 랜덤입장을 허용한 방 중 하나를 리턴
+    public String findRandomRoom() {
+
+        for(Room room: rooms.values()){
+            if(room.isRandomJoin()&&room.getJoinCnt()<6) return room.getRoomId();
+        }
+
+        return null;
+    }
+
+    // 현재 존재하는 방들의 정보를 리스트로 담아서 리턴
+    @Override
+    public ArrayList<RoomInfoRes> getRoomList() {
+
+        ArrayList<RoomInfoRes> list = new ArrayList<>();
+
+        rooms.forEach((roomId,room)->{
+            RoomInfoRes roomInfoRes=new RoomInfoRes(roomId,
+                    room.getHost().getUserId(),
+                    room.getJoinCnt(),
+                    room.isRandomJoin(),
+                    room.findAllParticipant());
+            list.add(roomInfoRes);
+        });
+        return list;
+    }
+
+    //특정 방의 정보를 담아서 리턴
+    @Override
+    public RoomInfoRes getRoomInfo(String roomId) {
+
+        Room room=rooms.get(roomId);
+
+        if(room==null) return null;
+        else{
+            RoomInfoRes roomInfoRes=new RoomInfoRes(roomId,
+                    room.getHost().getUserId(),
+                    room.getJoinCnt(),
+                    room.isRandomJoin(),
+                    room.findAllParticipant());
+
+            return roomInfoRes;
+        }
+
     }
 
 }

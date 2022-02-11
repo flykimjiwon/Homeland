@@ -1,7 +1,10 @@
 package com.ssafy.homeland.api.service.room;
 
+import com.ssafy.homeland.api.response.room.RoomInfoRes;
 import com.ssafy.homeland.db.entity.Participant;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
 
 
 public interface RoomService {
@@ -14,7 +17,7 @@ public interface RoomService {
 
     void removeRoom(String roomId);
 
-    Room createAndPutRoom(String roomId);
+    Room createAndPutRoom(String roomId,boolean randomJoin);
 
     boolean findRoomInOV(String roomId);
 
@@ -27,5 +30,11 @@ public interface RoomService {
     boolean checkNicknameDuplicate(String roomId,String nickname);
 
     void leaveRoom(String roomId, String nickname);
+
+    String findRandomRoom();
+
+    ArrayList<RoomInfoRes> getRoomList();
+
+    RoomInfoRes getRoomInfo(String roomId);
 
 }

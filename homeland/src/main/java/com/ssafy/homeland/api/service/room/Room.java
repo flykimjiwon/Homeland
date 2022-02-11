@@ -27,11 +27,13 @@ public class Room  {
     private final ConcurrentMap<String, Participant> participants = new ConcurrentHashMap<>();
     private final String roomId;
     private int joinCnt=0;
+    private boolean randomJoin=false;
     private Participant Host;
 
 
-    public Room(String roomId) {
+    public Room(String roomId,boolean randomJoin) {
         this.roomId = roomId;
+        this.randomJoin=randomJoin;
         log.info("ROOM {} has been created", roomId);
     }
 
@@ -58,7 +60,7 @@ public class Room  {
         return this.participants.get(nickName);
     }
 
-    public List<Participant> findAllParticipant(){
+    public ArrayList<Participant> findAllParticipant(){
         return new ArrayList<>(this.participants.values());
     }
 
