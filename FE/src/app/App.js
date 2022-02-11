@@ -30,7 +30,7 @@ import {
 } from "react-bootstrap";
 import { Link, Route, Switch } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import './Custom.css'
+import "./Custom.css";
 
 function App() {
   const history = useHistory();
@@ -60,7 +60,12 @@ function App() {
   return (
     <div className="App">
       {isSession ? null : (
-      <Navbar collapseOnSelect expand="lg" className="color-nav" variant="light">
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          className="color-nav"
+          variant="light"
+        >
           <Container>
             <Navbar.Brand as={Link} to="/">
               HomeLanDrink
@@ -103,9 +108,8 @@ function App() {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        
       )}
-<hr></hr>
+      <hr></hr>
       <Route path="/notice-edit/:id">
         <NoticeEdit />
       </Route>

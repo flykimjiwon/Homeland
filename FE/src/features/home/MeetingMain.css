@@ -40,7 +40,7 @@
 
 .bg {
   background-color: #f5ebe9;
-  height: 100vh;
+  height: 100%;
 }
 /* chat */
 
@@ -52,7 +52,6 @@
   width: auto;
   height: 700px;
   transition: all 0.5s ease-in-out;
-
   background-color: rgb(204, 222, 255);
 }
 
