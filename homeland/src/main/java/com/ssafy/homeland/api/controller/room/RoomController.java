@@ -166,7 +166,7 @@ public class RoomController {
             @ApiResponse(code = 200,message = "성공"),
             @ApiResponse(code = 404,message = "해당 방 없음"),
     })
-    @GetMapping("/room/info/{roodId}")
+    @GetMapping("/info/{roodId}")
     public ResponseEntity getRoomInfo(@PathVariable String roomId){
         RoomInfoRes roomInfoRes = roomService.getRoomInfo(roomId);
         if(roomInfoRes==null) return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -176,16 +176,12 @@ public class RoomController {
     @ApiOperation(value = "존재하는 방 정보",notes = "모든 방에 대한 정보를 받을 때 호출")
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "성공"),
-            @ApiResponse(code = 404,message = "방 하나도 없음"),
     })
-    @GetMapping("/room/infos")
+    @GetMapping("/infos")
     public ResponseEntity getRoomInfoList(){
         ArrayList<RoomInfoRes> roomList=roomService.getRoomList();
 
-        if(roomList==null) return new ResponseEntity(HttpStatus.NOT_FOUND);
         return new ResponseEntity(roomList,HttpStatus.OK);
     }
-
-
-
+    
 }
