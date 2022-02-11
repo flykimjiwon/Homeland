@@ -166,7 +166,7 @@ public class RoomController {
             @ApiResponse(code = 200,message = "성공"),
             @ApiResponse(code = 404,message = "해당 방 없음"),
     })
-    @GetMapping("/info/{roodId}")
+    @GetMapping("/info/{roomId}")
     public ResponseEntity getRoomInfo(@PathVariable String roomId){
         RoomInfoRes roomInfoRes = roomService.getRoomInfo(roomId);
         if(roomInfoRes==null) return new ResponseEntity(HttpStatus.NOT_FOUND);
