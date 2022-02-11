@@ -31,6 +31,7 @@ import {
 import { Link, Route, Switch } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import './Custom.css'
+import Logo from './logo/HomeLanD.png'
 
 function App() {
   const history = useHistory();
@@ -63,7 +64,8 @@ function App() {
       <Navbar collapseOnSelect expand="lg" className="color-nav" variant="light">
           <Container>
             <Navbar.Brand as={Link} to="/">
-              HomeLanDrink
+              {/* HomeLanDrink */}
+              <img src={Logo} width="80"></img>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
