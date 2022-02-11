@@ -61,7 +61,12 @@ function App() {
   return (
     <div className="App">
       {isSession ? null : (
-      <Navbar collapseOnSelect expand="lg" className="color-nav" variant="light">
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          className="color-nav"
+          variant="light"
+        >
           <Container>
             <Navbar.Brand as={Link} to="/">
               {/* HomeLanDrink */}
@@ -105,9 +110,8 @@ function App() {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        
       )}
-<hr></hr>
+      <hr></hr>
       <Route path="/notice-edit/:id">
         <NoticeEdit />
       </Route>
