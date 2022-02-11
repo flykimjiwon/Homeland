@@ -500,8 +500,8 @@ class Main extends Component {
     return (
       <div className="bg">
         {this.state.session === undefined ? (
-          <Container className="height-without-navbar">
-            <Row className="height-100">
+          <Container>
+            <Row className="padding-navbar">
               <Col></Col>
               <Col xs={8}>
                 <div id="join">

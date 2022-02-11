@@ -6,8 +6,8 @@
   height: 80%;
 }
 
-.height-without-navbar {
-  height: calc(100% - 56px);
+.padding-navbar {
+  padding-top: 100px;
 }
 .height-main {
   height: calc(100% - 242px);

@@ -64,7 +64,7 @@ function App() {
         <Navbar
           collapseOnSelect
           expand="lg"
-          className="color-nav"
+          className="color-nav nav-fix"
           variant="light"
         >
           <Container>

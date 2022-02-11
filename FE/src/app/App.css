@@ -10,3 +10,9 @@
     transform: rotate(360deg);
   }
 }
+
+.nav-fix {
+  position: fixed;
+  width: 100vw;
+  z-index: 123456;
+}
