@@ -24,9 +24,6 @@ import CountDown from "./CountDown";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
-<<<<<<< HEAD
-import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
-=======
 import {
   Container,
   Row,
@@ -35,7 +32,6 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
->>>>>>> dev
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
