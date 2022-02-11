@@ -501,7 +501,7 @@ class Main extends Component {
       <div className="bg">
         {this.state.session === undefined ? (
           <Container>
-            <Row className="padding-navbar">
+            <Row className="padding-100px">
               <Col></Col>
               <Col xs={8}>
                 <div id="join">
@@ -617,8 +617,8 @@ class Main extends Component {
             <br></br>
           </Container>
         ) : (
-          <div id="session" className="height-100">
-            <Container className="height-100">
+          <div id="session" className="padding-100px">
+            <Container>
               {/* <div id="img-div">
                 <img
                   src="/HLD_logo_150x150.png"
