@@ -58,6 +58,12 @@
   top: 0;
 }
 
+/* btn */
+.btn_toolbar *,
+.cursor {
+  cursor: pointer;
+}
+
 /* MESSAGES */
 .chatbox__messages {
   margin-top: auto;

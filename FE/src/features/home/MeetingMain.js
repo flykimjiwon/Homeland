@@ -718,10 +718,10 @@ class Main extends Component {
                         <IoCopy
                           color="#50468c"
                           size="18"
-                          alt="copy"
                           onClick={() =>
                             navigator.clipboard.writeText(mySessionId)
                           }
+                          className="cursor"
                         />
                       </div>
 
