@@ -175,9 +175,18 @@
   background-color: #353f71;
 }
 
-.margin-10 {
+.margin-left10 {
   margin-left: 10%;
+}
+
+.margin-right10 {
   margin-right: 10%;
+}
+.input-style {
+  margin-top: 10px;
+  margin-right: 10%;
+  margin-left: 10%;
+  width: 80%;
 }
 
 .color-353f71 {

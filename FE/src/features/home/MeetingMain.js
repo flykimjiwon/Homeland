@@ -526,6 +526,7 @@ class Main extends Component {
                                 <p>방 번호를 입력하세요</p>
                                 <InputGroup>
                                   <FormControl
+                                    className="margin-left10"
                                     type="text"
                                     id="sessionId"
                                     value={mySessionId}
@@ -537,7 +538,7 @@ class Main extends Component {
                                   <input
                                     type="submit"
                                     value="JOIN"
-                                    className="btn btn-lg btn-color"
+                                    className="btn btn-lg btn-color margin-right10"
                                     onClick={this.joinSession}
                                   />
                                 </InputGroup>
@@ -557,7 +558,7 @@ class Main extends Component {
                                 닉네임을 입력해주세요.{" "}
                               </p>
                               <input
-                                className="form-control grey"
+                                className="form-control input-style"
                                 type="text"
                                 id="userName"
                                 value={myUserName}
@@ -569,7 +570,7 @@ class Main extends Component {
                               <br></br>
                               <p> 방번호를 입력해주세요. </p>
                               <input
-                                className="form-control grey"
+                                className="form-control input-style"
                                 type="text"
                                 id="sessionId"
                                 value={mySessionId}
