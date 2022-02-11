@@ -6,9 +6,14 @@ import "./Notice.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import backEndUrl from "../setup/hld_url";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+
+dayjs.locale("ko");
 
 function Notice() {
   const BEUrl = backEndUrl;
+  const token = localStorage.getItem("jwt");
   const [noticeItems, setNoticeItems] = useState([]);
   const [userAuthority, setUserAuthority] = useState("");
   const getNoticeItems = () => {
@@ -24,33 +29,34 @@ function Notice() {
       });
   };
   const setToken = () => {
-    const token = localStorage.getItem("jwt");
     const config = {
       Authorization: `Bearer ${token}`,
     };
     return config;
   };
   const getAuthority = () => {
-    axios({
-      url: `${BEUrl}/api/v1/users/check-authority`,
-      method: "get",
-      headers: setToken(),
-    }).then((res) => {
-      setUserAuthority(res.data);
-    });
+    if (token) {
+      axios({
+        url: `${BEUrl}/api/v1/users/check-authority`,
+        method: "get",
+        headers: setToken(),
+      }).then((res) => {
+        setUserAuthority(res.data);
+      });
+    }
   };
   useEffect(getNoticeItems, []);
   useEffect(getAuthority, []);
   return (
     <div className="mt-3">
-      <h1>공지사항입니다.</h1>
+      <h1>공지사항</h1>
       <Container>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성시간</th>
             </tr>
           </thead>
           <tbody>
@@ -59,9 +65,16 @@ function Notice() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>
-                    <Link to={`/notice-detail/${item.id}`}>{item.title}</Link>
+                    <Link
+                      className="text-decoration-none text-black"
+                      to={`/notice-detail/${item.id}`}
+                    >
+                      {item.title}
+                    </Link>
                   </td>
-                  <td>{item.updatedAt}</td>
+                  <td>
+                    {dayjs(item.updatedAt).format("YYYY년 MM월 DD일 HH:mm")}
+                  </td>
                 </tr>
               );
             })}
