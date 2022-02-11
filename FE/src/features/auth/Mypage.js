@@ -5,6 +5,10 @@ import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Mypage.css";
 import backEndUrl from "../setup/hld_url";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+
+dayjs.locale("ko");
 
 function Mypage() {
   const BEUrl = backEndUrl;
@@ -33,9 +37,12 @@ function Mypage() {
     <div>
       <h1 className="mt-3">마이페이지</h1>
       <Container>
-        <div>id: {profile.id}</div>
+        <div>ID: {profile.userId}</div>
         <div>닉네임: {profile.nickname}</div>
         <div>이메일: {profile.email}</div>
+        <div>
+          가입일: {dayjs(profile.createdAt).format("YYYY년 MM월 DD일 HH:mm")}
+        </div>
       </Container>
       <Link to="/editProfile">
         <Button>내 정보 수정</Button>
