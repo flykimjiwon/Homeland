@@ -30,8 +30,8 @@ import {
 } from "react-bootstrap";
 import { Link, Route, Switch } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import './Custom.css'
-import Logo from './logo/HomeLanD.png'
+import "./Custom.css";
+import Logo from "./logo/HomeLanD.png";
 
 function App() {
   const history = useHistory();
@@ -111,7 +111,6 @@ function App() {
           </Container>
         </Navbar>
       )}
-      <hr></hr>
       <Route path="/notice-edit/:id">
         <NoticeEdit />
       </Route>

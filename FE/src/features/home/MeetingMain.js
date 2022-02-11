@@ -498,7 +498,7 @@ class Main extends Component {
 
     const { mypage } = this.props;
     return (
-      <div className="container" className="bg">
+      <div className="bg">
         {this.state.session === undefined ? (
           <Container className="height-without-navbar">
             <Row className="height-100">
