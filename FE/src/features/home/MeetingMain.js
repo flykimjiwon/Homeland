@@ -22,7 +22,14 @@ import CountDown from "./CountDown";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
-import { Container, Row, Col, InputGroup, FormControl,Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -518,7 +525,6 @@ class Main extends Component {
                             placeholder="방 번호"
                             required
                           />
-                          <Button>test</Button>
                           <input
                             type="submit"
                             value="JOIN"
