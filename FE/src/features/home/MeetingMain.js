@@ -15,6 +15,8 @@ import {
   IoVideocam,
   IoCameraSharp,
   IoExit,
+  IoMdCopy,
+  IoCopy,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
@@ -22,7 +24,14 @@ import CountDown from "./CountDown";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
-import { Container, Row, Col, InputGroup, FormControl,Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -74,6 +83,11 @@ class Main extends Component {
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
   }
+  useEffect() {
+    window.onpopstate = () => {
+      console.log("뒤로간다!!!!!!!!!!!");
+    };
+  }
 
   escFunction(event) {
     if ((event.key === 27) | (event.which === 27)) {
@@ -82,7 +96,6 @@ class Main extends Component {
       //Do whatever when esc is pressed
     }
   }
-
   handleChatMessageChange(e) {
     this.setState({
       message: e.target.value,
@@ -200,11 +213,10 @@ class Main extends Component {
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
     document.removeEventListener("keydown", this.escFunction, false);
-  }
-
-  onbeforeunload(event) {
     this.leaveSession();
   }
+
+  onbeforeunload(event) {}
 
   handleChangeSessionId(e) {
     this.setState({
@@ -488,97 +500,113 @@ class Main extends Component {
     return (
       <div className="container" className="bg">
         {this.state.session === undefined ? (
-          <Container>
-            <Row>
+          <Container className="height-without-navbar">
+            <Row className="height-100">
               <Col></Col>
-              <Col xs={4}>
+              <Col xs={8}>
                 <div id="join">
                   {/* <div id="img-div">
                     <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
                   </div> */}
-                  <div id="join-dialog" className="font-big-orange">
-                    <h1> Welcome to </h1>
-                    <h1> Home Lan Drink! </h1>
-                    <br></br>
+                  <div id="join-dialog" className="jumbotron vertical-center">
+                    <h1 className="color-353f71"> Welcome to </h1>
+                    <h1 className="color-353f71"> Home Lan Drink! </h1>
                     {loginToken ? (
                       <form className="form-group">
                         <br></br>
-                        <h4>닉네임: {myUserName}</h4>
-                        <h4 className="font-big-orange">
-                          {" "}
-                          방번호를 입력해주세요.{" "}
-                        </h4>
-                        <InputGroup>
-                          <FormControl
-                            className="grey"
-                            type="text"
-                            id="sessionId"
-                            value={mySessionId}
-                            onChange={this.handleChangeSessionId}
-                            placeholder="방 번호"
-                            required
-                          />
-                          <Button>test</Button>
-                          <input
-                            type="submit"
-                            value="JOIN"
-                            className="btn btn-lg btn-warning"
-                            onClick={onCheckSession}
-                          />
-                        </InputGroup>
+                        <h2 className="color-353f71">
+                          안녕하세요 '{myUserName}'님!
+                        </h2>
+                        <br></br>
+                        <Container>
+                          <Row>
+                            <Col md={{ span: 5, offset: 0 }}>
+                              <div className="join-box">
+                                <div>방 만들기</div>
+                                <input
+                                  className="btn join-box-inner"
+                                  name="commit"
+                                  type="submit"
+                                  value="방 만들기"
+                                  onClick={onCreateRoom}
+                                />
+                              </div>
+                            </Col>
+                            <Col md={{ span: 5, offset: 2 }}>
+                              <div className="join-box">
+                                <div>방 입장하기</div>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <p>방 번호를 입력하세요</p>
+                                <InputGroup>
+                                  <FormControl
+                                    className="margin-left10"
+                                    type="text"
+                                    id="sessionId"
+                                    value={mySessionId}
+                                    onChange={this.handleChangeSessionId}
+                                    placeholder="방 번호"
+                                    required
+                                  />
 
-                        <div className="d-flex justify-content-center">
-                          <p className="text-center me-2">
-                            <br></br>
-                            <input
-                              className="btn btn-lg btn-warning"
-                              name="commit"
-                              type="submit"
-                              value="방 만들기"
-                              onClick={onCreateRoom}
-                            />
-                          </p>
-                        </div>
+                                  <input
+                                    type="submit"
+                                    value="JOIN"
+                                    className="btn btn-lg btn-color margin-right10"
+                                    onClick={this.joinSession}
+                                  />
+                                </InputGroup>
+                              </div>
+                            </Col>
+                          </Row>
+                        </Container>
                       </form>
                     ) : (
-                      <form className="form-group">
-                        <h4 className="font-big-orange">
-                          닉네임을 입력해주세요.{" "}
-                        </h4>
-                        <input
-                          className="form-control grey"
-                          type="text"
-                          id="userName"
-                          value={myUserName}
-                          onChange={this.handleChangeUserName}
-                          placeholder="닉네임"
-                          required
-                        />
-                        <br></br>
-                        <h4 className="font-big-orange">
-                          {" "}
-                          방번호를 입력해주세요.{" "}
-                        </h4>
-                        <input
-                          className="form-control grey"
-                          type="text"
-                          id="sessionId"
-                          value={mySessionId}
-                          onChange={this.handleChangeSessionId}
-                          placeholder="방 번호"
-                          required
-                        />
-                        <p className="text-center">
-                          <br></br>
-                          <input
-                            className="btn btn-lg btn-warning"
-                            name="commit"
-                            type="submit"
-                            value="JOIN"
-                            onClick={onCheckSession}
-                          />
-                        </p>
-                      </form>
+                      <Row>
+                        <form className="form-group">
+                          <Col md={{ span: 6, offset: 3 }}>
+                            <div className="join-box">
+                              <br></br>
+                              <br></br>
+                              <p className="color-353f71">
+                                닉네임을 입력해주세요.{" "}
+                              </p>
+                              <input
+                                className="form-control input-style"
+                                type="text"
+                                id="userName"
+                                value={myUserName}
+                                onChange={this.handleChangeUserName}
+                                placeholder="닉네임"
+                                required
+                              />
+                              <br></br>
+                              <br></br>
+                              <p> 방번호를 입력해주세요. </p>
+                              <input
+                                className="form-control input-style"
+                                type="text"
+                                id="sessionId"
+                                value={mySessionId}
+                                onChange={this.handleChangeSessionId}
+                                placeholder="방 번호"
+                                required
+                              />
+                              <p className="text-center">
+                                <br></br>
+                                <input
+                                  className="btn btn-lg btn-color"
+                                  name="commit"
+                                  type="submit"
+                                  value="JOIN"
+                                  onClick={onCheckSession}
+                                />
+                              </p>
+                            </div>
+                          </Col>
+                        </form>
+                      </Row>
                     )}
                   </div>
                 </div>
@@ -588,9 +616,7 @@ class Main extends Component {
             <br></br>
             <br></br>
           </Container>
-        ) : null}
-
-        {this.state.session !== undefined ? (
+        ) : (
           <div id="session" className="height-100">
             <Container className="height-100">
               {/* <div id="img-div">
@@ -715,7 +741,18 @@ class Main extends Component {
                   {/* chat */}
                   <div className="height-80">
                     <div className="chatbox__support">
-                      <div className="chatbox__header">{mySessionId}</div>
+                      <div className="chatbox__header">
+                        방코드: {mySessionId}
+                        <IoCopy
+                          color="#50468c"
+                          size="18"
+                          onClick={() =>
+                            navigator.clipboard.writeText(mySessionId)
+                          }
+                          className="cursor"
+                        />
+                      </div>
+
                       <div className="chatbox__messages" ref="chatoutput">
                         {/* {this.displayElements} */}
                         <Messages messages={messages} />
@@ -743,7 +780,7 @@ class Main extends Component {
               </Row>
             </Container>
           </div>
-        ) : null}
+        )}
 
         {/* 스크린샷 모달창 */}
         <Modal
