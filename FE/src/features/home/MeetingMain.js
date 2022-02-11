@@ -24,10 +24,10 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 
-const OPENVIDU_SERVER_URL = OPENVIDU_URL;
-const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
-// const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
-// const OPENVIDU_SERVER_SECRET = "HOMELAND";
+// const OPENVIDU_SERVER_URL = OPENVIDU_URL;
+// const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
+const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
+const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
 const btn_size = "36";
@@ -394,51 +394,59 @@ class Main extends Component {
     const onIsSession = this.props.onIsSession;
 
     const onCheckNickname = () => {
-      axios({
-        url: `${BEUrl}/api/v1/room/join/${mySessionId}`,
-        method: "post",
-        data: {
-          nickname: this.state.myUserName,
-          connectionId: this.state.connectionId,
-          userId: this.state.userId,
-        },
-      })
-        .then((res) => {
-          console.log(this.state.myUserName);
-          console.log(this.state.connectionId);
-          console.log(res);
-          if (res.status === 226) {
-            alert("중복된 닉네임입니다.");
-          } else {
-            onIsSession(true);
-            this.joinSession();
-          }
+      if (!this.state.nickname) {
+        alert("닉네임을 입력해주세요.");
+      } else {
+        axios({
+          url: `${BEUrl}/api/v1/room/join/${mySessionId}`,
+          method: "post",
+          data: {
+            nickname: this.state.myUserName,
+            connectionId: this.state.connectionId,
+            userId: this.state.userId,
+          },
         })
-        .catch((err) => {
-          if (err.response.status === 406) {
-            alert("방이 꽉 찼습니다...ㅜㅜ");
-          }
-        });
+          .then((res) => {
+            console.log(this.state.myUserName);
+            console.log(this.state.connectionId);
+            console.log(res);
+            if (res.status === 226) {
+              alert("중복된 닉네임입니다.");
+            } else {
+              onIsSession(true);
+              this.joinSession();
+            }
+          })
+          .catch((err) => {
+            if (err.response.status === 406) {
+              alert("방이 꽉 찼습니다...ㅜㅜ");
+            }
+          });
+      }
     };
 
     const onCheckSession = (event) => {
       event.preventDefault();
-      axios({
-        url: `${BEUrl}/api/v1/room/${mySessionId}`,
-        method: "get",
-        data: {
-          roomId: mySessionId,
-        },
-      })
-        .then(() => {
-          onCheckNickname();
+      if (!this.state.mySessionId) {
+        alert("방 번호를 입력해 주세요!");
+      } else {
+        axios({
+          url: `${BEUrl}/api/v1/room/${mySessionId}`,
+          method: "get",
+          data: {
+            roomId: mySessionId,
+          },
         })
+          .then(() => {
+            onCheckNickname();
+          })
 
-        .catch((err) => {
-          if (err.response.status === 404) {
-            alert("방이 존재하지 않습니다.");
-          }
-        });
+          .catch((err) => {
+            if (err.response.status === 404) {
+              alert("방이 존재하지 않습니다.");
+            }
+          });
+      }
     };
 
     const sendUserData = () => {
