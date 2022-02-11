@@ -22,7 +22,7 @@ import CountDown from "./CountDown";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
-import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
+import { Container, Row, Col, InputGroup, FormControl,Button } from "react-bootstrap";
 
 const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -485,10 +485,10 @@ class Main extends Component {
               <Col></Col>
               <Col xs={4}>
                 <div id="join">
-                  <div id="img-div">
+                  {/* <div id="img-div">
                     <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
-                  </div>
-                  <div id="join-dialog" className="jumbotron vertical-center">
+                  </div> */}
+                  <div id="join-dialog" className="font-big-orange">
                     <h1> Welcome to </h1>
                     <h1> Home Lan Drink! </h1>
                     <br></br>
@@ -510,7 +510,7 @@ class Main extends Component {
                             placeholder="방 번호"
                             required
                           />
-
+                          <Button>test</Button>
                           <input
                             type="submit"
                             value="JOIN"
@@ -585,13 +585,13 @@ class Main extends Component {
         {this.state.session !== undefined ? (
           <div id="session" className="height-100">
             <Container className="height-100">
-              <div id="img-div">
+              {/* <div id="img-div">
                 <img
                   src="/HLD_logo_150x150.png"
                   alt="OpenVidu logo"
                   sizes="24"
                 />
-              </div>
+              </div> */}
               <Row className="height-calc">
                 <Col md={{ span: 9 }}>
                   {/* screens */}
