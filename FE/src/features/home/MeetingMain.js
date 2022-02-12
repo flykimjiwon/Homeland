@@ -17,6 +17,7 @@ import {
   IoExit,
   IoMdCopy,
   IoCopy,
+  IoGameController,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
@@ -66,6 +67,13 @@ class Main extends Component {
       connectionUser: [],
       userId: "guest",
       connectionId: "",
+      connections: [],
+      width: window.innerWidth,
+      height: window.innerHeight,
+      liar: [],
+      liarOrNot: "",
+      liarSubject: "",
+      gamePanel: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -76,17 +84,13 @@ class Main extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
     this.escFunction = this.escFunction.bind(this);
     this.clickLeave = this.clickLeave.bind(this);
+    this.paneltoggle = this.paneltoggle.bind(this);
     // chat
     this.chattoggle = this.chattoggle.bind(this);
     this.messageContainer = createRef(null);
     this.sendmessageByClick = this.sendmessageByClick.bind(this);
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
-  }
-  useEffect() {
-    window.onpopstate = () => {
-      console.log("뒤로간다!!!!!!!!!!!");
-    };
   }
 
   escFunction(event) {
@@ -96,6 +100,18 @@ class Main extends Component {
       //Do whatever when esc is pressed
     }
   }
+
+  paneltoggle() {
+    this.setState({ gamePanel: !this.state.gamePanel });
+  }
+
+  handleScreenMode = () => {
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
   handleChatMessageChange(e) {
     this.setState({
       message: e.target.value,
@@ -167,6 +183,16 @@ class Main extends Component {
     }
   }
 
+  sendCaptureSignal() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "start capture",
+      to: [],
+      type: "captureSignal",
+    });
+  }
+
   openModalCapture = () => {
     this.setState({ modalOpen_capture: true });
   };
@@ -207,12 +233,14 @@ class Main extends Component {
       });
     }
     window.addEventListener("beforeunload", this.onbeforeunload);
+    window.addEventListener("resize", this.handleScreenMode);
     document.addEventListener("keydown", this.escFunction, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
     document.removeEventListener("keydown", this.escFunction, false);
+    window.removeEventListener("resize", this.handleScreenMode);
     this.leaveSession();
   }
 
@@ -635,14 +663,25 @@ class Main extends Component {
                     id="capture_screen"
                   >
                     {this.state.publisher !== undefined ? (
-                      <div className="stream-container">
+                      <div
+                        className="stream-container"
+                        onClick={() => {
+                          this.videoplay();
+                        }}
+                      >
                         <UserVideoComponent
                           streamManager={this.state.publisher}
                         />
                       </div>
                     ) : null}
                     {this.state.subscribers.map((sub, i) => (
-                      <div key={i} className="stream-container">
+                      <div
+                        key={i}
+                        className="stream-container"
+                        onClick={() => {
+                          this.videoplay();
+                        }}
+                      >
                         <UserVideoComponent streamManager={sub} />
                       </div>
                     ))}
@@ -696,15 +735,15 @@ class Main extends Component {
                         }}
                       />
                     )}
-                    {this.state.screenstate ? (
+                    {!(
+                      screen.width === this.state.width &&
+                      screen.height === this.state.height
+                    ) ? (
                       <IoMdExpand
                         color="#50468c"
                         size={btn_size}
                         onClick={() => {
                           this.openFullScreenMode();
-                          this.setState({
-                            screenstate: !this.state.screenstate,
-                          });
                         }}
                       />
                     ) : (
@@ -713,9 +752,6 @@ class Main extends Component {
                         size={btn_size}
                         onClick={() => {
                           this.closeFullScreenMode();
-                          this.setState({
-                            screenstate: !this.state.screenstate,
-                          });
                         }}
                       />
                     )}
@@ -739,6 +775,7 @@ class Main extends Component {
 
                 <Col md={{ span: 3 }}>
                   {/* chat */}
+                  {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
                     <div className="chatbox__support">
                       <div className="chatbox__header">
@@ -746,10 +783,16 @@ class Main extends Component {
                         <IoCopy
                           color="#50468c"
                           size="18"
+                          className="cursor-pointer"
                           onClick={() =>
                             navigator.clipboard.writeText(mySessionId)
                           }
-                          className="cursor"
+                        />
+                        <IoGameController
+                          color="#50468c"
+                          size="18"
+                          className="cursor-pointer"
+                          onClick={this.paneltoggle}
                         />
                       </div>
 
@@ -940,15 +983,7 @@ class Main extends Component {
       // IE or Edge
       document.msExitFullscreen();
   }
-  sendCaptureSignal() {
-    const mySession = this.state.session;
 
-    mySession.signal({
-      data: "start capture",
-      to: [],
-      type: "captureSignal",
-    });
-  }
   onCapture() {
     console.log("onCapture");
     if (!this.state.previewOpen) {
@@ -985,6 +1020,15 @@ class Main extends Component {
     for (var i = 0; i < video.length; i++) {
       video[i].controls = true;
     }
+  }
+
+  videoplay() {
+    var video = document.getElementsByTagName("video");
+    setTimeout(() => {
+      for (var i = 0; i < video.length; i++) {
+        video[i].play();
+      }
+    }, 100);
   }
 }
 

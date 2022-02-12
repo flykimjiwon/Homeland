@@ -65,7 +65,7 @@
 
 /* btn */
 .btn_toolbar *,
-.cursor {
+.cursor-pointer {
   cursor: pointer;
 }
 
@@ -196,4 +196,12 @@
 
 .color-353f71 {
   color: #353f71;
+}
+
+/* panel */
+
+.panel {
+  height: 50%;
+  width: 100%;
+  background-color: black;
 }
