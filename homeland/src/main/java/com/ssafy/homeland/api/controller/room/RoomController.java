@@ -53,6 +53,7 @@ public class RoomController {
     )
     @GetMapping("/{roomId}")
     public ResponseEntity findRoom(@ApiParam(value = "조인 할 방 코드",required = true) @PathVariable String roomId) {
+        roomId=roomId.trim();
         return roomService.findRoom(roomId);
     }
 
@@ -84,6 +85,7 @@ public class RoomController {
     @PutMapping("/{roomId}")
     public ResponseEntity createRoom(@ApiParam(value = "오픈비두 서버에 생성한 방 코드",required = true) @PathVariable String roomId,
                                      @ApiParam(value = "방을 만든 호스트 정보") @RequestBody ParticipantPutReq participantPutReq){
+        roomId=roomId.trim();
         if(roomService.findRoomInOV(roomId)==false){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -129,6 +131,7 @@ public class RoomController {
     })
     @PostMapping("/join/{roomId}")
     public ResponseEntity joinRoom(@PathVariable String roomId, @RequestBody ParticipantPostReq participantPostReq){
+        roomId=roomId.trim();
 
         if(roomService.findRoomInOV(roomId)==false){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -156,6 +159,7 @@ public class RoomController {
     })
     @PostMapping("/leave/{roomId}")
     public ResponseEntity leaveRoom(@PathVariable String roomId, @RequestBody ParticipantPostReq participantPostReq){
+        roomId=roomId.trim();
         roomService.leaveRoom(roomId,participantPostReq.getNickname());
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -168,6 +172,7 @@ public class RoomController {
     })
     @GetMapping("/info/{roomId}")
     public ResponseEntity getRoomInfo(@PathVariable String roomId){
+        roomId=roomId.trim();
         RoomInfoRes roomInfoRes = roomService.getRoomInfo(roomId);
         if(roomInfoRes==null) return new ResponseEntity(HttpStatus.NOT_FOUND);
         return new ResponseEntity(roomInfoRes,HttpStatus.OK);
@@ -183,5 +188,5 @@ public class RoomController {
 
         return new ResponseEntity(roomList,HttpStatus.OK);
     }
-    
+
 }
