@@ -83,26 +83,31 @@
   overflow-y: scroll;
   flex-direction: column;
 }
+.messages__bigBox--operator {
+  width: 70%;
+  margin-left: 30%;
+}
 
-.messages__item--operator {
+.messages__box--operator {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border-bottom-left-radius: 20px;
-  background: var(--primary);
-  width: 70%;
-  margin-left: 30%;
   margin-bottom: 15px;
   background-color: rgb(241, 241, 57);
+  min-height: 30px;
+}
+.messages__bigBox--visitor {
+  width: 70%;
+  margin-right: 30%;
 }
 
-.messages__item--visitor {
+.messages__box--visitor {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
-  width: 70%;
-  margin-right: 30%;
   margin-bottom: 15px;
   background-color: white;
+  min-height: 30px;
 }
 
 .chatbox__footer input {

@@ -137,7 +137,8 @@ class Main extends Component {
           {
             userName: this.state.myUserName,
             text: this.state.message,
-            chatClass: "messages__item--operator",
+            boxClass: "messages__box--operator",
+            bigBoxClass: "messages__bigBox--operator",
           },
         ],
       });
@@ -164,7 +165,8 @@ class Main extends Component {
             {
               userName: this.state.myUserName,
               text: this.state.message,
-              chatClass: "messages__item--operator",
+              boxClass: "messages__box--operator",
+              bigBoxClass: "messages__bigBox--operator",
             },
           ],
         });
@@ -327,7 +329,8 @@ class Main extends Component {
                 {
                   userName: chatdata[0],
                   text: chatdata[1],
-                  chatClass: "messages__item--visitor",
+                  boxClass: "messages__box--visitor",
+                  bigBoxClass: "messages__bigBox--visitor",
                 },
               ],
             });
