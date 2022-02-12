@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const Username = styled.p`
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 5px 0 10px 0;
 `;
 
@@ -19,12 +19,12 @@ const Text = styled.p`
 
 class Message extends Component {
   render() {
-    const { text, userName } = this.props;
+    const { text, userName, boxClass } = this.props;
 
     return (
       <MessageContainer>
         <Username>{userName}</Username>
-        <Text>{text}</Text>
+        <Text className={boxClass}>{text}</Text>
       </MessageContainer>
     );
   }
