@@ -645,7 +645,7 @@ class Main extends Component {
             <br></br>
           </Container>
         ) : (
-          <div id="session" className="padding-100px">
+          <div id="session" className="padding-100px ">
             <Container>
               {/* <div id="img-div">
                 <img
@@ -654,7 +654,7 @@ class Main extends Component {
                   sizes="24"
                 />
               </div> */}
-              <Row className="height-calc">
+              <Row className="height-100">
                 <Col md={{ span: 9 }}>
                   {/* screens */}
                   <div
@@ -777,12 +777,20 @@ class Main extends Component {
                   {/* chat */}
                   {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
-                    <div className="chatbox__support">
+                    <div
+                      // className="chatbox__support chat-height-with-panel"
+                      className={
+                        this.state.gamePanel
+                          ? "chatbox__support chat-height-with-panel"
+                          : "chatbox__support chat-height-without-panel"
+                      }
+                    >
                       <div className="chatbox__header">
                         방코드: {mySessionId}
                         <IoCopy
                           color="#50468c"
                           size="18"
+                          title="Copy"
                           className="cursor-pointer"
                           onClick={() =>
                             navigator.clipboard.writeText(mySessionId)
