@@ -38,8 +38,8 @@ function CheckPassword() {
     return config;
   };
   return (
-    <div>
-      <h1 className="mt-3">비밀번호 체크</h1>
+    <div style={{ paddingTop: "100px" }}>
+      <h1>비밀번호 체크</h1>
       <Form className="container mypage-form">
         <Form.Group className="mb-3" controlId="formCheckPassword">
           <Form.Label>비밀번호 입력</Form.Label>

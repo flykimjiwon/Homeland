@@ -58,7 +58,7 @@ function NoticeEdit() {
       });
   };
   return (
-    <div>
+    <div style={{ paddingTop: "100px" }}>
       <h1 className="mt-3">공지 수정</h1>
       <Form className="container mypage-form">
         <Form.Group className="mb-3" controlId="formChangeTitle">

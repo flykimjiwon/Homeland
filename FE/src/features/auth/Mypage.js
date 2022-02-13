@@ -34,8 +34,8 @@ function Mypage() {
   }, []);
 
   return (
-    <div>
-      <h1 className="mt-3">마이페이지</h1>
+    <div style={{ paddingTop: "100px" }}>
+      <h1>마이페이지</h1>
       <Container>
         <div>ID: {profile.userId}</div>
         <div>닉네임: {profile.nickname}</div>

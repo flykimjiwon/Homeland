@@ -22,17 +22,14 @@ import {
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
 import CountDown from "./CountDown";
+import { FormControl, FormControlLabel, Button } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import TextField from "@mui/material/TextField";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
-import {
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -74,6 +71,7 @@ class Main extends Component {
       liarOrNot: "",
       liarSubject: "",
       gamePanel: false,
+      isRandomAllowed: true,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -218,6 +216,7 @@ class Main extends Component {
   };
 
   componentDidMount() {
+    // 로그인한 유저의 정보 얻기 위한 api 요청
     const token = localStorage.getItem("jwt");
     const config = {
       Authorization: `Bearer ${token}`,
@@ -230,7 +229,7 @@ class Main extends Component {
       }).then((res) => {
         this.setState({
           myUserName: res.data.nickname,
-          userId: res.data.id,
+          userId: res.data.userId,
         });
       });
     }
@@ -401,21 +400,26 @@ class Main extends Component {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
 
     const mySession = this.state.session;
+    // 세션 나가면 app.js에 false값 전달 => navbar 토글 위함
     const onIsSession = this.props.onIsSession;
     onIsSession(false);
+
     if (mySession) {
       mySession.disconnect();
     }
 
-    axios({
-      url: `${BEUrl}/api/v1/room/leave/${this.state.mySessionId}`,
-      method: "post",
-      data: {
-        nickname: this.state.myUserName,
-        connectionId: this.state.connectionId,
-        userId: this.state.userId,
-      },
-    });
+    // 세션이 있을 때만 leave api 전송
+    if (this.state.mySessionId) {
+      axios({
+        url: `${BEUrl}/api/v1/room/leave/${this.state.mySessionId}`,
+        method: "post",
+        data: {
+          nickname: this.state.myUserName,
+          connectionId: this.state.connectionId,
+          userId: this.state.userId,
+        },
+      });
+    }
 
     // Empty all properties...
     this.OV = null;
@@ -436,12 +440,38 @@ class Main extends Component {
     const loginToken = localStorage.getItem("jwt");
     const onIsSession = this.props.onIsSession;
 
+    // 방 랜덤입장 여부 체크
+    const handleChangeRandomJoin = (event) => {
+      event.preventDefault();
+      this.setState({
+        isRandomAllowed: event.target.value,
+      });
+    };
+
+    // 방 랜덤입장 api
+    const onRandomJoin = (event) => {
+      event.preventDefault();
+      axios({
+        url: `${BEUrl}/api/v1/room/random-join`,
+        method: "get",
+      })
+        .then((res) => {
+          console.log(res);
+          this.setState({
+            mySessionId: res.data,
+          });
+        })
+        .then(() => {
+          onCheckNickname();
+        });
+    };
+
     const onCheckNickname = () => {
       if (!this.state.myUserName) {
         alert("닉네임을 입력해주세요.");
       } else {
         axios({
-          url: `${BEUrl}/api/v1/room/join/${mySessionId}`,
+          url: `${BEUrl}/api/v1/room/join/${this.state.mySessionId}`,
           method: "post",
           data: {
             nickname: this.state.myUserName,
@@ -474,10 +504,10 @@ class Main extends Component {
         alert("방 번호를 입력해 주세요!");
       } else {
         axios({
-          url: `${BEUrl}/api/v1/room/${mySessionId}`,
+          url: `${BEUrl}/api/v1/room/${this.state.mySessionId}`,
           method: "get",
           data: {
-            roomId: mySessionId,
+            roomId: this.state.mySessionId,
           },
         })
           .then(() => {
@@ -500,6 +530,7 @@ class Main extends Component {
           userId: this.state.userId,
           nickname: this.state.myUserName,
           connectionId: this.state.connectionId,
+          randomJoin: this.state.isRandomAllowed,
         },
       });
     };
@@ -561,33 +592,56 @@ class Main extends Component {
                                   value="방 만들기"
                                   onClick={onCreateRoom}
                                 />
+                                <FormControl>
+                                  <RadioGroup
+                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group"
+                                    value={this.state.isRandomAllowed}
+                                    onChange={handleChangeRandomJoin}
+                                  >
+                                    <FormControlLabel
+                                      value={true}
+                                      control={<Radio />}
+                                      label="랜덤입장 가능"
+                                    />
+                                    <FormControlLabel
+                                      value={false}
+                                      control={<Radio />}
+                                      label="랜덤입장 불가능"
+                                    />
+                                  </RadioGroup>
+                                </FormControl>
                               </div>
                             </Col>
                             <Col md={{ span: 5, offset: 2 }}>
                               <div className="join-box">
                                 <div>방 입장하기</div>
                                 <br></br>
-                                <br></br>
+                                <Button
+                                  type="submit"
+                                  onClick={onRandomJoin}
+                                  variant="contained"
+                                >
+                                  랜덤입장
+                                </Button>
                                 <br></br>
                                 <p>방 번호를 입력하세요</p>
-                                <InputGroup>
-                                  <FormControl
-                                    className="margin-left10"
-                                    type="text"
-                                    id="sessionId"
-                                    value={mySessionId}
-                                    onChange={this.handleChangeSessionId}
-                                    placeholder="방 번호"
-                                    required
-                                  />
+                                <TextField
+                                  margin="normal"
+                                  id="sessionId"
+                                  value={mySessionId}
+                                  onChange={this.handleChangeSessionId}
+                                  required
+                                  fullWidth
+                                  label="방 번호"
+                                />
 
-                                  <input
-                                    type="submit"
-                                    value="JOIN"
-                                    className="btn btn-lg btn-color margin-right10"
-                                    onClick={onCheckSession}
-                                  />
-                                </InputGroup>
+                                <input
+                                  type="submit"
+                                  value="JOIN"
+                                  className="btn btn-lg btn-color margin-right10"
+                                  onClick={onCheckSession}
+                                />
                               </div>
                             </Col>
                           </Row>
@@ -634,6 +688,13 @@ class Main extends Component {
                                   onClick={onCheckSession}
                                 />
                               </p>
+                              <Button
+                                type="submit"
+                                onClick={onRandomJoin}
+                                variant="contained"
+                              >
+                                랜덤입장
+                              </Button>
                             </div>
                           </Col>
                         </form>

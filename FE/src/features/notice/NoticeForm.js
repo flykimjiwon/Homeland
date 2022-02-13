@@ -43,8 +43,8 @@ function NoticeForm() {
       });
   };
   return (
-    <div>
-      <h1 className="mt-3">공지사항 작성</h1>
+    <div style={{ paddingTop: "100px" }}>
+      <h1>공지사항 작성</h1>
       <Form className="container mypage-form">
         <Form.Group className="mb-3" controlId="formNoticeTitle">
           <Form.Label>제목</Form.Label>

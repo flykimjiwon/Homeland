@@ -58,8 +58,8 @@ function EditProfile() {
   }, []);
 
   return (
-    <div>
-      <h1 className="mt-3">회원정보 수정</h1>
+    <div style={{ paddingTop: "100px" }}>
+      <h1>회원정보 수정</h1>
       <Form className="container mypage-form">
         <Form.Group className="mb-3" controlId="formGroupChangeNickname">
           <Form.Label>닉네임 변경</Form.Label>

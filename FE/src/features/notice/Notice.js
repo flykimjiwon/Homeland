@@ -48,7 +48,7 @@ function Notice() {
   useEffect(getNoticeItems, []);
   useEffect(getAuthority, []);
   return (
-    <div className="mt-3">
+    <div className="notice">
       <h1>공지사항</h1>
       <Container>
         <Table striped bordered hover>

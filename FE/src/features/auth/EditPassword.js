@@ -45,8 +45,8 @@ function EditPassword() {
   };
 
   return (
-    <div>
-      <h1 className="mt-3">비밀번호 변경</h1>
+    <div style={{ paddingTop: "100px" }}>
+      <h1>비밀번호 변경</h1>
       <Form className="container mypage-form">
         <Form.Group className="mb-3" controlId="formGroupChangeNewPassword">
           <Form.Label>새 비밀번호</Form.Label>

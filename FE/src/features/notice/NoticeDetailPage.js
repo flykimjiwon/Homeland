@@ -1,9 +1,11 @@
+/* eslint-disable */
 import { useState, useEffect } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
+import "./NoticeDetailPage.css";
 import "dayjs/locale/ko";
 
 dayjs.locale("ko");
@@ -14,21 +16,23 @@ function NoticeDetailPage() {
   const [notice, setNotice] = useState([]);
   const { id } = useParams();
   const [userAuthority, setUserAuthority] = useState("");
+  const token = localStorage.getItem("jwt");
   const setToken = () => {
-    const token = localStorage.getItem("jwt");
     const config = {
       Authorization: `Bearer ${token}`,
     };
     return config;
   };
   const getAuthority = () => {
-    axios({
-      url: `${BEUrl}/api/v1/users/check-authority`,
-      method: "get",
-      headers: setToken(),
-    }).then((res) => {
-      setUserAuthority(res.data);
-    });
+    if (token) {
+      axios({
+        url: `${BEUrl}/api/v1/users/check-authority`,
+        method: "get",
+        headers: setToken(),
+      }).then((res) => {
+        setUserAuthority(res.data);
+      });
+    }
   };
   const getNotice = () => {
     axios({
@@ -43,7 +47,7 @@ function NoticeDetailPage() {
       });
   };
   useEffect(getNotice, [BEUrl, id]);
-  useEffect(getAuthority, [BEUrl]);
+  useEffect(getAuthority, []);
 
   const onDeleteNotice = (event) => {
     event.preventDefault();
@@ -60,8 +64,8 @@ function NoticeDetailPage() {
       });
   };
   return (
-    <div>
-      <h1 className="mt-3">글 세부사항</h1>
+    <div className="notice-detail">
+      <h1>글 세부사항</h1>
       <div>
         <h4>제목: {notice.title}</h4>
         <p>
@@ -82,13 +86,13 @@ function NoticeDetailPage() {
               <Button type="submit" onClick={onDeleteNotice}>
                 삭제하기
               </Button>
-              <Link to="/notice">
-                <Button>목록</Button>
-              </Link>
             </Form.Group>
           </Form>
         </div>
       ) : null}
+      <Link to="/notice">
+        <Button>목록</Button>
+      </Link>
     </div>
   );
 }
