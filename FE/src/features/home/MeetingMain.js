@@ -194,7 +194,6 @@ class Main extends Component {
         this.setState({
           message: "",
         });
-        }
       }
     }
   }
