@@ -2,7 +2,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { Form } from "react-bootstrap";
 import "./Login.css";
 import backEndUrl from "../setup/hld_url";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,10 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
@@ -59,7 +55,7 @@ function Login() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container className="login-form" component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{

@@ -35,8 +35,8 @@ function CheckEmail() {
       });
   };
   return (
-    <div>
-      <h1 className="mt-3">비밀번호 찾기 전 아이디&이메일 체크</h1>
+    <div style={{ paddingTop: "100px" }}>
+      <h1>비밀번호 찾기 전 아이디&이메일 체크</h1>
       <Form className="container mypage-form">
         <Form.Group className="mb-3" controlId="FormCheckID">
           <Form.Label>ID</Form.Label>

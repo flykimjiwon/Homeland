@@ -6,7 +6,7 @@ import styled from "styled-components";
 const Username = styled.p`
   font-size: 0.8rem;
   font-weight: 700;
-  padding: 5px 0 10px 0;
+  padding: 5px;
 `;
 
 const MessageContainer = styled.div`
@@ -14,7 +14,8 @@ const MessageContainer = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: 1rem;
+  font-size: 0.8rem;
+  padding: 5px;
 `;
 
 class Message extends Component {

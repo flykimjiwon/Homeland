@@ -4,6 +4,14 @@ import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import backEndUrl from "../setup/hld_url";
+import {
+  Container,
+  CssBaseline,
+  Box,
+  Typography,
+  TextField,
+  Button as MuiButton,
+} from "@mui/material";
 
 function CheckPassword() {
   const BEUrl = backEndUrl;
@@ -38,24 +46,43 @@ function CheckPassword() {
     return config;
   };
   return (
-    <div>
-      <h1 className="mt-3">비밀번호 체크</h1>
-      <Form className="container mypage-form">
-        <Form.Group className="mb-3" controlId="formCheckPassword">
-          <Form.Label>비밀번호 입력</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={handleCheckPassword}
-            type="password"
-            placeholder="비밀번호를 입력해 주세요."
-          />
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onCheckPasswordSubmit}>
-            확인
-          </Button>
-        </Form.Group>
-      </Form>
+    <div style={{ paddingTop: "100px" }}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            비밀번호 확인
+          </Typography>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
+            <TextField
+              value={password}
+              onChange={handleCheckPassword}
+              margin="normal"
+              required
+              fullWidth
+              label="비밀번호"
+              autoFocus
+              type="password"
+            />
+            <MuiButton
+              type="submit"
+              onClick={onCheckPasswordSubmit}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              확인
+            </MuiButton>
+          </Box>
+        </Box>
+      </Container>
     </div>
   );
 }

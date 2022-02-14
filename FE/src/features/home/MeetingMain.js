@@ -18,21 +18,21 @@ import {
   IoMdCopy,
   IoCopy,
   IoGameController,
+  IoBeer,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
 import CountDown from "./CountDown";
+import { FormControl, FormControlLabel, Button } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import TextField from "@mui/material/TextField";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
-import {
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+
+import Cheersmain from "./Cheersmain"
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -41,6 +41,8 @@ const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
 const btn_size = "36";
+const icon_color = "rgb(52, 62, 117)";
+const icon_color_off = "rgb(89, 96, 138)";
 
 class Main extends Component {
   constructor(props) {
@@ -74,6 +76,8 @@ class Main extends Component {
       liarOrNot: "",
       liarSubject: "",
       gamePanel: false,
+      isRandomAllowed: true,
+      cheers: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -91,6 +95,15 @@ class Main extends Component {
     this.sendmessageByClick = this.sendmessageByClick.bind(this);
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
+    // 짠효과
+    this.cheersToggle = this.cheersToggle.bind(this);
+  }
+
+  cheersToggle() {
+    this.setState({ cheers: !this.state.cheers });
+    setTimeout(() => {
+      this.setState({ cheers: !this.state.cheers })
+    }, 6000)
   }
 
   escFunction(event) {
@@ -195,6 +208,16 @@ class Main extends Component {
     });
   }
 
+  sendCheersSignal() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "start cheers",
+      to: [],
+      type: "cheersSignal",
+    });
+  }
+
   openModalCapture = () => {
     this.setState({ modalOpen_capture: true });
   };
@@ -218,6 +241,7 @@ class Main extends Component {
   };
 
   componentDidMount() {
+    // 로그인한 유저의 정보 얻기 위한 api 요청
     const token = localStorage.getItem("jwt");
     const config = {
       Authorization: `Bearer ${token}`,
@@ -230,7 +254,7 @@ class Main extends Component {
       }).then((res) => {
         this.setState({
           myUserName: res.data.nickname,
-          userId: res.data.id,
+          userId: res.data.userId,
         });
       });
     }
@@ -283,7 +307,6 @@ class Main extends Component {
     // --- 1) Get an OpenVidu object ---
 
     this.OV = new OpenVidu();
-
     // --- 2) Init a session ---
 
     this.setState(
@@ -339,6 +362,11 @@ class Main extends Component {
         mySession.on("signal:captureSignal", (event) => {
           this.onCapture();
         });
+
+        mySession.on("signal:cheersSignal", (event) => {
+          this.cheersToggle();
+        });
+
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // Remove the stream from 'subscribers' array
@@ -401,21 +429,26 @@ class Main extends Component {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
 
     const mySession = this.state.session;
+    // 세션 나가면 app.js에 false값 전달 => navbar 토글 위함
     const onIsSession = this.props.onIsSession;
     onIsSession(false);
+
     if (mySession) {
       mySession.disconnect();
     }
 
-    axios({
-      url: `${BEUrl}/api/v1/room/leave/${this.state.mySessionId}`,
-      method: "post",
-      data: {
-        nickname: this.state.myUserName,
-        connectionId: this.state.connectionId,
-        userId: this.state.userId,
-      },
-    });
+    // 세션이 있을 때만 leave api 전송
+    if (this.state.mySessionId) {
+      axios({
+        url: `${BEUrl}/api/v1/room/leave/${this.state.mySessionId}`,
+        method: "post",
+        data: {
+          nickname: this.state.myUserName,
+          connectionId: this.state.connectionId,
+          userId: this.state.userId,
+        },
+      });
+    }
 
     // Empty all properties...
     this.OV = null;
@@ -436,12 +469,38 @@ class Main extends Component {
     const loginToken = localStorage.getItem("jwt");
     const onIsSession = this.props.onIsSession;
 
+    // 방 랜덤입장 여부 체크
+    const handleChangeRandomJoin = (event) => {
+      event.preventDefault();
+      this.setState({
+        isRandomAllowed: event.target.value,
+      });
+    };
+
+    // 방 랜덤입장 api
+    const onRandomJoin = (event) => {
+      event.preventDefault();
+      axios({
+        url: `${BEUrl}/api/v1/room/random-join`,
+        method: "get",
+      })
+        .then((res) => {
+          console.log(res);
+          this.setState({
+            mySessionId: res.data,
+          });
+        })
+        .then(() => {
+          onCheckNickname();
+        });
+    };
+
     const onCheckNickname = () => {
       if (!this.state.myUserName) {
         alert("닉네임을 입력해주세요.");
       } else {
         axios({
-          url: `${BEUrl}/api/v1/room/join/${mySessionId}`,
+          url: `${BEUrl}/api/v1/room/join/${this.state.mySessionId}`,
           method: "post",
           data: {
             nickname: this.state.myUserName,
@@ -474,10 +533,10 @@ class Main extends Component {
         alert("방 번호를 입력해 주세요!");
       } else {
         axios({
-          url: `${BEUrl}/api/v1/room/${mySessionId}`,
+          url: `${BEUrl}/api/v1/room/${this.state.mySessionId}`,
           method: "get",
           data: {
-            roomId: mySessionId,
+            roomId: this.state.mySessionId,
           },
         })
           .then(() => {
@@ -500,6 +559,7 @@ class Main extends Component {
           userId: this.state.userId,
           nickname: this.state.myUserName,
           connectionId: this.state.connectionId,
+          randomJoin: this.state.isRandomAllowed,
         },
       });
     };
@@ -561,33 +621,56 @@ class Main extends Component {
                                   value="방 만들기"
                                   onClick={onCreateRoom}
                                 />
+                                <FormControl>
+                                  <RadioGroup
+                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group"
+                                    value={this.state.isRandomAllowed}
+                                    onChange={handleChangeRandomJoin}
+                                  >
+                                    <FormControlLabel
+                                      value={true}
+                                      control={<Radio />}
+                                      label="랜덤입장 가능"
+                                    />
+                                    <FormControlLabel
+                                      value={false}
+                                      control={<Radio />}
+                                      label="랜덤입장 불가능"
+                                    />
+                                  </RadioGroup>
+                                </FormControl>
                               </div>
                             </Col>
                             <Col md={{ span: 5, offset: 2 }}>
                               <div className="join-box">
                                 <div>방 입장하기</div>
                                 <br></br>
-                                <br></br>
+                                <Button
+                                  type="submit"
+                                  onClick={onRandomJoin}
+                                  variant="contained"
+                                >
+                                  랜덤입장
+                                </Button>
                                 <br></br>
                                 <p>방 번호를 입력하세요</p>
-                                <InputGroup>
-                                  <FormControl
-                                    className="margin-left10"
-                                    type="text"
-                                    id="sessionId"
-                                    value={mySessionId}
-                                    onChange={this.handleChangeSessionId}
-                                    placeholder="방 번호"
-                                    required
-                                  />
+                                <TextField
+                                  margin="normal"
+                                  id="sessionId"
+                                  value={mySessionId}
+                                  onChange={this.handleChangeSessionId}
+                                  required
+                                  fullWidth
+                                  label="방 번호"
+                                />
 
-                                  <input
-                                    type="submit"
-                                    value="JOIN"
-                                    className="btn btn-lg btn-color margin-right10"
-                                    onClick={onCheckSession}
-                                  />
-                                </InputGroup>
+                                <input
+                                  type="submit"
+                                  value="JOIN"
+                                  className="btn btn-lg btn-color margin-right10"
+                                  onClick={onCheckSession}
+                                />
                               </div>
                             </Col>
                           </Row>
@@ -634,6 +717,13 @@ class Main extends Component {
                                   onClick={onCheckSession}
                                 />
                               </p>
+                              <Button
+                                type="submit"
+                                onClick={onRandomJoin}
+                                variant="contained"
+                              >
+                                랜덤입장
+                              </Button>
                             </div>
                           </Col>
                         </form>
@@ -657,7 +747,7 @@ class Main extends Component {
                   sizes="24"
                 />
               </div> */}
-              <Row className="height-100">
+              <Row>
                 <Col md={{ span: 9 }}>
                   {/* screens */}
                   <div
@@ -667,7 +757,12 @@ class Main extends Component {
                   >
                     {this.state.publisher !== undefined ? (
                       <div
-                        className="stream-container"
+                        // className="stream-container-v1"
+                        className={
+                          this.state.connectionUser.length <= 4
+                            ? "stream-container-v1"
+                            : "stream-container-v2"
+                        }
                         onClick={() => {
                           this.videoplay();
                         }}
@@ -680,7 +775,11 @@ class Main extends Component {
                     {this.state.subscribers.map((sub, i) => (
                       <div
                         key={i}
-                        className="stream-container"
+                        className={
+                          this.state.connectionUser.length <= 4
+                            ? "stream-container-v1"
+                            : "stream-container-v2"
+                        }
                         onClick={() => {
                           this.videoplay();
                         }}
@@ -694,7 +793,7 @@ class Main extends Component {
                   <div className="btn_toolbar">
                     {this.state.audiostate ? (
                       <IoMicSharp
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishAudio(
@@ -705,7 +804,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoMicOffSharp
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishAudio(
@@ -717,7 +816,7 @@ class Main extends Component {
                     )}
                     {this.state.videostate ? (
                       <IoVideocam
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishVideo(
@@ -728,7 +827,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoVideocamOff
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishVideo(
@@ -743,7 +842,7 @@ class Main extends Component {
                       screen.height === this.state.height
                     ) ? (
                       <IoMdExpand
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.openFullScreenMode();
@@ -751,7 +850,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoMdContract
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.closeFullScreenMode();
@@ -759,14 +858,22 @@ class Main extends Component {
                       />
                     )}
                     <IoCameraSharp
-                      color="#50468c"
+                      color={icon_color}
                       size={btn_size}
                       onClick={() => {
                         this.sendCaptureSignal();
                       }}
                     />
+                    {/* 짠효과 */}
+                    <IoBeer
+                      color={icon_color}
+                      size={btn_size}
+                      onClick={() => {
+                        this.sendCheersSignal();
+                      }}
+                    />
                     <IoExit
-                      color="#50468c"
+                      color="red"
                       size={btn_size}
                       onClick={this.openModalLeave}
                     />
@@ -774,9 +881,25 @@ class Main extends Component {
                   {/* 스크린샷 타이머 */}
                   <div id="CntDown"></div>
                   {this.state.cnt ? <CountDown /> : <span></span>}
+                  {/* 짠효과 */}
+                  {/* <button
+                    onClick={ ()=>{
+                      this.sendCheersSignal();
+                    }}
+                    >짠</button> */}
+                    
+                    
+                    {/* 짠 */}
+        {/* 짠효과 중앙 */}
+        {this.state.cheers===true
+      ?<Cheersmain></Cheersmain>
+      :null}
+
+                  
                 </Col>
 
                 <Col md={{ span: 3 }}>
+                  
                   {/* chat */}
                   {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
@@ -832,9 +955,12 @@ class Main extends Component {
                   </div>
                 </Col>
               </Row>
+              
+              
             </Container>
           </div>
         )}
+      
 
         {/* 스크린샷 모달창 */}
         <Modal
