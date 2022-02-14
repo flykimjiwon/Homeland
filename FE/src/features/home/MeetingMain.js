@@ -194,6 +194,12 @@ class Main extends Component {
         this.setState({
           message: "",
         });
+        console.log("!@!!!!!!!!!!!!!!!!");
+        {
+          this.state.connectionUser.length <= 4
+            ? console.log("under")
+            : console.log("up");
+        }
       }
     }
   }
@@ -748,7 +754,7 @@ class Main extends Component {
                   sizes="24"
                 />
               </div> */}
-              <Row className="height-100">
+              <Row>
                 <Col md={{ span: 9 }}>
                   {/* screens */}
                   <div
@@ -758,7 +764,12 @@ class Main extends Component {
                   >
                     {this.state.publisher !== undefined ? (
                       <div
-                        className="stream-container"
+                        // className="stream-container-v1"
+                        className={
+                          this.state.connectionUser.length <= 4
+                            ? "stream-container-v1"
+                            : "stream-container-v2"
+                        }
                         onClick={() => {
                           this.videoplay();
                         }}
@@ -771,7 +782,11 @@ class Main extends Component {
                     {this.state.subscribers.map((sub, i) => (
                       <div
                         key={i}
-                        className="stream-container"
+                        className={
+                          this.state.connectionUser.length <= 4
+                            ? "stream-container-v1"
+                            : "stream-container-v2"
+                        }
                         onClick={() => {
                           this.videoplay();
                         }}
