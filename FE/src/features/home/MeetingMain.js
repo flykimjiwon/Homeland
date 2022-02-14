@@ -31,7 +31,7 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Cheers from "./Cheers"
+import Cheers from "./Cheers";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -74,7 +74,7 @@ class Main extends Component {
       liarSubject: "",
       gamePanel: false,
       isRandomAllowed: true,
-      cheers:false,
+      cheers: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -94,15 +94,13 @@ class Main extends Component {
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
     // 짠효과
     this.cheersToggle = this.cheersToggle.bind(this);
-
-
   }
 
-  cheersToggle(){
+  cheersToggle() {
     this.setState({ cheers: !this.state.cheers });
     setTimeout(() => {
-      this.setState({ cheers: !this.state.cheers })
-    }, 2000)
+      this.setState({ cheers: !this.state.cheers });
+    }, 2000);
   }
 
   escFunction(event) {
@@ -564,6 +562,7 @@ class Main extends Component {
       });
     };
 
+    // 로그인한 유저가 방 생성할 때
     const onCreateRoom = (event) => {
       event.preventDefault();
       axios({
@@ -866,20 +865,18 @@ class Main extends Component {
                   {this.state.cnt ? <CountDown /> : <span></span>}
                   {/* 짠효과 */}
                   <button
-                    onClick={ ()=>{
+                    onClick={() => {
                       this.sendCheersSignal();
                     }}
-                    >짠</button>
-                    
-                    
-      {this.state.cheers===true
-      ?(<div data-aos="zoom-in-down"
-      data-aos-duration="500"><Cheers></Cheers>
-        </div>
-        )
-      :null
+                  >
+                    짠
+                  </button>
 
-      }
+                  {this.state.cheers === true ? (
+                    <div data-aos="zoom-in-down" data-aos-duration="500">
+                      <Cheers></Cheers>
+                    </div>
+                  ) : null}
                 </Col>
 
                 <Col md={{ span: 3 }}>

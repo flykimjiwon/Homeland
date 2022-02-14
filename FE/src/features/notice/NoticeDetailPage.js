@@ -2,11 +2,12 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "./NoticeDetailPage.css";
 import "dayjs/locale/ko";
+import { Button as MuiButton, ButtonGroup } from "@mui/material";
 
 dayjs.locale("ko");
 
@@ -23,6 +24,17 @@ function NoticeDetailPage() {
     };
     return config;
   };
+
+  const goToEditNotice = (event) => {
+    event.preventDefault();
+    history.push(`/notice-edit/${id}`);
+  };
+
+  const goToNoticeList = (event) => {
+    event.preventDefault();
+    history.push("/notice");
+  };
+
   const getAuthority = () => {
     if (token) {
       axios({
@@ -74,25 +86,16 @@ function NoticeDetailPage() {
         <p>내용: {notice.content}</p>
       </div>
       {userAuthority === "admin" ? (
-        <div>
-          <Link
-            to={`/notice-edit/${id}`}
-            className="d-flex justify-content-center mt-3"
-          >
-            <Button type="submit">수정하기</Button>
-          </Link>
-          <Form>
-            <Form.Group className="d-flex justify-content-center mt-3">
-              <Button type="submit" onClick={onDeleteNotice}>
-                삭제하기
-              </Button>
-            </Form.Group>
-          </Form>
+        <div className="my-3">
+          <ButtonGroup variant="contained">
+            <MuiButton onClick={goToEditNotice}>수정하기</MuiButton>
+            <MuiButton onClick={onDeleteNotice}>삭제하기</MuiButton>
+          </ButtonGroup>
         </div>
       ) : null}
-      <Link to="/notice">
-        <Button>목록</Button>
-      </Link>
+      <MuiButton variant="contained" onClick={goToNoticeList}>
+        목록
+      </MuiButton>
     </div>
   );
 }

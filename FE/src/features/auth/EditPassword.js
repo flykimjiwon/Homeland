@@ -1,9 +1,17 @@
 /* eslint-disable */
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import backEndUrl from "../setup/hld_url";
+import {
+  Container,
+  CssBaseline,
+  Box,
+  Typography,
+  TextField,
+  Button as MuiButton,
+} from "@mui/material";
 
 function EditPassword() {
   const BEUrl = backEndUrl;
@@ -46,34 +54,51 @@ function EditPassword() {
 
   return (
     <div style={{ paddingTop: "100px" }}>
-      <h1>비밀번호 변경</h1>
-      <Form className="container mypage-form">
-        <Form.Group className="mb-3" controlId="formGroupChangeNewPassword">
-          <Form.Label>새 비밀번호</Form.Label>
-          <Form.Control
-            value={newPassword}
-            onChange={handleNewPassword}
-            type="password"
-            placeholder="변경할 비밀번호를 입력하세요."
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formGroupCheckNewPassword">
-          <Form.Label>비밀번호 확인</Form.Label>
-          <Form.Control
-            value={checkNewPassword}
-            onChange={handleCheckNewPassword}
-            type="password"
-            placeholder="비밀번호를 다시 입력해 주세요."
-          />
-        </Form.Group>
-
-        <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onEditPassword}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
             비밀번호 변경
-          </Button>
-        </Form.Group>
-      </Form>
+          </Typography>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
+            <TextField
+              value={newPassword}
+              onChange={handleNewPassword}
+              margin="normal"
+              required
+              fullWidth
+              label="새 비밀번호"
+              autoFocus
+              type="password"
+            />
+            <TextField
+              value={checkNewPassword}
+              onChange={handleCheckNewPassword}
+              margin="normal"
+              required
+              fullWidth
+              label="비밀번호 확인"
+              type="password"
+            />
+            <MuiButton
+              type="submit"
+              onClick={onEditPassword}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              변경하기
+            </MuiButton>
+          </Box>
+        </Box>
+      </Container>
     </div>
   );
 }
