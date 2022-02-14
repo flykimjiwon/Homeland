@@ -31,6 +31,8 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col } from "react-bootstrap";
 
+import Cheers from "./Cheers"
+
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
 const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
@@ -72,6 +74,7 @@ class Main extends Component {
       liarSubject: "",
       gamePanel: false,
       isRandomAllowed: true,
+      cheers:false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -89,6 +92,17 @@ class Main extends Component {
     this.sendmessageByClick = this.sendmessageByClick.bind(this);
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
+    // 짠효과
+    this.cheersToggle = this.cheersToggle.bind(this);
+
+
+  }
+
+  cheersToggle(){
+    this.setState({ cheers: !this.state.cheers });
+    setTimeout(() => {
+      this.setState({ cheers: !this.state.cheers })
+    }, 2000)
   }
 
   escFunction(event) {
@@ -190,6 +204,16 @@ class Main extends Component {
       data: "start capture",
       to: [],
       type: "captureSignal",
+    });
+  }
+
+  sendCheersSignal() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "start cheers",
+      to: [],
+      type: "cheersSignal",
     });
   }
 
@@ -338,6 +362,11 @@ class Main extends Component {
         mySession.on("signal:captureSignal", (event) => {
           this.onCapture();
         });
+
+        mySession.on("signal:cheersSignal", (event) => {
+          this.cheersToggle();
+        });
+
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // Remove the stream from 'subscribers' array
@@ -835,6 +864,22 @@ class Main extends Component {
                   {/* 스크린샷 타이머 */}
                   <div id="CntDown"></div>
                   {this.state.cnt ? <CountDown /> : <span></span>}
+                  {/* 짠효과 */}
+                  <button
+                    onClick={ ()=>{
+                      this.sendCheersSignal();
+                    }}
+                    >짠</button>
+                    
+                    
+      {this.state.cheers===true
+      ?(<div data-aos="zoom-in-down"
+      data-aos-duration="500"><Cheers></Cheers>
+        </div>
+        )
+      :null
+
+      }
                 </Col>
 
                 <Col md={{ span: 3 }}>
