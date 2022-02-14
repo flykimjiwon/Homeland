@@ -18,6 +18,7 @@ import {
   IoMdCopy,
   IoCopy,
   IoGameController,
+  IoBeer,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
@@ -40,6 +41,8 @@ const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
 const btn_size = "36";
+const icon_color = "rgb(52, 62, 117)";
+const icon_color_off = "rgb(89, 96, 138)";
 
 class Main extends Component {
   constructor(props) {
@@ -304,7 +307,6 @@ class Main extends Component {
     // --- 1) Get an OpenVidu object ---
 
     this.OV = new OpenVidu();
-
     // --- 2) Init a session ---
 
     this.setState(
@@ -562,7 +564,6 @@ class Main extends Component {
       });
     };
 
-    // 로그인한 유저가 방 생성할 때
     const onCreateRoom = (event) => {
       event.preventDefault();
       axios({
@@ -746,7 +747,7 @@ class Main extends Component {
                   sizes="24"
                 />
               </div> */}
-              <Row className="height-100">
+              <Row>
                 <Col md={{ span: 9 }}>
                   {/* screens */}
                   <div
@@ -756,7 +757,12 @@ class Main extends Component {
                   >
                     {this.state.publisher !== undefined ? (
                       <div
-                        className="stream-container"
+                        // className="stream-container-v1"
+                        className={
+                          this.state.connectionUser.length <= 4
+                            ? "stream-container-v1"
+                            : "stream-container-v2"
+                        }
                         onClick={() => {
                           this.videoplay();
                         }}
@@ -769,7 +775,11 @@ class Main extends Component {
                     {this.state.subscribers.map((sub, i) => (
                       <div
                         key={i}
-                        className="stream-container"
+                        className={
+                          this.state.connectionUser.length <= 4
+                            ? "stream-container-v1"
+                            : "stream-container-v2"
+                        }
                         onClick={() => {
                           this.videoplay();
                         }}
@@ -783,7 +793,7 @@ class Main extends Component {
                   <div className="btn_toolbar">
                     {this.state.audiostate ? (
                       <IoMicSharp
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishAudio(
@@ -794,7 +804,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoMicOffSharp
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishAudio(
@@ -806,7 +816,7 @@ class Main extends Component {
                     )}
                     {this.state.videostate ? (
                       <IoVideocam
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishVideo(
@@ -817,7 +827,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoVideocamOff
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishVideo(
@@ -832,7 +842,7 @@ class Main extends Component {
                       screen.height === this.state.height
                     ) ? (
                       <IoMdExpand
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.openFullScreenMode();
@@ -840,7 +850,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoMdContract
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.closeFullScreenMode();
@@ -848,14 +858,22 @@ class Main extends Component {
                       />
                     )}
                     <IoCameraSharp
-                      color="#50468c"
+                      color={icon_color}
                       size={btn_size}
                       onClick={() => {
                         this.sendCaptureSignal();
                       }}
                     />
+                    {/* 짠효과 */}
+                    <IoBeer
+                      color={icon_color}
+                      size={btn_size}
+                      onClick={() => {
+                        this.sendCheersSignal();
+                      }}
+                    />
                     <IoExit
-                      color="#50468c"
+                      color="red"
                       size={btn_size}
                       onClick={this.openModalLeave}
                     />
@@ -863,14 +881,6 @@ class Main extends Component {
                   {/* 스크린샷 타이머 */}
                   <div id="CntDown"></div>
                   {this.state.cnt ? <CountDown /> : <span></span>}
-                  {/* 짠효과 */}
-                  <button
-                    onClick={() => {
-                      this.sendCheersSignal();
-                    }}
-                  >
-                    짠
-                  </button>
 
                   {this.state.cheers === true ? (
                     <div data-aos="zoom-in-down" data-aos-duration="500">
