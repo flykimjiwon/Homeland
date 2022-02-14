@@ -194,11 +194,6 @@ class Main extends Component {
         this.setState({
           message: "",
         });
-        console.log("!@!!!!!!!!!!!!!!!!");
-        {
-          this.state.connectionUser.length <= 4
-            ? console.log("under")
-            : console.log("up");
         }
       }
     }
