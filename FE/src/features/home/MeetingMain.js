@@ -41,6 +41,8 @@ const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
 const btn_size = "36";
+const icon_color = "rgb(52, 62, 117)";
+const icon_color_off = "rgb(89, 96, 138)";
 
 class Main extends Component {
   constructor(props) {
@@ -783,7 +785,7 @@ class Main extends Component {
                   <div className="btn_toolbar">
                     {this.state.audiostate ? (
                       <IoMicSharp
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishAudio(
@@ -794,7 +796,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoMicOffSharp
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishAudio(
@@ -806,7 +808,7 @@ class Main extends Component {
                     )}
                     {this.state.videostate ? (
                       <IoVideocam
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishVideo(
@@ -817,7 +819,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoVideocamOff
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.state.publisher.publishVideo(
@@ -832,7 +834,7 @@ class Main extends Component {
                       screen.height === this.state.height
                     ) ? (
                       <IoMdExpand
-                        color="#50468c"
+                        color={icon_color}
                         size={btn_size}
                         onClick={() => {
                           this.openFullScreenMode();
@@ -840,7 +842,7 @@ class Main extends Component {
                       />
                     ) : (
                       <IoMdContract
-                        color="#9FA9D8"
+                        color={icon_color_off}
                         size={btn_size}
                         onClick={() => {
                           this.closeFullScreenMode();
@@ -848,7 +850,7 @@ class Main extends Component {
                       />
                     )}
                     <IoCameraSharp
-                      color="#50468c"
+                      color={icon_color}
                       size={btn_size}
                       onClick={() => {
                         this.sendCaptureSignal();
@@ -856,14 +858,14 @@ class Main extends Component {
                     />
                     {/* 짠효과 */}
                     <IoBeer
-                      color="#50468c"
+                      color={icon_color}
                       size={btn_size}
                       onClick={() => {
                         this.sendCheersSignal();
                       }}
                     />
                     <IoExit
-                      color="#50468c"
+                      color="red"
                       size={btn_size}
                       onClick={this.openModalLeave}
                     />
