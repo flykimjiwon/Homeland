@@ -32,7 +32,7 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Cheers from "./Cheers";
+import Cheersmain from "./Cheersmain"
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -102,8 +102,8 @@ class Main extends Component {
   cheersToggle() {
     this.setState({ cheers: !this.state.cheers });
     setTimeout(() => {
-      this.setState({ cheers: !this.state.cheers });
-    }, 2000);
+      this.setState({ cheers: !this.state.cheers })
+    }, 6000)
   }
 
   escFunction(event) {
@@ -881,15 +881,25 @@ class Main extends Component {
                   {/* 스크린샷 타이머 */}
                   <div id="CntDown"></div>
                   {this.state.cnt ? <CountDown /> : <span></span>}
+                  {/* 짠효과 */}
+                  {/* <button
+                    onClick={ ()=>{
+                      this.sendCheersSignal();
+                    }}
+                    >짠</button> */}
+                    
+                    
+                    {/* 짠 */}
+        {/* 짠효과 중앙 */}
+        {this.state.cheers===true
+      ?<Cheersmain></Cheersmain>
+      :null}
 
-                  {this.state.cheers === true ? (
-                    <div data-aos="zoom-in-down" data-aos-duration="500">
-                      <Cheers></Cheers>
-                    </div>
-                  ) : null}
+                  
                 </Col>
 
                 <Col md={{ span: 3 }}>
+                  
                   {/* chat */}
                   {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
@@ -945,9 +955,12 @@ class Main extends Component {
                   </div>
                 </Col>
               </Row>
+              
+              
             </Container>
           </div>
         )}
+      
 
         {/* 스크린샷 모달창 */}
         <Modal
