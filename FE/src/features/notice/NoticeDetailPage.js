@@ -1,10 +1,13 @@
+/* eslint-disable */
 import { useState, useEffect } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
+import "./NoticeDetailPage.css";
 import "dayjs/locale/ko";
+import { Button as MuiButton, ButtonGroup } from "@mui/material";
 
 dayjs.locale("ko");
 
@@ -14,21 +17,34 @@ function NoticeDetailPage() {
   const [notice, setNotice] = useState([]);
   const { id } = useParams();
   const [userAuthority, setUserAuthority] = useState("");
+  const token = localStorage.getItem("jwt");
   const setToken = () => {
-    const token = localStorage.getItem("jwt");
     const config = {
       Authorization: `Bearer ${token}`,
     };
     return config;
   };
+
+  const goToEditNotice = (event) => {
+    event.preventDefault();
+    history.push(`/notice-edit/${id}`);
+  };
+
+  const goToNoticeList = (event) => {
+    event.preventDefault();
+    history.push("/notice");
+  };
+
   const getAuthority = () => {
-    axios({
-      url: `${BEUrl}/api/v1/users/check-authority`,
-      method: "get",
-      headers: setToken(),
-    }).then((res) => {
-      setUserAuthority(res.data);
-    });
+    if (token) {
+      axios({
+        url: `${BEUrl}/api/v1/users/check-authority`,
+        method: "get",
+        headers: setToken(),
+      }).then((res) => {
+        setUserAuthority(res.data);
+      });
+    }
   };
   const getNotice = () => {
     axios({
@@ -43,7 +59,7 @@ function NoticeDetailPage() {
       });
   };
   useEffect(getNotice, [BEUrl, id]);
-  useEffect(getAuthority, [BEUrl]);
+  useEffect(getAuthority, []);
 
   const onDeleteNotice = (event) => {
     event.preventDefault();
@@ -60,8 +76,8 @@ function NoticeDetailPage() {
       });
   };
   return (
-    <div>
-      <h1 className="mt-3">글 세부사항</h1>
+    <div className="notice-detail">
+      <h1>글 세부사항</h1>
       <div>
         <h4>제목: {notice.title}</h4>
         <p>
@@ -70,25 +86,16 @@ function NoticeDetailPage() {
         <p>내용: {notice.content}</p>
       </div>
       {userAuthority === "admin" ? (
-        <div>
-          <Link
-            to={`/notice-edit/${id}`}
-            className="d-flex justify-content-center mt-3"
-          >
-            <Button type="submit">수정하기</Button>
-          </Link>
-          <Form>
-            <Form.Group className="d-flex justify-content-center mt-3">
-              <Button type="submit" onClick={onDeleteNotice}>
-                삭제하기
-              </Button>
-              <Link to="/notice">
-                <Button>목록</Button>
-              </Link>
-            </Form.Group>
-          </Form>
+        <div className="my-3">
+          <ButtonGroup variant="contained">
+            <MuiButton onClick={goToEditNotice}>수정하기</MuiButton>
+            <MuiButton onClick={onDeleteNotice}>삭제하기</MuiButton>
+          </ButtonGroup>
         </div>
       ) : null}
+      <MuiButton variant="contained" onClick={goToNoticeList}>
+        목록
+      </MuiButton>
     </div>
   );
 }

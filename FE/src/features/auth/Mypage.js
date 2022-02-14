@@ -1,9 +1,10 @@
 /* eslint-disable */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Mypage.css";
+import ProfileImage from "./image/profile_image.png";
 import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
@@ -34,18 +35,21 @@ function Mypage() {
   }, []);
 
   return (
-    <div>
-      <h1 className="mt-3">마이페이지</h1>
-      <Container>
-        <div>ID: {profile.userId}</div>
-        <div>닉네임: {profile.nickname}</div>
-        <div>이메일: {profile.email}</div>
-        <div>
-          가입일: {dayjs(profile.createdAt).format("YYYY년 MM월 DD일 HH:mm")}
+    <div className="font-style" style={{ paddingTop: "100px" }}>
+      <h1>마이페이지</h1>
+      <Container className="mypage-form d-flex flex-column align-center">
+        <div className="box" style={{ backgroundColor: "#BDBDBD" }}>
+          <img className="profile" src={ProfileImage} />
         </div>
+        <p className="p-margin">ID: {profile.userId}</p>
+        <p className="p-margin">닉네임: {profile.nickname}</p>
+        <p className="p-margin">이메일: {profile.email}</p>
+        <p className="p-margin">
+          가입일: {dayjs(profile.createdAt).format("YYYY년 MM월 DD일 HH:mm")}
+        </p>
       </Container>
       <Link to="/editProfile">
-        <Button>내 정보 수정</Button>
+        <button className="btn btn-color">내 정보 수정</button>
       </Link>
     </div>
   );

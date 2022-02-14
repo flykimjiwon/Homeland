@@ -4,6 +4,14 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import backEndUrl from "../setup/hld_url";
+import {
+  Container,
+  CssBaseline,
+  Box,
+  Typography,
+  TextField,
+  Button as MuiButton,
+} from "@mui/material";
 
 function EditProfile() {
   const BEUrl = backEndUrl;
@@ -58,38 +66,56 @@ function EditProfile() {
   }, []);
 
   return (
-    <div>
-      <h1 className="mt-3">회원정보 수정</h1>
-      <Form className="container mypage-form">
-        <Form.Group className="mb-3" controlId="formGroupChangeNickname">
-          <Form.Label>닉네임 변경</Form.Label>
-          <Form.Control
-            value={newNickname}
-            onChange={handleNewNickname}
-            type="text"
-            placeholder="변경할 닉네임을 입력하세요."
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formGroupNewEmail">
-          <Form.Label>e-mail 변경</Form.Label>
-          <Form.Control
-            value={newEmail}
-            onChange={handleNewEmail}
-            type="email"
-            placeholder="변경할 E-mail을 입력하세요."
-          />
-        </Form.Group>
-
-        <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onEdit}>
-            수정하기
-          </Button>
+    <div style={{ paddingTop: "100px" }}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            회원정보 수정
+          </Typography>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
+            <TextField
+              value={newNickname}
+              onChange={handleNewNickname}
+              margin="normal"
+              required
+              fullWidth
+              label="닉네임 변경"
+              autoFocus
+            />
+            <TextField
+              value={newEmail}
+              onChange={handleNewEmail}
+              margin="normal"
+              required
+              fullWidth
+              label="E-mail 변경"
+              type="email"
+            />
+            <MuiButton
+              type="submit"
+              onClick={onEdit}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              수정하기
+            </MuiButton>
+          </Box>
+        </Box>
+        <div className="d-flex justify-content-end">
           <Link to="/check-password">
-            <div>비밀번호 변경</div>
+            <p>비밀번호 변경</p>
           </Link>
-        </Form.Group>
-      </Form>
+        </div>
+      </Container>
     </div>
   );
 }

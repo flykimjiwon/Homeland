@@ -198,7 +198,7 @@ function Sign() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container className="signup-form" component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
