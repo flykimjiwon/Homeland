@@ -1,13 +1,13 @@
-package com.ssafy.homeland;
-
+//package com.ssafy.homeland;
+//
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.context.SpringBootTest;
-
+//
 //@SpringBootTest
-class HomelandApplicationTests {
+//class HomelandApplicationTests {
 //
 //	@Test
 //	void contextLoads() {
 //	}
 //
-}
+//}
