@@ -18,6 +18,7 @@ import {
   IoMdCopy,
   IoCopy,
   IoGameController,
+  IoBeer,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
 import Modal from "./Modal";
@@ -31,7 +32,7 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Cheers from "./Cheers"
+import Cheers from "./Cheers";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -74,7 +75,7 @@ class Main extends Component {
       liarSubject: "",
       gamePanel: false,
       isRandomAllowed: true,
-      cheers:false,
+      cheers: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -94,15 +95,13 @@ class Main extends Component {
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
     // 짠효과
     this.cheersToggle = this.cheersToggle.bind(this);
-
-
   }
 
-  cheersToggle(){
+  cheersToggle() {
     this.setState({ cheers: !this.state.cheers });
     setTimeout(() => {
-      this.setState({ cheers: !this.state.cheers })
-    }, 2000)
+      this.setState({ cheers: !this.state.cheers });
+    }, 2000);
   }
 
   escFunction(event) {
@@ -855,6 +854,14 @@ class Main extends Component {
                         this.sendCaptureSignal();
                       }}
                     />
+                    {/* 짠효과 */}
+                    <IoBeer
+                      color="#50468c"
+                      size={btn_size}
+                      onClick={() => {
+                        this.sendCheersSignal();
+                      }}
+                    />
                     <IoExit
                       color="#50468c"
                       size={btn_size}
@@ -864,22 +871,12 @@ class Main extends Component {
                   {/* 스크린샷 타이머 */}
                   <div id="CntDown"></div>
                   {this.state.cnt ? <CountDown /> : <span></span>}
-                  {/* 짠효과 */}
-                  <button
-                    onClick={ ()=>{
-                      this.sendCheersSignal();
-                    }}
-                    >짠</button>
-                    
-                    
-      {this.state.cheers===true
-      ?(<div data-aos="zoom-in-down"
-      data-aos-duration="500"><Cheers></Cheers>
-        </div>
-        )
-      :null
 
-      }
+                  {this.state.cheers === true ? (
+                    <div data-aos="zoom-in-down" data-aos-duration="500">
+                      <Cheers></Cheers>
+                    </div>
+                  ) : null}
                 </Col>
 
                 <Col md={{ span: 3 }}>
