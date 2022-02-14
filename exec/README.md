@@ -1,2 +1,4 @@
-[설치가이드](/installation)
+[설치가이드](/installation/)
+
+
 
