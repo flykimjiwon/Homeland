@@ -790,6 +790,82 @@ class Main extends Component {
                   </div>
 
                   {/* buttons */}
+                  
+
+                  {/* 여기일단 그대로두고 버튼만이사 */}
+                  {/* 스크린샷 타이머 */}
+                  <div id="CntDown"></div>
+                  {this.state.cnt ? <CountDown /> : <span></span>}
+                  
+        {/* 짠효과 중앙 */}
+        {this.state.cheers===true
+      ?<Cheersmain></Cheersmain>
+      :null}
+
+                  
+                </Col>
+
+                <Col md={{ span: 3 }}>
+                  
+                  {/* chat */}
+                  {this.state.gamePanel ? <div className="panel"></div> : null}
+                  <div className="height-80">
+                    <div
+                      // className="chatbox__support chat-height-with-panel"
+                      className={
+                        this.state.gamePanel
+                          ? "chatbox__support chat-height-with-panel"
+                          : "chatbox__support chat-height-without-panel"
+                      }
+                    >
+                      <div className="chatbox__header">
+                        방코드: {mySessionId}
+                        <IoCopy
+                          color="#50468c"
+                          size="18"
+                          title="Copy"
+                          className="cursor-pointer"
+                          onClick={() =>
+                            navigator.clipboard.writeText(mySessionId)
+                          }
+                        />
+                        <IoGameController
+                          color="#50468c"
+                          size="18"
+                          className="cursor-pointer"
+                          onClick={this.paneltoggle}
+                        />
+                      </div>
+
+                      <div className="chatbox__messages" ref="chatoutput">
+                        {/* {this.displayElements} */}
+                        <Messages messages={messages} />
+                        <div />
+                      </div>
+                      <div className="chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <button
+                          className="chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Enter
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={8}>
+
+                  {/* buttons */}
                   <div className="btn_toolbar">
                     {this.state.audiostate ? (
                       <IoMicSharp
@@ -878,82 +954,10 @@ class Main extends Component {
                       onClick={this.openModalLeave}
                     />
                   </div>
-                  {/* 스크린샷 타이머 */}
-                  <div id="CntDown"></div>
-                  {this.state.cnt ? <CountDown /> : <span></span>}
-                  {/* 짠효과 */}
-                  {/* <button
-                    onClick={ ()=>{
-                      this.sendCheersSignal();
-                    }}
-                    >짠</button> */}
-                    
-                    
-                    {/* 짠 */}
-        {/* 짠효과 중앙 */}
-        {this.state.cheers===true
-      ?<Cheersmain></Cheersmain>
-      :null}
-
-                  
                 </Col>
+                <Col xs={4}></Col>
 
-                <Col md={{ span: 3 }}>
-                  
-                  {/* chat */}
-                  {this.state.gamePanel ? <div className="panel"></div> : null}
-                  <div className="height-80">
-                    <div
-                      // className="chatbox__support chat-height-with-panel"
-                      className={
-                        this.state.gamePanel
-                          ? "chatbox__support chat-height-with-panel"
-                          : "chatbox__support chat-height-without-panel"
-                      }
-                    >
-                      <div className="chatbox__header">
-                        방코드: {mySessionId}
-                        <IoCopy
-                          color="#50468c"
-                          size="18"
-                          title="Copy"
-                          className="cursor-pointer"
-                          onClick={() =>
-                            navigator.clipboard.writeText(mySessionId)
-                          }
-                        />
-                        <IoGameController
-                          color="#50468c"
-                          size="18"
-                          className="cursor-pointer"
-                          onClick={this.paneltoggle}
-                        />
-                      </div>
 
-                      <div className="chatbox__messages" ref="chatoutput">
-                        {/* {this.displayElements} */}
-                        <Messages messages={messages} />
-                        <div />
-                      </div>
-                      <div className="chatbox__footer">
-                        <input
-                          id="chat_message"
-                          type="text"
-                          placeholder="Write a message..."
-                          onChange={this.handleChatMessageChange}
-                          onKeyPress={this.sendmessageByEnter}
-                          value={this.state.message}
-                        />
-                        <button
-                          className="chatbox__send--footer"
-                          onClick={this.sendmessageByClick}
-                        >
-                          Enter
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
               </Row>
               
               
