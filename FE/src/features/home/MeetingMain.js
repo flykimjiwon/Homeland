@@ -42,13 +42,8 @@ const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
-<<<<<<< HEAD
-const btn_size = "36";
-const icon_color = "rgb(52, 62, 117)";
-=======
 const btn_size = "48";
 const icon_color = "rgb(52, 62, 118)";
->>>>>>> backup
 const icon_color_off = "rgb(89, 96, 138)";
 
 class Main extends Component {
@@ -318,7 +313,7 @@ class Main extends Component {
       });
     }
     // window.addEventListener("beforeunload", this.componentWillUnmount());
-    window.addEventListener('beforeunload', () => {
+    window.addEventListener("beforeunload", () => {
       this.componentWillUnmount();
     });
     window.addEventListener("resize", this.handleScreenMode);
@@ -401,11 +396,11 @@ class Main extends Component {
           var userId = connection.connectionId;
           var userName = JSON.parse(connection.data).clientData;
           connectionUser.push({ userId, userName });
-        
+
           //방장 찾기
           var Host = this.state.connections[0];
           var minNum = this.state.connections[0].creationTime;
-          for (var i = 0; i <this.state.connections.length; i++) {
+          for (var i = 0; i < this.state.connections.length; i++) {
             if (minNum > this.state.connections[i].creationTime) {
               minNum = this.state.connections[i].creationTime;
               Host = this.state.connections[i];
@@ -437,12 +432,12 @@ class Main extends Component {
           var leavedUserId = event.data;
           var deleteIndexUser = 9999;
           var deleteIndexConn = 9999;
-          for (var i = 0; i <this.state.connectionUser.length; i++) {
+          for (var i = 0; i < this.state.connectionUser.length; i++) {
             if (this.state.connectionUser[i].userId === leavedUserId) {
               deleteIndexUser = i;
             }
           }
-          for (var i = 0; i <this.state.connections.length; i++) {
+          for (var i = 0; i < this.state.connections.length; i++) {
             if (this.state.connections[i].connectionId === leavedUserId) {
               deleteIndexConn = i;
             }
@@ -554,10 +549,9 @@ class Main extends Component {
       type: "leavedUser",
     });
 
-
-    if(mySession.connection.connectionId == this.state.host.connectionId){
+    if (mySession.connection.connectionId == this.state.host.connectionId) {
       // 여기찐
-      this.sendPubOut()
+      this.sendPubOut();
     }
 
     // 세션 나가면 app.js에 false값 전달 => navbar 토글 위함
@@ -578,44 +572,41 @@ class Main extends Component {
           connectionId: this.state.connectionId,
           userId: this.state.userId,
         },
-      })
-        .then(() => {
-          // Empty all properties...
-          this.OV = null;
+      }).then(() => {
+        // Empty all properties...
+        this.OV = null;
 
-          this.setState({
-            session: undefined,
-            subscribers: [],
-            mySessionId: "",
-            myUserName: undefined,
-            mainStreamManager: undefined,
-            publisher: undefined,
-            subscribers: [],
-            messages: [],
-            message: "",
-            audiostate: true,
-            screenstate: true,
-            videostate: true,
-            captured: "",
-            cnt: false,
-            previewOpen: false,
-            connectionUser: [],
-            userId: "guest",
-            connectionId: "",
-            connections: [],
-            leaved: true,
-            width: window.innerWidth,
-            height: window.innerHeight,
-            gamePanel: false,
-            isRandomAllowed: true,
-            cheers: false,
-            gameCategory: "main",
-            host: {},
-          });
-
+        this.setState({
+          session: undefined,
+          subscribers: [],
+          mySessionId: "",
+          myUserName: undefined,
+          mainStreamManager: undefined,
+          publisher: undefined,
+          subscribers: [],
+          messages: [],
+          message: "",
+          audiostate: true,
+          screenstate: true,
+          videostate: true,
+          captured: "",
+          cnt: false,
+          previewOpen: false,
+          connectionUser: [],
+          userId: "guest",
+          connectionId: "",
+          connections: [],
+          leaved: true,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          gamePanel: false,
+          isRandomAllowed: true,
+          cheers: false,
+          gameCategory: "main",
+          host: {},
         });
+      });
     }
-
   }
 
   render() {
@@ -904,13 +895,9 @@ class Main extends Component {
                 />
               </div> */}
               <Row>
-                <Col md={{ span: 9 }}>
+                <Col md={{ span: 9 }} id="capture_screen">
                   {/* screens */}
-                  <div
-                    id="video-container"
-                    className="video-container "
-                    id="capture_screen"
-                  >
+                  <div id="video-container" className="video-container ">
                     {this.state.publisher !== undefined ? (
                       <div
                         // className="stream-container-v1"
@@ -1026,100 +1013,142 @@ class Main extends Component {
 
               <Row>
                 <Col xs={8}>
-                  {/* buttons */}
-                  <div onClick={() => {
-                      this.consoleTest();
-                  }}>
-                    <p>button</p>
-                  </div>
-                  <div className="btn_toolbar">
-                    {this.state.audiostate ? (
-                      <IoMicSharp
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishAudio(
-                            !this.state.audiostate
-                          );
-                          this.setState({ audiostate: !this.state.audiostate });
-                        }}
-                      />
-                    ) : (
-                      <IoMicOffSharp
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishAudio(
-                            !this.state.audiostate
-                          );
-                          this.setState({ audiostate: !this.state.audiostate });
-                        }}
-                      />
-                    )}
-                    {this.state.videostate ? (
-                      <IoVideocam
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishVideo(
-                            !this.state.videostate
-                          );
-                          this.setState({ videostate: !this.state.videostate });
-                        }}
-                      />
-                    ) : (
-                      <IoVideocamOff
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishVideo(
-                            !this.state.videostate
-                          );
-                          this.setState({ videostate: !this.state.videostate });
-                        }}
-                      />
-                    )}
-                    {!(
-                      screen.width === this.state.width &&
-                      screen.height === this.state.height
-                    ) ? (
-                      <IoMdExpand
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.openFullScreenMode();
-                        }}
-                      />
-                    ) : (
-                      <IoMdContract
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.closeFullScreenMode();
-                        }}
-                      />
-                    )}
-                    <IoCameraSharp
-                      color={icon_color}
-                      size={btn_size}
-                      onClick={() => {
-                        this.sendCaptureSignal();
-                      }}
-                    />
-                    {/* 짠효과 */}
-                    <IoBeer
-                      color={icon_color}
-                      size={btn_size}
-                      onClick={() => {
-                        this.sendCheersSignal();
-                      }}
-                    />
-                    <IoExit
-                      color="red"
-                      size={btn_size}
-                      onClick={this.openModalLeave}
-                    />
-                  </div>
+                  <Row className="btn_toolbar">
+                    <Col md={{ span: 1, offset: 4 }}>
+                      {this.state.audiostate ? (
+                        <div>
+                          <IoMicSharp
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMicOffSharp
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거 해제</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {this.state.videostate ? (
+                        <div>
+                          <IoVideocam
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 끄기</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoVideocamOff
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 켜기</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {/* 짠효과 */}
+                      <div>
+                        <IoBeer
+                          color="orange"
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCheersSignal();
+                          }}
+                        />
+                        <p className="btn-font">건배</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoCameraSharp
+                          color={icon_color}
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCaptureSignal();
+                          }}
+                        />
+                        <p className="btn-font">사진찍기</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {!(
+                        screen.width === this.state.width &&
+                        screen.height === this.state.height
+                      ) ? (
+                        <div>
+                          <IoMdExpand
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.openFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMdContract
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.closeFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면 해제</p>
+                        </div>
+                      )}
+                    </Col>
+
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoExit
+                          color="red"
+                          size={btn_size}
+                          onClick={this.openModalLeave}
+                        />
+                        <p className="btn-font">나가기</p>
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
                 <Col xs={4}></Col>
               </Row>
@@ -1312,7 +1341,7 @@ class Main extends Component {
 
     let Host = this.state.connections[0];
     let minNum = this.state.connections[0].creationTime;
-    for (let i = 0; i <this.state.connections.length; i++) {
+    for (let i = 0; i < this.state.connections.length; i++) {
       if (minNum > this.state.connections[i].creationTime) {
         minNum = this.state.connections[i].creationTime;
         Host = this.state.connections[i];
