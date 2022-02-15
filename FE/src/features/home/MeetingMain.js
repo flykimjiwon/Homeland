@@ -225,8 +225,6 @@ class Main extends Component {
       confirmButtonText: "저장하기",
       denyButtonText: `저장 안하기`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-
       if (result.isConfirmed) {
         this.onSaveAs(
           this.state.captured.toDataURL("image/png"),
@@ -250,10 +248,6 @@ class Main extends Component {
       confirmButtonText: "더 놀기",
       denyButtonText: `종료하기`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      // if (result.isConfirmed) {
-      //   Swal.fire("Saved!", "", "success");
-      // }
       if (result.isDenied) {
         this.leaveSession();
       }
