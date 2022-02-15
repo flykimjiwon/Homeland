@@ -76,9 +76,9 @@ function Notice() {
   useEffect(getAuthority, []);
   return (
     <div className="notice">
-      <h1>공지사항</h1>
-      <Container className="mt-3">
-        <Table striped hover>
+      <h1 className="color-353f71 mt-3">공지사항</h1>
+      <Container className="mt-5">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ width: "10%" }}>#</th>
@@ -93,7 +93,7 @@ function Notice() {
                   <td>{index + 1 + offset}</td>
                   <td>
                     <Link
-                      className="text-decoration-none text-black"
+                      className="text-decoration-none link-color"
                       to={`/notice-detail/${item.id}`}
                     >
                       {item.title}
@@ -104,7 +104,7 @@ function Notice() {
               );
             })}
           </tbody>
-        </Table>
+        </table>
         {userAuthority === "admin" ? (
           <div className="text-end me-3">
             <Button variant="contained" onClick={goToNoticeForm}>
