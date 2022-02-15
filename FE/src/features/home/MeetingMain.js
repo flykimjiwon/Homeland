@@ -75,7 +75,7 @@ class Main extends Component {
       liarOrNot: "",
       liarSubject: "",
       gamePanel: false,
-      isRandomAllowed: true,
+      isRandomAllowed: false,
       cheers: false,
     };
 
@@ -220,6 +220,7 @@ class Main extends Component {
   openModalCapture = () => {
     Swal.fire({
       title: "사진이 마음에 드시나요??",
+      width: 1200,
       html: `<div id="preview"></div>`,
       showDenyButton: true,
       confirmButtonText: "저장하기",
@@ -648,14 +649,14 @@ class Main extends Component {
                                     onChange={handleChangeRandomJoin}
                                   >
                                     <FormControlLabel
-                                      value={true}
-                                      control={<Radio />}
-                                      label="랜덤입장 가능"
-                                    />
-                                    <FormControlLabel
                                       value={false}
                                       control={<Radio />}
                                       label="랜덤입장 불가능"
+                                    />
+                                    <FormControlLabel
+                                      value={true}
+                                      control={<Radio />}
+                                      label="랜덤입장 가능"
                                     />
                                   </RadioGroup>
                                 </FormControl>
