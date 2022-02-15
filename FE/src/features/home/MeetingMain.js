@@ -21,7 +21,6 @@ import {
   IoBeer,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
-import CountDown from "./CountDown";
 import { FormControl, FormControlLabel, Button } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -35,14 +34,16 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import Cheersmain from "./Cheersmain";
 
+import GamePanel from "./GamePanel";
+
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
 const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
-const btn_size = "36";
-const icon_color = "rgb(52, 62, 117)";
+const btn_size = "48";
+const icon_color = "rgb(52, 62, 118)";
 const icon_color_off = "rgb(89, 96, 138)";
 
 class Main extends Component {
@@ -69,14 +70,14 @@ class Main extends Component {
       userId: "guest",
       connectionId: "",
       connections: [],
+      leaved: false,
       width: window.innerWidth,
       height: window.innerHeight,
-      liar: [],
-      liarOrNot: "",
-      liarSubject: "",
       gamePanel: false,
-      isRandomAllowed: true,
+      isRandomAllowed: false,
       cheers: false,
+      gameCategory: "main",
+      host: {},
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -84,7 +85,6 @@ class Main extends Component {
     this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
-    this.onbeforeunload = this.onbeforeunload.bind(this);
     this.escFunction = this.escFunction.bind(this);
     this.clickLeave = this.clickLeave.bind(this);
     this.paneltoggle = this.paneltoggle.bind(this);
@@ -96,6 +96,16 @@ class Main extends Component {
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
     // 짠효과
     this.cheersToggle = this.cheersToggle.bind(this);
+    // 게임
+    this.setGameCategory = this.setGameCategory.bind(this);
+    // 방장 나가기
+    this.pubOut = this.pubOut.bind(this);
+  }
+
+  pubOut() {
+    setTimeout(() => {
+      this.leaveSession();
+    }, 1000);
   }
 
   cheersToggle() {
@@ -217,9 +227,20 @@ class Main extends Component {
     });
   }
 
+  sendPubOut() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "out put",
+      to: [],
+      type: "putOut",
+    });
+  }
+
   openModalCapture = () => {
     Swal.fire({
       title: "사진이 마음에 드시나요??",
+      width: 1200,
       html: `<div id="preview"></div>`,
       showDenyButton: true,
       confirmButtonText: "저장하기",
@@ -235,6 +256,21 @@ class Main extends Component {
       }
     });
   };
+
+  sendGameCategorySignal() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: this.state.gameCategory,
+      to: [],
+      type: "gameCategorySignal",
+    });
+  }
+
+  async setGameCategory(category) {
+    await this.setState({ gameCategory: category });
+    await this.sendGameCategorySignal();
+  }
 
   closeModalCapture = () => {
     this.setState({ modalOpen_capture: false });
@@ -277,7 +313,10 @@ class Main extends Component {
         });
       });
     }
-    window.addEventListener("beforeunload", this.onbeforeunload);
+    // window.addEventListener("beforeunload", this.componentWillUnmount());
+    window.addEventListener("beforeunload", () => {
+      this.componentWillUnmount();
+    });
     window.addEventListener("resize", this.handleScreenMode);
     document.addEventListener("keydown", this.escFunction, false);
   }
@@ -286,10 +325,20 @@ class Main extends Component {
     window.removeEventListener("beforeunload", this.onbeforeunload);
     document.removeEventListener("keydown", this.escFunction, false);
     window.removeEventListener("resize", this.handleScreenMode);
-    this.leaveSession();
+    window.location.reload();
+    if (!this.state.leaved) {
+      this.leaveSession();
+    }
   }
 
-  onbeforeunload(event) {}
+  // onbeforeunload(event) {
+  //   event.preventDefault();
+  //   window.location.reload();
+  //   if (!this.state.leaved) {
+  //     this.leaveSession();
+  //   }
+  //   event.returnValue = '';
+  // }
 
   handleChangeSessionId(e) {
     this.setState({
@@ -342,11 +391,28 @@ class Main extends Component {
           // var connection = event.connection.connectionId
           // Object형을 넣어줘야한다.
           var connection = event.connection;
+          var connections = this.state.connections;
           var connectionUser = this.state.connectionUser;
-          connectionUser.push(connection);
+          connections.push(connection);
+          var userId = connection.connectionId;
+          var userName = JSON.parse(connection.data).clientData;
+          connectionUser.push({ userId, userName });
+
+          //방장 찾기
+          var Host = this.state.connections[0];
+          var minNum = this.state.connections[0].creationTime;
+          for (var i = 0; i < this.state.connections.length; i++) {
+            if (minNum > this.state.connections[i].creationTime) {
+              minNum = this.state.connections[i].creationTime;
+              Host = this.state.connections[i];
+            }
+          }
+
           //Update
           this.setState({
+            connections: connections,
             connectionUser: connectionUser,
+            host: Host,
           });
         });
         // On every new Stream received...
@@ -362,6 +428,25 @@ class Main extends Component {
             subscribers: subscribers,
           });
         });
+
+        mySession.on("signal:leavedUser", (event) => {
+          var leavedUserId = event.data;
+          var deleteIndexUser = 9999;
+          var deleteIndexConn = 9999;
+          for (var i = 0; i < this.state.connectionUser.length; i++) {
+            if (this.state.connectionUser[i].userId === leavedUserId) {
+              deleteIndexUser = i;
+            }
+          }
+          for (var i = 0; i < this.state.connections.length; i++) {
+            if (this.state.connections[i].connectionId === leavedUserId) {
+              deleteIndexConn = i;
+            }
+          }
+          this.state.connectionUser.splice(deleteIndexUser, 1);
+          this.state.connections.splice(deleteIndexConn, 1);
+        });
+
         mySession.on("signal:chat", (event) => {
           let chatdata = event.data.split(",");
           if (chatdata[0] !== this.state.myUserName) {
@@ -384,6 +469,17 @@ class Main extends Component {
 
         mySession.on("signal:cheersSignal", (event) => {
           this.cheersToggle();
+        });
+
+        // 방장 나가기
+        mySession.on("signal:putOut", (event) => {
+          this.pubOut();
+        });
+
+        mySession.on("signal:gameCategorySignal", (event) => {
+          console.log("이벤트 데이터", event.data);
+          this.setState({ gameCategory: event.data });
+          console.log(this.state.gameCategory);
         });
 
         // On every Stream destroyed...
@@ -446,8 +542,19 @@ class Main extends Component {
 
   leaveSession() {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
     const mySession = this.state.session;
+    // 컬렉션 배열에서 나간유저 제거
+    mySession.signal({
+      data: `${this.state.connectionId}`,
+      to: [],
+      type: "leavedUser",
+    });
+
+    if (mySession.connection.connectionId == this.state.host.connectionId) {
+      // 여기찐
+      this.sendPubOut();
+    }
+
     // 세션 나가면 app.js에 false값 전달 => navbar 토글 위함
     const onIsSession = this.props.onIsSession;
     onIsSession(false);
@@ -466,19 +573,41 @@ class Main extends Component {
           connectionId: this.state.connectionId,
           userId: this.state.userId,
         },
+      }).then(() => {
+        // Empty all properties...
+        this.OV = null;
+
+        this.setState({
+          session: undefined,
+          subscribers: [],
+          mySessionId: "",
+          myUserName: undefined,
+          mainStreamManager: undefined,
+          publisher: undefined,
+          subscribers: [],
+          messages: [],
+          message: "",
+          audiostate: true,
+          screenstate: true,
+          videostate: true,
+          captured: "",
+          cnt: false,
+          previewOpen: false,
+          connectionUser: [],
+          userId: "guest",
+          connectionId: "",
+          connections: [],
+          leaved: true,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          gamePanel: false,
+          isRandomAllowed: true,
+          cheers: false,
+          gameCategory: "main",
+          host: {},
+        });
       });
     }
-
-    // Empty all properties...
-    this.OV = null;
-    this.setState({
-      session: undefined,
-      subscribers: [],
-      mySessionId: "",
-      myUserName: this.state.myUserName,
-      mainStreamManager: undefined,
-      publisher: undefined,
-    });
   }
 
   render() {
@@ -648,14 +777,14 @@ class Main extends Component {
                                     onChange={handleChangeRandomJoin}
                                   >
                                     <FormControlLabel
-                                      value={true}
-                                      control={<Radio />}
-                                      label="랜덤입장 가능"
-                                    />
-                                    <FormControlLabel
                                       value={false}
                                       control={<Radio />}
                                       label="랜덤입장 불가능"
+                                    />
+                                    <FormControlLabel
+                                      value={true}
+                                      control={<Radio />}
+                                      label="랜덤입장 가능"
                                     />
                                   </RadioGroup>
                                 </FormControl>
@@ -664,32 +793,36 @@ class Main extends Component {
                             <Col md={{ span: 5, offset: 2 }}>
                               <div className="join-box">
                                 <div>방 입장하기</div>
-                                <br></br>
-                                <Button
-                                  type="submit"
-                                  onClick={onRandomJoin}
-                                  variant="contained"
-                                >
-                                  랜덤입장
-                                </Button>
-                                <br></br>
+                                <br />
                                 <p>방 번호를 입력하세요</p>
-                                <TextField
-                                  margin="normal"
-                                  id="sessionId"
-                                  value={mySessionId}
-                                  onChange={this.handleChangeSessionId}
-                                  required
-                                  fullWidth
-                                  label="방 번호"
-                                />
-
-                                <input
-                                  type="submit"
-                                  value="JOIN"
-                                  className="btn btn-lg btn-color margin-right10"
-                                  onClick={onCheckSession}
-                                />
+                                <div className="input-group">
+                                  <input
+                                    type="text"
+                                    className="form-control margin-left10"
+                                    placeholder="방 번호"
+                                    value={mySessionId}
+                                    onChange={this.handleChangeSessionId}
+                                  />
+                                  <input
+                                    type="submit"
+                                    value="JOIN"
+                                    className="btn btn-lg btn-color margin-right10"
+                                    onClick={onCheckSession}
+                                  />
+                                </div>
+                                <div style={{ borderTop: "solid 5px #353f71" }}>
+                                  <p className="mt-4">
+                                    새로운 만남을 원하세요?
+                                  </p>
+                                  <Button
+                                    type="submit"
+                                    onClick={onRandomJoin}
+                                    variant="contained"
+                                    className="mt-4"
+                                  >
+                                    랜덤입장
+                                  </Button>
+                                </div>
                               </div>
                             </Col>
                           </Row>
@@ -767,13 +900,9 @@ class Main extends Component {
                 />
               </div> */}
               <Row>
-                <Col md={{ span: 9 }}>
+                <Col md={{ span: 9 }} id="capture_screen">
                   {/* screens */}
-                  <div
-                    id="video-container"
-                    className="video-container "
-                    id="capture_screen"
-                  >
+                  <div id="video-container" className="video-container ">
                     {this.state.publisher !== undefined ? (
                       <div
                         // className="stream-container-v1"
@@ -807,12 +936,6 @@ class Main extends Component {
                       </div>
                     ))}
                   </div>
-                  {/* buttons */}
-
-                  {/* 여기일단 그대로두고 버튼만이사 */}
-                  {/* 스크린샷 타이머 */}
-                  <div id="CntDown"></div>
-                  {this.state.cnt ? <CountDown /> : <span></span>}
 
                   {/* 짠효과 중앙 */}
                   {this.state.cheers === true ? (
@@ -821,8 +944,24 @@ class Main extends Component {
                 </Col>
 
                 <Col md={{ span: 3 }}>
+                  {/* gamePanel */}
+                  <GamePanel
+                    cnt={this.state.cnt}
+                    gamePanel={this.state.gamePanel}
+                    gameCategory={this.state.gameCategory}
+                    setGameCategory={this.setGameCategory}
+                    sessionData={this.state.sessionData}
+                    mySessionId={this.state.mySessionId}
+                    myUserName={this.state.myUserName}
+                    session={this.state.session}
+                    publisher={this.state.publisher}
+                    subscribers={this.state.subscribers}
+                    connectionId={this.state.connectionId}
+                    connections={this.state.connections}
+                    connectionUser={this.state.connectionUser}
+                    host={this.state.host}
+                  ></GamePanel>
                   {/* chat */}
-                  {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
                     <div
                       // className="chatbox__support chat-height-with-panel"
@@ -879,95 +1018,142 @@ class Main extends Component {
 
               <Row>
                 <Col xs={8}>
-                  {/* buttons */}
-                  <div className="btn_toolbar">
-                    {this.state.audiostate ? (
-                      <IoMicSharp
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishAudio(
-                            !this.state.audiostate
-                          );
-                          this.setState({ audiostate: !this.state.audiostate });
-                        }}
-                      />
-                    ) : (
-                      <IoMicOffSharp
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishAudio(
-                            !this.state.audiostate
-                          );
-                          this.setState({ audiostate: !this.state.audiostate });
-                        }}
-                      />
-                    )}
-                    {this.state.videostate ? (
-                      <IoVideocam
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishVideo(
-                            !this.state.videostate
-                          );
-                          this.setState({ videostate: !this.state.videostate });
-                        }}
-                      />
-                    ) : (
-                      <IoVideocamOff
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishVideo(
-                            !this.state.videostate
-                          );
-                          this.setState({ videostate: !this.state.videostate });
-                        }}
-                      />
-                    )}
-                    {!(
-                      screen.width === this.state.width &&
-                      screen.height === this.state.height
-                    ) ? (
-                      <IoMdExpand
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.openFullScreenMode();
-                        }}
-                      />
-                    ) : (
-                      <IoMdContract
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.closeFullScreenMode();
-                        }}
-                      />
-                    )}
-                    <IoCameraSharp
-                      color={icon_color}
-                      size={btn_size}
-                      onClick={() => {
-                        this.sendCaptureSignal();
-                      }}
-                    />
-                    {/* 짠효과 */}
-                    <IoBeer
-                      color={icon_color}
-                      size={btn_size}
-                      onClick={() => {
-                        this.sendCheersSignal();
-                      }}
-                    />
-                    <IoExit
-                      color="red"
-                      size={btn_size}
-                      onClick={this.openModalLeave}
-                    />
-                  </div>
+                  <Row className="btn_toolbar">
+                    <Col md={{ span: 1, offset: 4 }}>
+                      {this.state.audiostate ? (
+                        <div>
+                          <IoMicSharp
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMicOffSharp
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거 해제</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {this.state.videostate ? (
+                        <div>
+                          <IoVideocam
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 끄기</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoVideocamOff
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 켜기</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {/* 짠효과 */}
+                      <div>
+                        <IoBeer
+                          color="orange"
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCheersSignal();
+                          }}
+                        />
+                        <p className="btn-font">건배</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoCameraSharp
+                          color={icon_color}
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCaptureSignal();
+                          }}
+                        />
+                        <p className="btn-font">사진찍기</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {!(
+                        screen.width === this.state.width &&
+                        screen.height === this.state.height
+                      ) ? (
+                        <div>
+                          <IoMdExpand
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.openFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMdContract
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.closeFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면 해제</p>
+                        </div>
+                      )}
+                    </Col>
+
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoExit
+                          color="red"
+                          size={btn_size}
+                          onClick={this.openModalLeave}
+                        />
+                        <p className="btn-font">나가기</p>
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
                 <Col xs={4}></Col>
               </Row>
@@ -1100,11 +1286,13 @@ class Main extends Component {
 
   onCapture() {
     console.log("onCapture");
+    const gamePanelState = this.state.gamePanel;
+    this.setState({ cnt: false });
     if (!this.state.previewOpen) {
-      this.setState({ cnt: true, previewOpen: true });
+      this.setState({ cnt: true, previewOpen: true, gamePanel: true });
       setTimeout(() => {
         {
-          this.setState({ cnt: false });
+          this.setState({ cnt: false, gamePanel: gamePanelState });
           html2canvas(document.getElementById("capture_screen")).then(
             (canvas) => {
               this.state.captured = canvas;
@@ -1143,6 +1331,38 @@ class Main extends Component {
         video[i].play();
       }
     }, 100);
+  }
+
+  consoleTest() {
+    console.log("@@@@@@@@@@@@@@@@@@@");
+    console.log(this.state.sessionData);
+    console.log(this.state.mySessionId);
+    console.log(this.state.myUserName);
+    console.log(this.state.mainStreamManager);
+    console.log(this.state.publisher);
+    console.log(this.state.connectionUser);
+    console.log(this.state.connectionId);
+    console.log(this.state.connections);
+
+    let Host = this.state.connections[0];
+    let minNum = this.state.connections[0].creationTime;
+    for (let i = 0; i < this.state.connections.length; i++) {
+      if (minNum > this.state.connections[i].creationTime) {
+        minNum = this.state.connections[i].creationTime;
+        Host = this.state.connections[i];
+      }
+    }
+    console.log("호스트", Host);
+    console.log(Host.creationTime);
+    console.log(Host.connectionId);
+    console.log("유저");
+    console.log(this.state.connections[0].creationTime);
+    console.log(this.state.connections[0].connectionId);
+    console.log("####################");
+    console.log("호스트 진짜맞냐!", this.state.host);
+    console.log("호스트 진짜맞냐!", this.state.host.creationTime);
+    console.log("호스트 진짜맞냐!", this.state.host.connectionId);
+    console.log("!!!!!!!!!!!!!!!!!!!!!");
   }
 }
 
