@@ -15,7 +15,11 @@
 .height-calc {
   height: calc(100% - 150px);
 }
-
+.btn-font {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgb(52, 62, 117);
+}
 .font-big-orange {
   color: rgb(52, 62, 117);
   font-weight: bold;
