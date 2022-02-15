@@ -42,8 +42,13 @@ const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
+<<<<<<< HEAD
 const btn_size = "36";
 const icon_color = "rgb(52, 62, 117)";
+=======
+const btn_size = "48";
+const icon_color = "rgb(52, 62, 118)";
+>>>>>>> backup
 const icon_color_off = "rgb(89, 96, 138)";
 
 class Main extends Component {
@@ -269,7 +274,7 @@ class Main extends Component {
   async setGameCategory(category) {
     await this.setState({ gameCategory: category });
     await this.sendGameCategorySignal();
-  }  
+  }
 
   closeModalCapture = () => {
     this.setState({ modalOpen_capture: false });
@@ -478,7 +483,7 @@ class Main extends Component {
         mySession.on("signal:gameCategorySignal", (event) => {
           console.log("이벤트 데이터", event.data);
           this.setState({ gameCategory: event.data });
-          console.log(this.state.gameCategory)
+          console.log(this.state.gameCategory);
         });
 
         // On every Stream destroyed...
