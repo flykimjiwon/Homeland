@@ -32,7 +32,7 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Cheersmain from "./Cheersmain"
+import Cheersmain from "./Cheersmain";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -76,7 +76,7 @@ class Main extends Component {
       liarOrNot: "",
       liarSubject: "",
       gamePanel: false,
-      isRandomAllowed: true,
+      isRandomAllowed: false,
       cheers: false,
     };
 
@@ -102,8 +102,8 @@ class Main extends Component {
   cheersToggle() {
     this.setState({ cheers: !this.state.cheers });
     setTimeout(() => {
-      this.setState({ cheers: !this.state.cheers })
-    }, 6000)
+      this.setState({ cheers: !this.state.cheers });
+    }, 6000);
   }
 
   escFunction(event) {
@@ -629,14 +629,14 @@ class Main extends Component {
                                     onChange={handleChangeRandomJoin}
                                   >
                                     <FormControlLabel
-                                      value={true}
-                                      control={<Radio />}
-                                      label="랜덤입장 가능"
-                                    />
-                                    <FormControlLabel
                                       value={false}
                                       control={<Radio />}
                                       label="랜덤입장 불가능"
+                                    />
+                                    <FormControlLabel
+                                      value={true}
+                                      control={<Radio />}
+                                      label="랜덤입장 가능"
                                     />
                                   </RadioGroup>
                                 </FormControl>
@@ -645,32 +645,40 @@ class Main extends Component {
                             <Col md={{ span: 5, offset: 2 }}>
                               <div className="join-box">
                                 <div>방 입장하기</div>
-                                <br></br>
-                                <Button
-                                  type="submit"
-                                  onClick={onRandomJoin}
-                                  variant="contained"
+                                <div
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginRight: "10px",
+                                  }}
                                 >
-                                  랜덤입장
-                                </Button>
-                                <br></br>
-                                <p>방 번호를 입력하세요</p>
-                                <TextField
-                                  margin="normal"
-                                  id="sessionId"
-                                  value={mySessionId}
-                                  onChange={this.handleChangeSessionId}
-                                  required
-                                  fullWidth
-                                  label="방 번호"
-                                />
-
+                                  <TextField
+                                    margin="normal"
+                                    id="sessionId"
+                                    value={mySessionId}
+                                    onChange={this.handleChangeSessionId}
+                                    required
+                                    fullWidth
+                                    label="방 번호를 입력하세요"
+                                  />
+                                </div>
                                 <input
+                                  style={{ marginBottom: "5px" }}
                                   type="submit"
                                   value="JOIN"
-                                  className="btn btn-lg btn-color margin-right10"
+                                  className="btn btn-lg btn-color"
                                   onClick={onCheckSession}
                                 />
+                                <br />
+                                <div style={{ borderTop: "solid 5px #353f71" }}>
+                                  <p>새로운 사람들을 만나고 싶다면,</p>
+                                  <Button
+                                    type="submit"
+                                    onClick={onRandomJoin}
+                                    variant="contained"
+                                  >
+                                    랜덤 입장
+                                  </Button>
+                                </div>
                               </div>
                             </Col>
                           </Row>
@@ -887,19 +895,15 @@ class Main extends Component {
                       this.sendCheersSignal();
                     }}
                     >짠</button> */}
-                    
-                    
-                    {/* 짠 */}
-        {/* 짠효과 중앙 */}
-        {this.state.cheers===true
-      ?<Cheersmain></Cheersmain>
-      :null}
 
-                  
+                  {/* 짠 */}
+                  {/* 짠효과 중앙 */}
+                  {this.state.cheers === true ? (
+                    <Cheersmain></Cheersmain>
+                  ) : null}
                 </Col>
 
                 <Col md={{ span: 3 }}>
-                  
                   {/* chat */}
                   {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
@@ -955,12 +959,9 @@ class Main extends Component {
                   </div>
                 </Col>
               </Row>
-              
-              
             </Container>
           </div>
         )}
-      
 
         {/* 스크린샷 모달창 */}
         <Modal

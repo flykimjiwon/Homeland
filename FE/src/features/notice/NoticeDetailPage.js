@@ -1,13 +1,12 @@
 /* eslint-disable */
 import { useState, useEffect } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form } from "react-bootstrap";
 import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "./NoticeDetailPage.css";
 import "dayjs/locale/ko";
-import { Button as MuiButton, ButtonGroup } from "@mui/material";
+import { Button as MuiButton, ButtonGroup, Container } from "@mui/material";
 
 dayjs.locale("ko");
 
@@ -76,21 +75,26 @@ function NoticeDetailPage() {
       });
   };
   return (
-    <div className="notice-detail">
-      <h1>글 세부사항</h1>
-      <div>
-        <h4>제목: {notice.title}</h4>
-        <p>
-          작성시간: {dayjs(notice.updatedAt).format("YYYY년 MM월 DD일 HH:mm")}
-        </p>
-        <p>내용: {notice.content}</p>
+    <div className="notice-detail-font-style">
+      <div className="container notice-detail">
+        <h2>{notice.title}</h2>
+        <div className="d-flex justify-content-end">
+          <p>{dayjs(notice.updatedAt).format("YYYY. MM. DD HH:mm")}</p>
+        </div>
+        <br />
+        <p>{notice.content}</p>
       </div>
       {userAuthority === "admin" ? (
-        <div className="my-3">
-          <ButtonGroup variant="contained">
-            <MuiButton onClick={goToEditNotice}>수정하기</MuiButton>
-            <MuiButton onClick={onDeleteNotice}>삭제하기</MuiButton>
-          </ButtonGroup>
+        <div className="d-flex justify-content-center">
+          <div
+            style={{ width: "500px", Align: "center" }}
+            className="my-3 d-flex justify-content-end"
+          >
+            <ButtonGroup variant="contained">
+              <MuiButton onClick={goToEditNotice}>수정하기</MuiButton>
+              <MuiButton onClick={onDeleteNotice}>삭제하기</MuiButton>
+            </ButtonGroup>
+          </div>
         </div>
       ) : null}
       <MuiButton variant="contained" onClick={goToNoticeList}>

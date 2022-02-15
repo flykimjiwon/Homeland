@@ -1,18 +1,19 @@
 /* eslint-disable */
 // import axios from 'axios';
 import { useState, useEffect } from "react";
-import { Table, Button, Container } from "react-bootstrap";
+import { Table, Container } from "react-bootstrap";
 import "./Notice.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
-import Pagination from "@mui/material/Pagination";
+import { Button, Pagination } from "@mui/material";
 
 dayjs.locale("ko");
 
 function Notice() {
+  const history = useHistory();
   const BEUrl = backEndUrl;
   const token = localStorage.getItem("jwt");
   const [noticeItems, setNoticeItems] = useState([]);
@@ -65,18 +66,24 @@ function Notice() {
       });
     }
   };
+
+  const goToNoticeForm = (event) => {
+    event.preventDefault();
+    history.push("/notice-form");
+  };
+
   useEffect(getNoticeItems, []);
   useEffect(getAuthority, []);
   return (
     <div className="notice">
       <h1>공지사항</h1>
       <Container className="mt-3">
-        <Table striped bordered hover>
+        <Table striped hover>
           <thead>
             <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>작성시간</th>
+              <th style={{ width: "10%" }}>#</th>
+              <th style={{ width: "60%" }}>제목</th>
+              <th style={{ width: "30%" }}>작성시간</th>
             </tr>
           </thead>
           <tbody>
@@ -92,9 +99,7 @@ function Notice() {
                       {item.title}
                     </Link>
                   </td>
-                  <td>
-                    {dayjs(item.updatedAt).format("YYYY년 MM월 DD일 HH:mm")}
-                  </td>
+                  <td>{dayjs(item.updatedAt).format("YYYY. MM. DD")}</td>
                 </tr>
               );
             })}
@@ -102,9 +107,9 @@ function Notice() {
         </Table>
         {userAuthority === "admin" ? (
           <div className="text-end me-3">
-            <Link to="/notice-form">
-              <button className="btn btn-color">글 작성</button>
-            </Link>
+            <Button variant="contained" onClick={goToNoticeForm}>
+              글 작성
+            </Button>
           </div>
         ) : null}
       </Container>

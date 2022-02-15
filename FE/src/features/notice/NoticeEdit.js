@@ -1,6 +1,15 @@
+/* eslint-disable */
 import { useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
+import {
+  Container,
+  CssBaseline,
+  Box,
+  Typography,
+  TextField,
+  Button as MuiButton,
+} from "@mui/material";
 import axios from "axios";
 import backEndUrl from "../setup/hld_url";
 
@@ -59,32 +68,52 @@ function NoticeEdit() {
   };
   return (
     <div style={{ paddingTop: "100px" }}>
-      <h1 className="mt-3">공지 수정</h1>
-      <Form className="container mypage-form">
-        <Form.Group className="mb-3" controlId="formChangeTitle">
-          <Form.Label>제목</Form.Label>
-          <Form.Control
-            value={newTitle}
-            onChange={handleNewTitle}
-            type="text"
-            placeholder="변경할 제목을 입력하세요."
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formChangeContent">
-          <Form.Label>내용</Form.Label>
-          <Form.Control
-            value={newContent}
-            onChange={handleNewContent}
-            as="textarea"
-            placeholder="변경할 내용을 입력하세요."
-          />
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onEditNotice}>
-            확인
-          </Button>
-        </Form.Group>
-      </Form>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h4">
+            공지사항 작성
+          </Typography>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
+            <TextField
+              value={newTitle}
+              onChange={handleNewTitle}
+              variant="standard"
+              margin="normal"
+              required
+              fullWidth
+              label="제목"
+              autoFocus
+            />
+            <TextField
+              value={newContent}
+              onChange={handleNewContent}
+              variant="standard"
+              margin="normal"
+              required
+              fullWidth
+              multiline
+              label="내용"
+            />
+            <MuiButton
+              type="submit"
+              onClick={onEditNotice}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              수정하기
+            </MuiButton>
+          </Box>
+        </Box>
+      </Container>
     </div>
   );
 }

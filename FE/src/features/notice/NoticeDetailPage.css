@@ -1,3 +1,13 @@
 .notice-detail {
-  padding-top: 100px;
+  width: 500px;
+  background-color: #d3e5e8;
+  margin-top: 200px;
+  margin-bottom: 20px;
+  border: solid 5px #353f71;  
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.notice-detail-font-style {
+  color: #353f71;
 }
