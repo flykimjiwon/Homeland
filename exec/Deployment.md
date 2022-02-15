@@ -57,10 +57,10 @@ https를 위한 인증서 타입을 설정한다.
 ```
 # Domain name. If you do not have one, the public IP of the machine.
 # For example: 198.51.100.1, or openvidu.example.com
-DOMAIN_OR_PUBLIC_IP=i6c202.p.ssafy.io
+DOMAIN_OR_PUBLIC_IP=도메인
 
 # OpenVidu SECRET used for apps to connect to OpenVidu server and users to access to OpenVidu Dashboard
-OPENVIDU_SECRET=HOMELAND
+OPENVIDU_SECRET=시크릿
 
 # Certificate type:
 # - selfsigned:  Self signed certificate. Not recommended for production use.
@@ -74,12 +74,47 @@ OPENVIDU_SECRET=HOMELAND
 CERTIFICATE_TYPE=letsencrypt
 
 # If CERTIFICATE_TYPE=letsencrypt, you need to configure a valid email for notifications
-LETSENCRYPT_EMAIL=ㅇ
+LETSENCRYPT_EMAIL=이메일
 ```
 
 
 
 ### /opt/openvidu/docker-compose.override.yml 설정
+
+기존에 openvidu서버에서 제공하는 app의 포트 번호를 5442 말고 다른 포트로 변경한다.
+
+(실행시킨 후 도커 컨테이너를 stop하고 프론트엔트를 배포 해도 된다.)
+
+```
+version: '3.1'
+
+services:
+    # --------------------------------------------------------------
+    #
+    #   Change this if your want use your own application.
+    #   It's very important expose your application in port 5442
+    #   and use the http protocol.
+    #
+    #   Default Application
+    #
+    #   Openvidu-Call Version: 2.20.0
+    #
+    # --------------------------------------------------------------
+    app:
+        image: openvidu/openvidu-call:2.20.0
+        restart: on-failure
+        network_mode: host
+        environment:
+            - SERVER_PORT=5442-->5442이외 다른 포트로
+            - OPENVIDU_URL=http://localhost:5443
+            - OPENVIDU_SECRET=${OPENVIDU_SECRET}
+            - CALL_OPENVIDU_CERTTYPE=${CERTIFICATE_TYPE}
+        logging:
+            options:
+                max-size: "${DOCKER_LOGS_MAX_SIZE:-100M}"
+```
+
+
 
 
 
@@ -118,7 +153,7 @@ sudo docker build -t react_img .
 ```
 
 ```bash
-sudo docker run -it -d --network="host" --name homeland_react r
+sudo docker run -it -d --network="host" --name homeland_react react_img
 ```
 
 
@@ -173,15 +208,15 @@ cp keystore.p12 /home/ubuntu/S06P12C202/homeland/src/main/resources/keystore/key
 
 
 
-인증서 이름을 변경하면 application.properties 설정에서도 변경
+인증서 관련 정보 application.properties 설정에서도 변경
 
 ![image-20220215003202450](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220215003202450.png)
 
 
 
+openvidu 서버 관련 properties 저장 (application.properties)
 
-
-
+![image-20220215140422040](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220215140422040.png)
 
 
 

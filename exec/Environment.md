@@ -4,9 +4,9 @@
 
 ## OS
 
-### NAME: Ubuntu
++ #### NAME: Ubuntu
 
-### VERSION: 20.04.3 LTS (Focal Fossa)
++ #### VERSION: 20.04.3 LTS (Focal Fossa)
 
 
 
@@ -26,7 +26,10 @@
 
   #### -version: 17.0.2
 
-  
+
+
+
+
 
 
 
@@ -52,7 +55,10 @@
 
    #### -version: 5.0.7
 
-   
+
+
+
+
 
 
 
