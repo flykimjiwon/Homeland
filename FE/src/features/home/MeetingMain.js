@@ -21,7 +21,6 @@ import {
   IoBeer,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
-import Modal from "./Modal";
 import CountDown from "./CountDown";
 import { FormControl, FormControlLabel, Button } from "@mui/material";
 import Radio from "@mui/material/Radio";
@@ -64,7 +63,6 @@ class Main extends Component {
       screenstate: true,
       videostate: true,
       captured: "",
-      modalOpen_capture: false,
       cnt: false,
       previewOpen: false,
       connectionUser: [],
@@ -220,7 +218,24 @@ class Main extends Component {
   }
 
   openModalCapture = () => {
-    this.setState({ modalOpen_capture: true });
+    Swal.fire({
+      title: "사진이 마음에 드시나요??",
+      html: `<div id="preview"></div>`,
+      showDenyButton: true,
+      confirmButtonText: "저장하기",
+      denyButtonText: `저장 안하기`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+
+      if (result.isConfirmed) {
+        this.onSaveAs(
+          this.state.captured.toDataURL("image/png"),
+          "HomeLanDrink.png"
+        );
+      } else if (result.isDenied) {
+        this.closeModalCapture();
+      }
+    });
   };
 
   closeModalCapture = () => {
@@ -243,10 +258,6 @@ class Main extends Component {
         this.leaveSession();
       }
     });
-  };
-
-  closeModalLeave = () => {
-    this.setState({ modalOpen_leave: false });
   };
 
   clickLeave = () => {
@@ -802,7 +813,6 @@ class Main extends Component {
                       </div>
                     ))}
                   </div>
-
                   {/* buttons */}
                   <div className="btn_toolbar">
                     {this.state.audiostate ? (
@@ -901,7 +911,6 @@ class Main extends Component {
                       this.sendCheersSignal();
                     }}
                     >짠</button> */}
-
                   {/* 짠 */}
                   {/* 짠효과 중앙 */}
                   {this.state.cheers === true ? (
@@ -968,30 +977,6 @@ class Main extends Component {
             </Container>
           </div>
         )}
-
-        {/* 스크린샷 모달창 */}
-        <Modal
-          open={this.state.modalOpen_capture}
-          close={this.closeModalCapture}
-        >
-          <div id="preview"></div>
-          저장하시겠습니까?
-          <button
-            className="close"
-            onClick={() =>
-              this.onSaveAs(
-                this.state.captured.toDataURL("image/png"),
-                "HomeLanDrink.png"
-              )
-            }
-          >
-            네
-          </button>
-          <button className="close" onClick={this.closeModalCapture}>
-            {" "}
-            아니오
-          </button>
-        </Modal>
       </div>
     );
   }
