@@ -43,9 +43,12 @@ public class NoticeController {
         List<Notice> list = noticeRepository.findAll();
         List<NoticeListRes> noticeList = new ArrayList<>();
 
+        Collections.reverse(list);
+
         for (Notice entity : list) {
             noticeList.add(new NoticeListRes(entity));
         }
+
         return new ResponseEntity<>(noticeList,HttpStatus.OK);
 
     }
