@@ -42,7 +42,7 @@ const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "HOMELAND";
 
 const BEUrl = backendUrl;
-const btn_size = "36";
+const btn_size = "48";
 const icon_color = "rgb(52, 62, 117)";
 const icon_color_off = "rgb(89, 96, 138)";
 
@@ -224,6 +224,7 @@ class Main extends Component {
   openModalCapture = () => {
     Swal.fire({
       title: "사진이 마음에 드시나요??",
+      width: 1200,
       html: `<div id="preview"></div>`,
       showDenyButton: true,
       confirmButtonText: "저장하기",
@@ -797,13 +798,9 @@ class Main extends Component {
                 />
               </div> */}
               <Row>
-                <Col md={{ span: 9 }}>
+                <Col md={{ span: 9 }} id="capture_screen">
                   {/* screens */}
-                  <div
-                    id="video-container"
-                    className="video-container "
-                    id="capture_screen"
-                  >
+                  <div id="video-container" className="video-container">
                     {this.state.publisher !== undefined ? (
                       <div
                         // className="stream-container-v1"
@@ -919,94 +916,142 @@ class Main extends Component {
               <Row>
                 <Col xs={8}>
                   {/* buttons */}
-                  <div className="btn_toolbar">
-                    {this.state.audiostate ? (
-                      <IoMicSharp
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishAudio(
-                            !this.state.audiostate
-                          );
-                          this.setState({ audiostate: !this.state.audiostate });
-                        }}
-                      />
-                    ) : (
-                      <IoMicOffSharp
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishAudio(
-                            !this.state.audiostate
-                          );
-                          this.setState({ audiostate: !this.state.audiostate });
-                        }}
-                      />
-                    )}
-                    {this.state.videostate ? (
-                      <IoVideocam
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishVideo(
-                            !this.state.videostate
-                          );
-                          this.setState({ videostate: !this.state.videostate });
-                        }}
-                      />
-                    ) : (
-                      <IoVideocamOff
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.state.publisher.publishVideo(
-                            !this.state.videostate
-                          );
-                          this.setState({ videostate: !this.state.videostate });
-                        }}
-                      />
-                    )}
-                    {!(
-                      screen.width === this.state.width &&
-                      screen.height === this.state.height
-                    ) ? (
-                      <IoMdExpand
-                        color={icon_color}
-                        size={btn_size}
-                        onClick={() => {
-                          this.openFullScreenMode();
-                        }}
-                      />
-                    ) : (
-                      <IoMdContract
-                        color={icon_color_off}
-                        size={btn_size}
-                        onClick={() => {
-                          this.closeFullScreenMode();
-                        }}
-                      />
-                    )}
-                    <IoCameraSharp
-                      color={icon_color}
-                      size={btn_size}
-                      onClick={() => {
-                        this.sendCaptureSignal();
-                      }}
-                    />
-                    {/* 짠효과 */}
-                    <IoBeer
-                      color={icon_color}
-                      size={btn_size}
-                      onClick={() => {
-                        this.sendCheersSignal();
-                      }}
-                    />
-                    <IoExit
-                      color="red"
-                      size={btn_size}
-                      onClick={this.openModalLeave}
-                    />
-                  </div>
+                  <Row className="btn_toolbar">
+                    <Col md={{ span: 1, offset: 4 }}>
+                      {this.state.audiostate ? (
+                        <div>
+                          <IoMicSharp
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMicOffSharp
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거 해제</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {this.state.videostate ? (
+                        <div>
+                          <IoVideocam
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 끄기</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoVideocamOff
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 켜기</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {/* 짠효과 */}
+                      <div>
+                        <IoBeer
+                          color="orange"
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCheersSignal();
+                          }}
+                        />
+                        <p className="btn-font">건배</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoCameraSharp
+                          color={icon_color}
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCaptureSignal();
+                          }}
+                        />
+                        <p className="btn-font">사진찍기</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      {!(
+                        screen.width === this.state.width &&
+                        screen.height === this.state.height
+                      ) ? (
+                        <div>
+                          <IoMdExpand
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.openFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMdContract
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.closeFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면 해제</p>
+                        </div>
+                      )}
+                    </Col>
+
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoExit
+                          color="red"
+                          size={btn_size}
+                          onClick={this.openModalLeave}
+                        />
+                        <p className="btn-font">나가기</p>
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
                 <Col xs={4}></Col>
               </Row>
