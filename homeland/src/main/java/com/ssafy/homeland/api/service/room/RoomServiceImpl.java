@@ -6,6 +6,7 @@ import com.ssafy.homeland.api.response.room.RoomInfoRes;
 import com.ssafy.homeland.db.entity.Participant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -22,8 +24,14 @@ public class RoomServiceImpl implements RoomService{
 
     private final Logger log = LoggerFactory.getLogger(RoomController.class);
 
-    private final String OPENVIDU_URL="https://i6c202.p.ssafy.io/openvidu/";
-    private final String OPENVIDU_AUTH="Basic T1BFTlZJRFVBUFA6SE9NRUxBTkQ=";
+
+    @Value("${OPENVIDU_URL}")
+    private String OPENVIDU_URL;
+
+    @Value("${OPENVIDU_SECRET}")
+    private String OPENVIDU_SECRET;
+
+    private String OPENVIDU_AUTH;
 
     private final ConcurrentMap<String, Room> rooms = new ConcurrentHashMap<>();
 
@@ -96,6 +104,10 @@ public class RoomServiceImpl implements RoomService{
 
 
     public boolean findRoomInOV(String roomId) {
+
+        if(OPENVIDU_AUTH==null)
+            OPENVIDU_AUTH="Basic "+ Base64.getEncoder().encodeToString(OPENVIDU_SECRET.getBytes());
+
         HttpURLConnection connection = null;
         try {
             //Create connection
