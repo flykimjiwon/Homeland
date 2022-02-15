@@ -21,7 +21,6 @@ import {
   IoBeer,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
-import CountDown from "./CountDown";
 import { FormControl, FormControlLabel, Button } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -34,6 +33,8 @@ import { IoMdExpand, IoMdContract } from "react-icons/io";
 import { Container, Row, Col } from "react-bootstrap";
 
 import Cheersmain from "./Cheersmain";
+
+import GamePanel from "./GamePanel";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -77,6 +78,7 @@ class Main extends Component {
       gamePanel: false,
       isRandomAllowed: true,
       cheers: false,
+      gameCategory: "main",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -96,6 +98,8 @@ class Main extends Component {
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
     // 짠효과
     this.cheersToggle = this.cheersToggle.bind(this);
+    // 게임
+    this.setGameCategory = this.setGameCategory.bind(this);
   }
 
   cheersToggle() {
@@ -236,6 +240,21 @@ class Main extends Component {
     });
   };
 
+  sendGameCategorySignal() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: this.state.gameCategory,
+      to: [],
+      type: "gameCategorySignal",
+    });
+  }
+
+  async setGameCategory(category) {
+    await this.setState({ gameCategory: category });
+    await this.sendGameCategorySignal();
+  }  
+
   closeModalCapture = () => {
     this.setState({ modalOpen_capture: false });
     this.setState({ previewOpen: false });
@@ -342,10 +361,15 @@ class Main extends Component {
           // var connection = event.connection.connectionId
           // Object형을 넣어줘야한다.
           var connection = event.connection;
+          var connections = this.state.connections;
           var connectionUser = this.state.connectionUser;
-          connectionUser.push(connection);
+          connections.push(connection);
+          var userId = connection.connectionId;
+          var userName = JSON.parse(connection.data).clientData;
+          connectionUser.push({ userId, userName });
           //Update
           this.setState({
+            connections: connections,
             connectionUser: connectionUser,
           });
         });
@@ -384,6 +408,12 @@ class Main extends Component {
 
         mySession.on("signal:cheersSignal", (event) => {
           this.cheersToggle();
+        });
+
+        mySession.on("signal:gameCategorySignal", (event) => {
+          console.log("이벤트 데이터", event.data);
+          this.setState({ gameCategory: event.data });
+          console.log(this.state.gameCategory)
         });
 
         // On every Stream destroyed...
@@ -807,12 +837,6 @@ class Main extends Component {
                       </div>
                     ))}
                   </div>
-                  {/* buttons */}
-
-                  {/* 여기일단 그대로두고 버튼만이사 */}
-                  {/* 스크린샷 타이머 */}
-                  <div id="CntDown"></div>
-                  {this.state.cnt ? <CountDown /> : <span></span>}
 
                   {/* 짠효과 중앙 */}
                   {this.state.cheers === true ? (
@@ -821,8 +845,23 @@ class Main extends Component {
                 </Col>
 
                 <Col md={{ span: 3 }}>
+                  {/* gamePanel */}
+                  <GamePanel
+                    cnt={this.state.cnt}
+                    gamePanel={this.state.gamePanel}
+                    gameCategory={this.state.gameCategory}
+                    setGameCategory={this.setGameCategory}
+                    sessionData={this.state.sessionData}
+                    mySessionId={this.state.mySessionId}
+                    myUserName={this.state.myUserName}
+                    session={this.state.session}
+                    publisher={this.state.publisher}
+                    subscribers={this.state.subscribers}
+                    connectionId={this.state.connectionId}
+                    connections={this.state.connections}
+                    connectionUser={this.state.connectionUser}
+                  ></GamePanel>
                   {/* chat */}
-                  {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
                     <div
                       // className="chatbox__support chat-height-with-panel"
@@ -1100,11 +1139,13 @@ class Main extends Component {
 
   onCapture() {
     console.log("onCapture");
+    const gamePanelState = this.state.gamePanel;
+    this.setState({ cnt: false });
     if (!this.state.previewOpen) {
-      this.setState({ cnt: true, previewOpen: true });
+      this.setState({ cnt: true, previewOpen: true, gamePanel: true });
       setTimeout(() => {
         {
-          this.setState({ cnt: false });
+          this.setState({ cnt: false, gamePanel: gamePanelState });
           html2canvas(document.getElementById("capture_screen")).then(
             (canvas) => {
               this.state.captured = canvas;
