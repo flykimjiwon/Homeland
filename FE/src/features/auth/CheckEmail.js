@@ -1,7 +1,16 @@
+/* eslint-disable */
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
 import backEndUrl from "../setup/hld_url";
+import {
+  Container,
+  CssBaseline,
+  Box,
+  Typography,
+  TextField,
+  Button as MuiButton,
+} from "@mui/material";
 
 function CheckEmail() {
   const BEUrl = backEndUrl;
@@ -36,32 +45,50 @@ function CheckEmail() {
   };
   return (
     <div style={{ paddingTop: "100px" }}>
-      <h1>비밀번호 찾기 전 아이디&이메일 체크</h1>
-      <Form className="container mypage-form">
-        <Form.Group className="mb-3" controlId="FormCheckID">
-          <Form.Label>ID</Form.Label>
-          <Form.Control
-            value={id}
-            onChange={handleId}
-            type="text"
-            placeholder="ID를 입력하세요."
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="FormCheckEmail">
-          <Form.Label>E-Mail</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={handleEmail}
-            type="email"
-            placeholder="E-Mail을 입력하세요."
-          />
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center mt-3">
-          <Button type="submit" onClick={onCheckEmail}>
-            이메일 인증 요청
-          </Button>
-        </Form.Group>
-      </Form>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            ID & E-mail 체크
+          </Typography>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
+            <TextField
+              value={id}
+              onChange={handleId}
+              margin="normal"
+              required
+              fullWidth
+              label="ID"
+              autoFocus
+            />
+            <TextField
+              value={email}
+              onChange={handleEmail}
+              margin="normal"
+              required
+              fullWidth
+              label="E-mail"
+              type="email"
+            />
+            <MuiButton
+              type="submit"
+              onClick={onCheckEmail}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              이메일 인증 요청
+            </MuiButton>
+          </Box>
+        </Box>
+      </Container>
     </div>
   );
 }

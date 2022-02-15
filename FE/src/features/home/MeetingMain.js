@@ -75,7 +75,7 @@ class Main extends Component {
       liarOrNot: "",
       liarSubject: "",
       gamePanel: false,
-      isRandomAllowed: true,
+      isRandomAllowed: false,
       cheers: false,
     };
 
@@ -648,14 +648,14 @@ class Main extends Component {
                                     onChange={handleChangeRandomJoin}
                                   >
                                     <FormControlLabel
-                                      value={true}
-                                      control={<Radio />}
-                                      label="랜덤입장 가능"
-                                    />
-                                    <FormControlLabel
                                       value={false}
                                       control={<Radio />}
                                       label="랜덤입장 불가능"
+                                    />
+                                    <FormControlLabel
+                                      value={true}
+                                      control={<Radio />}
+                                      label="랜덤입장 가능"
                                     />
                                   </RadioGroup>
                                 </FormControl>
