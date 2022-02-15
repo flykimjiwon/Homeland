@@ -21,18 +21,19 @@ import {
   IoBeer,
 } from "react-icons/io5";
 import html2canvas from "html2canvas";
-import Modal from "./Modal";
 import CountDown from "./CountDown";
 import { FormControl, FormControlLabel, Button } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
 
+import Swal from "sweetalert2";
+
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Cheersmain from "./Cheersmain"
+import Cheersmain from "./Cheersmain";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -62,8 +63,6 @@ class Main extends Component {
       screenstate: true,
       videostate: true,
       captured: "",
-      modalOpen_capture: false,
-      modalOpen_leave: false,
       cnt: false,
       previewOpen: false,
       connectionUser: [],
@@ -102,8 +101,8 @@ class Main extends Component {
   cheersToggle() {
     this.setState({ cheers: !this.state.cheers });
     setTimeout(() => {
-      this.setState({ cheers: !this.state.cheers })
-    }, 6000)
+      this.setState({ cheers: !this.state.cheers });
+    }, 6000);
   }
 
   escFunction(event) {
@@ -219,7 +218,22 @@ class Main extends Component {
   }
 
   openModalCapture = () => {
-    this.setState({ modalOpen_capture: true });
+    Swal.fire({
+      title: "사진이 마음에 드시나요??",
+      html: `<div id="preview"></div>`,
+      showDenyButton: true,
+      confirmButtonText: "저장하기",
+      denyButtonText: `저장 안하기`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.onSaveAs(
+          this.state.captured.toDataURL("image/png"),
+          "HomeLanDrink.png"
+        );
+      } else if (result.isDenied) {
+        this.closeModalCapture();
+      }
+    });
   };
 
   closeModalCapture = () => {
@@ -228,11 +242,16 @@ class Main extends Component {
   };
 
   openModalLeave = () => {
-    this.setState({ modalOpen_leave: true });
-  };
-
-  closeModalLeave = () => {
-    this.setState({ modalOpen_leave: false });
+    Swal.fire({
+      title: "정말 방을 떠나시겠습니까?",
+      showDenyButton: true,
+      confirmButtonText: "더 놀기",
+      denyButtonText: `종료하기`,
+    }).then((result) => {
+      if (result.isDenied) {
+        this.leaveSession();
+      }
+    });
   };
 
   clickLeave = () => {
@@ -788,7 +807,78 @@ class Main extends Component {
                       </div>
                     ))}
                   </div>
+                  {/* buttons */}
 
+                  {/* 여기일단 그대로두고 버튼만이사 */}
+                  {/* 스크린샷 타이머 */}
+                  <div id="CntDown"></div>
+                  {this.state.cnt ? <CountDown /> : <span></span>}
+
+                  {/* 짠효과 중앙 */}
+                  {this.state.cheers === true ? (
+                    <Cheersmain></Cheersmain>
+                  ) : null}
+                </Col>
+
+                <Col md={{ span: 3 }}>
+                  {/* chat */}
+                  {this.state.gamePanel ? <div className="panel"></div> : null}
+                  <div className="height-80">
+                    <div
+                      // className="chatbox__support chat-height-with-panel"
+                      className={
+                        this.state.gamePanel
+                          ? "chatbox__support chat-height-with-panel"
+                          : "chatbox__support chat-height-without-panel"
+                      }
+                    >
+                      <div className="chatbox__header">
+                        방코드: {mySessionId}
+                        <IoCopy
+                          color="#50468c"
+                          size="18"
+                          title="Copy"
+                          className="cursor-pointer"
+                          onClick={() =>
+                            navigator.clipboard.writeText(mySessionId)
+                          }
+                        />
+                        <IoGameController
+                          color="#50468c"
+                          size="18"
+                          className="cursor-pointer"
+                          onClick={this.paneltoggle}
+                        />
+                      </div>
+
+                      <div className="chatbox__messages" ref="chatoutput">
+                        {/* {this.displayElements} */}
+                        <Messages messages={messages} />
+                        <div />
+                      </div>
+                      <div className="chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <button
+                          className="chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Enter
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col xs={8}>
                   {/* buttons */}
                   <div className="btn_toolbar">
                     {this.state.audiostate ? (
@@ -878,125 +968,12 @@ class Main extends Component {
                       onClick={this.openModalLeave}
                     />
                   </div>
-                  {/* 스크린샷 타이머 */}
-                  <div id="CntDown"></div>
-                  {this.state.cnt ? <CountDown /> : <span></span>}
-                  {/* 짠효과 */}
-                  {/* <button
-                    onClick={ ()=>{
-                      this.sendCheersSignal();
-                    }}
-                    >짠</button> */}
-                    
-                    
-                    {/* 짠 */}
-        {/* 짠효과 중앙 */}
-        {this.state.cheers===true
-      ?<Cheersmain></Cheersmain>
-      :null}
-
-                  
                 </Col>
-
-                <Col md={{ span: 3 }}>
-                  
-                  {/* chat */}
-                  {this.state.gamePanel ? <div className="panel"></div> : null}
-                  <div className="height-80">
-                    <div
-                      // className="chatbox__support chat-height-with-panel"
-                      className={
-                        this.state.gamePanel
-                          ? "chatbox__support chat-height-with-panel"
-                          : "chatbox__support chat-height-without-panel"
-                      }
-                    >
-                      <div className="chatbox__header">
-                        방코드: {mySessionId}
-                        <IoCopy
-                          color="#50468c"
-                          size="18"
-                          title="Copy"
-                          className="cursor-pointer"
-                          onClick={() =>
-                            navigator.clipboard.writeText(mySessionId)
-                          }
-                        />
-                        <IoGameController
-                          color="#50468c"
-                          size="18"
-                          className="cursor-pointer"
-                          onClick={this.paneltoggle}
-                        />
-                      </div>
-
-                      <div className="chatbox__messages" ref="chatoutput">
-                        {/* {this.displayElements} */}
-                        <Messages messages={messages} />
-                        <div />
-                      </div>
-                      <div className="chatbox__footer">
-                        <input
-                          id="chat_message"
-                          type="text"
-                          placeholder="Write a message..."
-                          onChange={this.handleChatMessageChange}
-                          onKeyPress={this.sendmessageByEnter}
-                          value={this.state.message}
-                        />
-                        <button
-                          className="chatbox__send--footer"
-                          onClick={this.sendmessageByClick}
-                        >
-                          Enter
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
+                <Col xs={4}></Col>
               </Row>
-              
-              
             </Container>
           </div>
         )}
-      
-
-        {/* 스크린샷 모달창 */}
-        <Modal
-          open={this.state.modalOpen_capture}
-          close={this.closeModalCapture}
-        >
-          <div id="preview"></div>
-          저장하시겠습니까?
-          <button
-            className="close"
-            onClick={() =>
-              this.onSaveAs(
-                this.state.captured.toDataURL("image/png"),
-                "HomeLanDrink.png"
-              )
-            }
-          >
-            네
-          </button>
-          <button className="close" onClick={this.closeModalCapture}>
-            {" "}
-            아니오
-          </button>
-        </Modal>
-
-        {/* 종료창 모달창 */}
-        <Modal open={this.state.modalOpen_leave} close={this.closeModalLeave}>
-          종료하시겠습니까?
-          <button className="close" onClick={this.clickLeave}>
-            네
-          </button>
-          <button className="close" onClick={this.closeModalLeave}>
-            {" "}
-            아니오
-          </button>
-        </Modal>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import ProductHero from "./modules/views/ProductHero";
 import ProductHero2 from "./modules/views/ProductHero2";
 import ProductHero3 from "./modules/views/ProductHero3";
+import AppFooter from "./modules/views/AppFooter"
 
 import withRoot from "./modules/withRoot";
 import AOS from "aos";
