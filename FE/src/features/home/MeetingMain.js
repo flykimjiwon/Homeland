@@ -28,11 +28,13 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
 
+import Swal from "sweetalert2";
+
 import { IoMdExpand, IoMdContract } from "react-icons/io";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Cheersmain from "./Cheersmain"
+import Cheersmain from "./Cheersmain";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -63,7 +65,6 @@ class Main extends Component {
       videostate: true,
       captured: "",
       modalOpen_capture: false,
-      modalOpen_leave: false,
       cnt: false,
       previewOpen: false,
       connectionUser: [],
@@ -102,8 +103,8 @@ class Main extends Component {
   cheersToggle() {
     this.setState({ cheers: !this.state.cheers });
     setTimeout(() => {
-      this.setState({ cheers: !this.state.cheers })
-    }, 6000)
+      this.setState({ cheers: !this.state.cheers });
+    }, 6000);
   }
 
   escFunction(event) {
@@ -228,7 +229,20 @@ class Main extends Component {
   };
 
   openModalLeave = () => {
-    this.setState({ modalOpen_leave: true });
+    Swal.fire({
+      title: "정말 방을 떠나시겠습니까?",
+      showDenyButton: true,
+      confirmButtonText: "더 놀기",
+      denyButtonText: `종료하기`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      // if (result.isConfirmed) {
+      //   Swal.fire("Saved!", "", "success");
+      // }
+      if (result.isDenied) {
+        this.leaveSession();
+      }
+    });
   };
 
   closeModalLeave = () => {
@@ -887,19 +901,15 @@ class Main extends Component {
                       this.sendCheersSignal();
                     }}
                     >짠</button> */}
-                    
-                    
-                    {/* 짠 */}
-        {/* 짠효과 중앙 */}
-        {this.state.cheers===true
-      ?<Cheersmain></Cheersmain>
-      :null}
 
-                  
+                  {/* 짠 */}
+                  {/* 짠효과 중앙 */}
+                  {this.state.cheers === true ? (
+                    <Cheersmain></Cheersmain>
+                  ) : null}
                 </Col>
 
                 <Col md={{ span: 3 }}>
-                  
                   {/* chat */}
                   {this.state.gamePanel ? <div className="panel"></div> : null}
                   <div className="height-80">
@@ -955,12 +965,9 @@ class Main extends Component {
                   </div>
                 </Col>
               </Row>
-              
-              
             </Container>
           </div>
         )}
-      
 
         {/* 스크린샷 모달창 */}
         <Modal
@@ -981,18 +988,6 @@ class Main extends Component {
             네
           </button>
           <button className="close" onClick={this.closeModalCapture}>
-            {" "}
-            아니오
-          </button>
-        </Modal>
-
-        {/* 종료창 모달창 */}
-        <Modal open={this.state.modalOpen_leave} close={this.closeModalLeave}>
-          종료하시겠습니까?
-          <button className="close" onClick={this.clickLeave}>
-            네
-          </button>
-          <button className="close" onClick={this.closeModalLeave}>
             {" "}
             아니오
           </button>
