@@ -793,32 +793,36 @@ class Main extends Component {
                             <Col md={{ span: 5, offset: 2 }}>
                               <div className="join-box">
                                 <div>방 입장하기</div>
-                                <br></br>
-                                <Button
-                                  type="submit"
-                                  onClick={onRandomJoin}
-                                  variant="contained"
-                                >
-                                  랜덤입장
-                                </Button>
-                                <br></br>
+                                <br />
                                 <p>방 번호를 입력하세요</p>
-                                <TextField
-                                  margin="normal"
-                                  id="sessionId"
-                                  value={mySessionId}
-                                  onChange={this.handleChangeSessionId}
-                                  required
-                                  fullWidth
-                                  label="방 번호"
-                                />
-
-                                <input
-                                  type="submit"
-                                  value="JOIN"
-                                  className="btn btn-lg btn-color margin-right10"
-                                  onClick={onCheckSession}
-                                />
+                                <div className="input-group">
+                                  <input
+                                    type="text"
+                                    className="form-control margin-left10"
+                                    placeholder="방 번호"
+                                    value={mySessionId}
+                                    onChange={this.handleChangeSessionId}
+                                  />
+                                  <input
+                                    type="submit"
+                                    value="JOIN"
+                                    className="btn btn-lg btn-color margin-right10"
+                                    onClick={onCheckSession}
+                                  />
+                                </div>
+                                <div style={{ borderTop: "solid 5px #353f71" }}>
+                                  <p className="mt-4">
+                                    새로운 만남을 원하세요?
+                                  </p>
+                                  <Button
+                                    type="submit"
+                                    onClick={onRandomJoin}
+                                    variant="contained"
+                                    className="mt-4"
+                                  >
+                                    랜덤입장
+                                  </Button>
+                                </div>
                               </div>
                             </Col>
                           </Row>
