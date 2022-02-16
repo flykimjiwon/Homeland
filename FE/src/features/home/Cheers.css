@@ -1,9 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Sigmar+One);
 
 .dh3 {
-	font-size: 70px;
+	font-size: 10vh;
+  /* font-size: 70px; */
+
 	font-family: 'Sigmar One', cursive;
-  color: aliceblue;
+  color: white;
 	/* cursor: pointer; */
 	/* z-index: 2; */
 	/* position: absolute;/ */
@@ -15,8 +17,8 @@
 }
 
 .chbox{
-  width: 120px;
-  height: 120px;
+  width: 10vw;
+  height: 10vh;
   position:relative;
   bottom: 200px;
   left:100px;
@@ -48,7 +50,7 @@
 
 .ch2{
   position: relative;
-  bottom: 130px;
+  bottom: 5vh;
   right: 70px;
   animation-name: example2;
   animation-duration: 1s;

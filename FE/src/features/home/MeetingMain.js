@@ -45,6 +45,8 @@ import GamePanel from "./GamePanel";
 import { margin, width } from "@mui/system";
 
 import ReactTooltip from "react-tooltip";
+import { Link, Route, Switch } from "react-router-dom";
+
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -295,7 +297,9 @@ class Main extends Component {
       denyButtonText: `종료하기`,
     }).then((result) => {
       if (result.isDenied) {
+        // window.location.reload()
         this.leaveSession();
+        // <Redirect to="/라우팅주소" />
       }
     });
   };
