@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Random;
@@ -24,12 +25,13 @@ public class RoomServiceImpl implements RoomService{
 
     private final Logger log = LoggerFactory.getLogger(RoomController.class);
 
+     @Value("${OPENVIDU_URL}")
+     private String OPENVIDU_URL;
+     @Value("${OPENVIDU_SECRET}")
+     private String OPENVIDU_SECRET;
 
-    @Value("${OPENVIDU_URL}")
-    private String OPENVIDU_URL;
-
-    @Value("${OPENVIDU_SECRET}")
-    private String OPENVIDU_SECRET;
+//    private String OPENVIDU_URL="https://i6c202.p.ssafy.io/openvidu/";
+//    private String OPENVIDU_AUTH="Basic T1BFTlZJRFVBUFA6SE9NRUxBTkQ=";
 
     private String OPENVIDU_AUTH;
 
@@ -88,7 +90,9 @@ public class RoomServiceImpl implements RoomService{
     public boolean findRoomInOV(String roomId) {
 
         if(OPENVIDU_AUTH==null)
-            OPENVIDU_AUTH="Basic "+ Base64.getEncoder().encodeToString(OPENVIDU_SECRET.getBytes());
+            OPENVIDU_AUTH="Basic "+ Base64.getEncoder().encodeToString(OPENVIDU_SECRET.getBytes(StandardCharsets.UTF_8));
+
+//        System.out.println(OPENVIDU_AUTH);
 
         HttpURLConnection connection = null;
         try {
