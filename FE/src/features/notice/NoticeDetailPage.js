@@ -6,7 +6,8 @@ import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "./NoticeDetailPage.css";
 import "dayjs/locale/ko";
-import { Button as MuiButton, ButtonGroup, Container } from "@mui/material";
+import { Container } from "react-bootstrap";
+import { Button as MuiButton, ButtonGroup } from "@mui/material";
 
 dayjs.locale("ko");
 
@@ -75,9 +76,11 @@ function NoticeDetailPage() {
       });
   };
   return (
-    <div className="notice-detail-font-style">
+    <div className="notice-detail-font-style" style={{ marginTop: "100px" }}>
+      <h1 className="mb-3" style={{ color: "#353f71", fontSize: "50px" }}>
+        {notice.title}
+      </h1>
       <div className="container notice-detail">
-        <h2>{notice.title}</h2>
         <div className="d-flex justify-content-end">
           <p>{dayjs(notice.updatedAt).format("YYYY. MM. DD HH:mm")}</p>
         </div>
