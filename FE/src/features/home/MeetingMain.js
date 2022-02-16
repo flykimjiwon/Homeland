@@ -776,7 +776,7 @@ class Main extends Component {
                         <Container>
                           <Row>
                             <Col md={{ span: 3 }}>
-                              <div className="join-box">
+                              <div className="join-box join-width1">
                                 <div>방 만들기</div>
                                 <input
                                   className="btn join-box-inner"
@@ -807,7 +807,7 @@ class Main extends Component {
                               </div>
                             </Col>
                             <Col md={{ span: 3, offset: 1 }}>
-                              <div className="join-box">
+                              <div className="join-box join-width1">
                                 <div>방 입장하기</div>
                                 <br />
                                 <br />
@@ -832,7 +832,7 @@ class Main extends Component {
                               </div>
                             </Col>
                             <Col md={{ span: 3, offset: 1 }}>
-                              <div className="join-box">
+                              <div className="join-box join-width1">
                                 <div>랜덤방 입장하기</div>
                                 <br />
                                 <input
@@ -855,8 +855,8 @@ class Main extends Component {
                         <br></br>
                         <Container>
                           <Row>
-                            <Col md={{ span: 3, offset: 1 }}>
-                              <div className="join-box">
+                            <Col md={{ span: 4, offset: 1 }}>
+                              <div className="join-box join-width2">
                                 <br></br>
                                 <h2 className="font-join">방에 참가하기</h2>
                                 <br></br>
@@ -895,8 +895,8 @@ class Main extends Component {
                                 </p>
                               </div>
                             </Col>
-                            <Col md={{ span: 3, offset: 3 }}>
-                              <div className="join-box">
+                            <Col md={{ span: 4, offset: 2 }}>
+                              <div className="join-box join-width2">
                                 <br></br>
                                 <h2 className="font-join">랜덤방 참가하기</h2>
                                 <br></br>

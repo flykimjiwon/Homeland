@@ -173,10 +173,17 @@
 
 .join-box {
   height: 400px;
-  width: 300px;
+  width: 350px;
   background-color: #d3e5e8;
   border-radius: 20px;
   border: solid 5px #353f71;
+}
+
+.join-width1 {
+  width: 320px;
+}
+.join-width2 {
+  width: 350px;
 }
 
 .join-box div {
