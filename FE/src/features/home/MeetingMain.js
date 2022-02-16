@@ -982,12 +982,6 @@ class Main extends Component {
                             navigator.clipboard.writeText(mySessionId)
                           }
                         />
-                        <IoGameController
-                          color="#50468c"
-                          size="18"
-                          className="cursor-pointer"
-                          onClick={this.paneltoggle}
-                        />
                       </div>
 
                       <div className="chatbox__messages" ref="chatoutput">
@@ -1112,6 +1106,16 @@ class Main extends Component {
                           }}
                         />
                         <p className="btn-font">사진찍기</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoGameController
+                          color="green"
+                          size={btn_size}
+                          onClick={this.paneltoggle}
+                        />
+                        <p className="btn-font">게임</p>
                       </div>
                     </Col>
                     <Col md={{ span: 1 }}>
