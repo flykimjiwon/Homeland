@@ -4,6 +4,7 @@ import CountDown from "./CountDown";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Container, Row, Col } from "react-bootstrap";
+import { IoReturnUpBack } from "react-icons/io5";
 
 const MySwal = withReactContent(Swal);
 
@@ -108,9 +109,10 @@ function GamePanel(props) {
 
   return (
     <div className={display ? "panel" : "nondisplay"}>
-      <div className="present">
+      {/* <div className="present">
         {gameState} 11111 {range} 1111 {randomNum}
-      </div>
+      </div> */}
+      <div className="game-header">game panel </div>
       {
         {
           main: (
@@ -154,38 +156,161 @@ function GamePanel(props) {
           ),
           liarGame: (
             <div>
-              <p>라이어게임 시작!</p>
-              <p
-                onClick={() => {
-                  selectCategory("main");
-                  props.setGameCategory("main");
-                }}
-              >
-                게임 선택 돌아가기
-              </p>
-              <p
+              <div className="back btn-font">
+                <IoReturnUpBack
+                  size={24}
+                  onClick={() => {
+                    selectCategory("main");
+                    props.setGameCategory("main");
+                  }}
+                />
+                <p>뒤로가기</p>
+              </div>
+              {/* <input
+                className="btn game-btn"
+                name="commit"
+                type="submit"
+                value="라이어게임 시작"
                 onClick={() => {
                   startLiarGame();
                 }}
-              >
-                라이어와 제시어 뽑기
-              </p>
+              /> */}
+              <br></br>
+              <br></br>
+              <p>제시어 카테고리를 선택해주세요!</p>
               <p>{liarOrNot}</p>
-              <Container className="liar-subject-box">
-                <Row>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
+              <Container className="liab-box">
+                <Row className="liar-subject-box" style={{ paddingTop: 10 }}>
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-red"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Animal");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    동물
+                  </Col>
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-blue"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Country");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    국가
+                  </Col>
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-red"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Fruit");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    과일
+                  </Col>
                 </Row>
-                <Row>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
+                <Row className="liar-subject-box">
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-blue"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Sports");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    스포츠
+                  </Col>
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-red"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Job");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    직업
+                  </Col>
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-blue"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Idol");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    아이돌
+                  </Col>
                 </Row>
-                <Row>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
+                <Row className="liar-subject-box">
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-red"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Movie");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    영화
+                  </Col>
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-blue"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Actor");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    한국배우
+                  </Col>
+                  <Col
+                    md={{ span: 4 }}
+                    className="box-red"
+                    // onClick={() => {
+                    //   if (!isHost) {
+                    //     return;
+                    //   } else {
+                    //     selectSubjectCategory("Place");
+                    //     signalSetLiarGameState("discussion");
+                    //   }
+                    // }}
+                  >
+                    장소
+                  </Col>
                 </Row>
               </Container>
             </div>

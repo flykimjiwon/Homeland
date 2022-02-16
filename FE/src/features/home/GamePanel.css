@@ -1,9 +1,19 @@
 .panel {
   height: 400px;
-  background-color: black;
+  background-color: #d3e5e8;
   border-radius: 20px;
   margin-bottom: 10px;
-  color: wheat;
+  color: black;
+}
+.game-header {
+  padding: 8px;
+  font-size: 17px;
+  height: 40px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-weight: bold;
+  background-color: orange;
+  top: 0;
 }
 .title {
   padding: 20px 0px;
@@ -22,17 +32,46 @@ CountDown {
   display: none;
 }
 
-.liar-subject-box {
-  width: 270px;
-  height: 270px;
-}
-.liar-subject-box div {
-  height: 90px;
-}
-.box-red {
-  background-color: red;
+.liab-box {
+  height: 260px;
+  background-color: rgb(177, 129, 39);
+  width: 90%;
+  border-radius: 15px;
 }
 
-.box-blue {
-  background-color: blue;
+.liar-subject-box {
 }
+
+.liar-subject-box div {
+  font-size: 13px;
+  font-weight: 600;
+  height: 80px;
+  justify-content: center;
+  padding-top: 25px;
+  background-color: rgb(235, 180, 2);
+  border-radius: 15px;
+  border: solid 3px rgb(177, 129, 39);
+}
+.liar-subject-box div:hover {
+  background-color: yellow;
+}
+
+.game-btn {
+  background-color: white;
+  border: 4px solid black;
+  height: 40px;
+}
+
+.back {
+  position: fixed;
+  margin-left: 10px;
+}
+
+/* .join-box-inner {
+  background-color: #353f71;
+  color: #d3e5e8;
+  font-size: 24px;
+  margin-top: 10%;
+  height: 15%;
+  width: 80%;
+} */
