@@ -40,7 +40,10 @@ function CheckPassword() {
   };
   return (
     <div style={{ paddingTop: "100px" }}>
-      <h1 className="mt-3" style={{ color: "#353f71", fontSize: "50px" }}>
+      <h1
+        className="mt-3"
+        style={{ color: "#353f71", fontSize: "50px", fontWeight: "600" }}
+      >
         비밀번호 확인
       </h1>
       <Container style={{ width: "500px", marginTop: "50px" }}>

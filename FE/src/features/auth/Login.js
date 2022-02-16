@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import "./Login.css";
 import backEndUrl from "../setup/hld_url";
+import LoginImage from "./image/login.png";
 import { Button, Container, Form } from "react-bootstrap";
 
 function Login() {
@@ -48,9 +49,13 @@ function Login() {
       className="d-flex flex-column align-center"
       style={{ marginTop: "100px" }}
     >
-      <h1 className="mt-3" style={{ color: "#353f71", fontSize: "50px" }}>
-        Login
+      <h1
+        className="mt-3"
+        style={{ color: "#353f71", fontSize: "50px", fontWeight: "600" }}
+      >
+        로그인
       </h1>
+
       <Container style={{ width: "500px", marginTop: "50px" }}>
         <Form className="login-form">
           <Form.Group className="mb-3">
@@ -72,16 +77,24 @@ function Login() {
             />
           </Form.Group>
           <Form.Group className="d-flex justify-content-center">
-            <button className="btn btn-color" type="submit" onClick={onLogin}>
+            <button
+              className="btn btn-color my-3"
+              type="submit"
+              onClick={onLogin}
+            >
               로그인
             </button>
           </Form.Group>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mt-3">
             <div>
-              <Link to="/check-email">비밀번호 찾기</Link>
+              <Link className="link-font" to="/check-email">
+                비밀번호 찾기
+              </Link>
             </div>
             <div>
-              <Link to="/signup">회원가입</Link>
+              <Link className="link-font" to="/signup">
+                회원가입
+              </Link>
             </div>
           </div>
         </Form>

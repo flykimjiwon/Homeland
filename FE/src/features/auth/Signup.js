@@ -261,7 +261,7 @@ function Sign() {
             </Form.Group>
             <Form.Group className="d-flex justify-content-center mb-3">
               <button
-                className="btn btn-color"
+                className="btn btn-color mt-3"
                 type="submit"
                 onClick={onSubmit}
               >
@@ -269,7 +269,7 @@ function Sign() {
               </button>
             </Form.Group>
             <div className="d-flex justify-content-end">
-              <Link to="/login" variant="body2">
+              <Link className="link-font mt-3" to="/login" variant="body2">
                 계정이 있으신가요? 로그인
               </Link>
             </div>

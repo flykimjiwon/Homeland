@@ -6,8 +6,7 @@ import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "./NoticeDetailPage.css";
 import "dayjs/locale/ko";
-import { Container } from "react-bootstrap";
-import { Button as MuiButton, ButtonGroup } from "@mui/material";
+import { Container, InputGroup } from "react-bootstrap";
 
 dayjs.locale("ko");
 
@@ -77,7 +76,10 @@ function NoticeDetailPage() {
   };
   return (
     <div className="notice-detail-font-style" style={{ marginTop: "100px" }}>
-      <h1 className="mb-3" style={{ color: "#353f71", fontSize: "50px" }}>
+      <h1
+        className="mb-3"
+        style={{ color: "#353f71", fontSize: "50px", fontWeight: "600" }}
+      >
         {notice.title}
       </h1>
       <div className="container notice-detail">
@@ -93,16 +95,20 @@ function NoticeDetailPage() {
             style={{ width: "500px", Align: "center" }}
             className="my-3 d-flex justify-content-end"
           >
-            <ButtonGroup variant="contained">
-              <MuiButton onClick={goToEditNotice}>수정하기</MuiButton>
-              <MuiButton onClick={onDeleteNotice}>삭제하기</MuiButton>
-            </ButtonGroup>
+            <InputGroup className="d-flex justify-content-end">
+              <button className="btn btn-color" onClick={goToEditNotice}>
+                수정하기
+              </button>
+              <button className="btn btn-color" onClick={onDeleteNotice}>
+                삭제하기
+              </button>
+            </InputGroup>
           </div>
         </div>
       ) : null}
-      <MuiButton variant="contained" onClick={goToNoticeList}>
+      <button className="btn btn-color" onClick={goToNoticeList}>
         목록
-      </MuiButton>
+      </button>
     </div>
   );
 }
