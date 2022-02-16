@@ -1026,21 +1026,22 @@ class Main extends Component {
                         <IoCopy
                           color="#50468c"
                           size="18"
-                          title="Copy"
                           className="cursor-pointer"
                           onClick={() =>
                             navigator.clipboard.writeText(mySessionId)
                           }
-                          data-for="copy-btn"
                           data-tip
+                          data-for="tooltip"
                         />
+                        <ReactTooltip
+                          id="tooltip"
+                          effect="solid"
+                          place="top"
+                          type="dark"
+                        >
+                          Copy
+                        </ReactTooltip>
                       </div>
-                      <ReactTooltip
-                        id="copy"
-                        getContent={(dataTip) =>
-                          "This little buddy is " + dataTip
-                        }
-                      />
 
                       <div className="chatbox__messages" ref="chatoutput">
                         {/* {this.displayElements} */}
