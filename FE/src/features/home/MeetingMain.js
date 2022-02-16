@@ -26,6 +26,13 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
 
+// img
+import beerL from "./img/beer_left.png";
+import beerR from "./img/beer_right.png";
+import Q from "./img/Q.png";
+import E from "./img/E.png";
+import E2 from "./img/E2.png";
+
 import Swal from "sweetalert2";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
@@ -35,6 +42,9 @@ import { Container, Row, Col } from "react-bootstrap";
 import Cheersmain from "./Cheersmain";
 
 import GamePanel from "./GamePanel";
+import { margin, width } from "@mui/system";
+
+import ReactTooltip from "react-tooltip";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -738,18 +748,30 @@ class Main extends Component {
     const { mypage } = this.props;
     return (
       <div className="bg">
+        <br></br>
+
         {this.state.session === undefined ? (
-          <Container>
-            <Row className="padding-100px">
+          <Container className="padding-100px">
+            <Row>
+              <Col md={{ span: 2, offset: 2 }}>
+                <img src={beerL} style={{ width: 150, height: 150 }}></img>
+              </Col>
+              <Col md={{ span: 4 }}>
+                <h1 className="color-353f71"> Welcome to </h1>
+                <h1 className="color-353f71"> Home Lan Drink! </h1>
+              </Col>
+              <Col md={{ span: 2 }}>
+                <img src={beerR} style={{ width: 150, height: 150 }}></img>
+              </Col>
+            </Row>
+            <Row>
               <Col></Col>
-              <Col xs={8}>
+              <Col xs={10}>
                 <div id="join">
                   {/* <div id="img-div">
                     <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
                   </div> */}
                   <div id="join-dialog" className="jumbotron vertical-center">
-                    <h1 className="color-353f71"> Welcome to </h1>
-                    <h1 className="color-353f71"> Home Lan Drink! </h1>
                     {loginToken ? (
                       <form className="form-group">
                         <br></br>
@@ -757,11 +779,22 @@ class Main extends Component {
                           안녕하세요 '{myUserName}'님!
                         </h2>
                         <br></br>
+                        <br></br>
                         <Container>
                           <Row>
-                            <Col md={{ span: 5, offset: 0 }}>
-                              <div className="join-box">
+                            <Col md={{ span: 3 }}>
+                              <div className="join-box join-width1">
                                 <div>방 만들기</div>
+                                <div>
+                                  <img
+                                    src={E}
+                                    style={{
+                                      width: 100,
+                                      height: 100,
+                                      marginTop: 20,
+                                    }}
+                                  ></img>
+                                </div>
                                 <input
                                   className="btn join-box-inner"
                                   name="commit"
@@ -769,7 +802,7 @@ class Main extends Component {
                                   value="방 만들기"
                                   onClick={onCreateRoom}
                                 />
-                                <FormControl>
+                                <FormControl style={{ marginTop: 0 }}>
                                   <RadioGroup
                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                     name="controlled-radio-buttons-group"
@@ -790,10 +823,20 @@ class Main extends Component {
                                 </FormControl>
                               </div>
                             </Col>
-                            <Col md={{ span: 5, offset: 2 }}>
-                              <div className="join-box">
+                            <Col md={{ span: 3, offset: 1 }}>
+                              <div className="join-box join-width1">
                                 <div>방 입장하기</div>
-                                <br />
+                                <div>
+                                  <img
+                                    src={E2}
+                                    style={{
+                                      width: 100,
+                                      height: 100,
+                                      marginTop: 20,
+                                      marginBottom: 10,
+                                    }}
+                                  ></img>
+                                </div>
                                 <p>방 번호를 입력하세요</p>
                                 <div className="input-group">
                                   <input
@@ -810,76 +853,123 @@ class Main extends Component {
                                     onClick={onCheckSession}
                                   />
                                 </div>
-                                <div style={{ borderTop: "solid 5px #353f71" }}>
-                                  <p className="mt-4">
-                                    새로운 만남을 원하세요?
-                                  </p>
-                                  <Button
-                                    type="submit"
-                                    onClick={onRandomJoin}
-                                    variant="contained"
-                                    className="mt-4"
-                                  >
-                                    랜덤입장
-                                  </Button>
+                              </div>
+                            </Col>
+                            <Col md={{ span: 3, offset: 1 }}>
+                              <div className="join-box join-width1">
+                                <div>랜덤방 입장하기</div>
+                                <br></br>
+                                <div>
+                                  <img
+                                    src={Q}
+                                    style={{
+                                      width: 100,
+                                      height: 100,
+                                    }}
+                                  ></img>
                                 </div>
+                                <input
+                                  className="btn join-box-inner"
+                                  name="commit"
+                                  type="submit"
+                                  value="입장하기"
+                                  onClick={onRandomJoin}
+                                />
                               </div>
                             </Col>
                           </Row>
                         </Container>
                       </form>
                     ) : (
-                      <Row>
-                        <form className="form-group">
-                          <Col md={{ span: 6, offset: 3 }}>
-                            <div className="join-box">
-                              <br></br>
-                              <br></br>
-                              <p className="color-353f71">
-                                닉네임을 입력해주세요.{" "}
-                              </p>
-                              <input
-                                className="form-control input-style"
-                                type="text"
-                                id="userName"
-                                value={myUserName}
-                                onChange={this.handleChangeUserName}
-                                placeholder="닉네임"
-                                required
-                              />
-                              <br></br>
-                              <br></br>
-                              <p> 방번호를 입력해주세요. </p>
-                              <input
-                                className="form-control input-style"
-                                type="text"
-                                id="sessionId"
-                                value={mySessionId}
-                                onChange={this.handleChangeSessionId}
-                                placeholder="방 번호"
-                                required
-                              />
-                              <p className="text-center">
+                      <form className="form-group">
+                        <br></br>
+                        <h2 className="color-353f71">안녕하세요 게스트님!</h2>
+                        <br></br>
+                        <br></br>
+                        <Container>
+                          <Row>
+                            <Col md={{ span: 4, offset: 1 }}>
+                              <div className="join-box join-width2">
+                                <br></br>
+                                <h2 className="font-join">방에 참가하기</h2>
+                                <br></br>
+                                <p className="color-353f71">
+                                  닉네임을 입력해주세요.{" "}
+                                </p>
+                                <input
+                                  className="form-control input-style"
+                                  type="text"
+                                  id="userName"
+                                  value={myUserName}
+                                  onChange={this.handleChangeUserName}
+                                  placeholder="닉네임"
+                                  required
+                                />
+                                <br></br>
+                                <p> 방번호를 입력해주세요. </p>
+                                <input
+                                  className="form-control input-style"
+                                  type="text"
+                                  id="sessionId"
+                                  value={mySessionId}
+                                  onChange={this.handleChangeSessionId}
+                                  placeholder="방 번호"
+                                  required
+                                />
+                                <p className="text-center">
+                                  <br></br>
+                                  <input
+                                    className="btn btn-lg btn-color"
+                                    name="commit"
+                                    type="submit"
+                                    value="JOIN"
+                                    onClick={onCheckSession}
+                                  />
+                                </p>
+                              </div>
+                            </Col>
+                            <Col md={{ span: 4, offset: 2 }}>
+                              <div className="join-box join-width2">
+                                <br></br>
+                                <h2 className="font-join">랜덤방 참가하기</h2>
+
+                                <div>
+                                  <img
+                                    src={Q}
+                                    style={{
+                                      width: 80,
+                                      height: 80,
+                                      marginTop: 10,
+                                    }}
+                                  ></img>
+                                </div>
+                                <br></br>
+                                <p className="color-353f71">
+                                  닉네임을 입력해주세요.{" "}
+                                </p>
+                                <input
+                                  className="form-control input-style"
+                                  type="text"
+                                  id="userName"
+                                  value={myUserName}
+                                  onChange={this.handleChangeUserName}
+                                  placeholder="닉네임"
+                                  required
+                                />
+
                                 <br></br>
                                 <input
                                   className="btn btn-lg btn-color"
                                   name="commit"
                                   type="submit"
-                                  value="JOIN"
-                                  onClick={onCheckSession}
+                                  value="RANDOM JOIN"
+                                  onClick={onRandomJoin}
                                 />
-                              </p>
-                              <Button
-                                type="submit"
-                                onClick={onRandomJoin}
-                                variant="contained"
-                              >
-                                랜덤입장
-                              </Button>
-                            </div>
-                          </Col>
-                        </form>
-                      </Row>
+                              </div>
+                            </Col>
+                          </Row>
+                        </Container>
+                      </form>
                     )}
                   </div>
                 </div>
@@ -976,18 +1066,21 @@ class Main extends Component {
                         <IoCopy
                           color="#50468c"
                           size="18"
-                          title="Copy"
                           className="cursor-pointer"
                           onClick={() =>
                             navigator.clipboard.writeText(mySessionId)
                           }
+                          data-tip
+                          data-for="tooltip"
                         />
-                        <IoGameController
-                          color="#50468c"
-                          size="18"
-                          className="cursor-pointer"
-                          onClick={this.paneltoggle}
-                        />
+                        <ReactTooltip
+                          id="tooltip"
+                          effect="solid"
+                          place="top"
+                          type="dark"
+                        >
+                          Copy
+                        </ReactTooltip>
                       </div>
 
                       <div className="chatbox__messages" ref="chatoutput">
@@ -1112,6 +1205,16 @@ class Main extends Component {
                           }}
                         />
                         <p className="btn-font">사진찍기</p>
+                      </div>
+                    </Col>
+                    <Col md={{ span: 1 }}>
+                      <div>
+                        <IoGameController
+                          color="green"
+                          size={btn_size}
+                          onClick={this.paneltoggle}
+                        />
+                        <p className="btn-font">게임</p>
                       </div>
                     </Col>
                     <Col md={{ span: 1 }}>
