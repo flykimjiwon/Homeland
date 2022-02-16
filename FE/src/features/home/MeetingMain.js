@@ -841,7 +841,7 @@ class Main extends Component {
                         <br></br>
                         <Container>
                           <Row>
-                            <Col md={{ span: 5, offset: 0 }}>
+                            <Col md={{ span: 3, offset: 1 }}>
                               <div className="join-box">
                                 <br></br>
                                 <h2 className="font-join">방에 참가하기</h2>
@@ -881,7 +881,7 @@ class Main extends Component {
                                 </p>
                               </div>
                             </Col>
-                            <Col md={{ span: 5, offset: 2 }}>
+                            <Col md={{ span: 3, offset: 3 }}>
                               <div className="join-box">
                                 <br></br>
                                 <h2 className="font-join">랜덤방 참가하기</h2>
