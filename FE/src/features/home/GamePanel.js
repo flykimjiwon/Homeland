@@ -3,10 +3,7 @@ import "./GamePanel.css";
 import CountDown from "./CountDown";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-<<<<<<< HEAD
-=======
 import { Container, Row, Col } from "react-bootstrap";
->>>>>>> seunghwan
 
 const MySwal = withReactContent(Swal);
 
