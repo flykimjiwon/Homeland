@@ -1,7 +1,8 @@
 ## Gradle 설치 6.8.3
 
 ```bash
-sudo update apt-get install gradle
+sudo apt-get update 
+sapt-get install gradle
 ```
 
 ![image-20220214145156961](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220214145156961.png)

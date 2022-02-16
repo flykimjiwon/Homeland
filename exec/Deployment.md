@@ -37,6 +37,7 @@ sudo letsencrypt certonly --standalone -d 도메인
 ## 1. OpenVidu 서버 배포
 
 ```bqsh
+s
 cd /opt	
 ```
 
@@ -115,6 +116,10 @@ services:
 ```
 
 
+
+```bash
+s./openvidu start
+```
 
 
 
