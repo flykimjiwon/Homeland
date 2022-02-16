@@ -1,15 +1,9 @@
+import "./FindPassword.css";
 import { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
+import { Form, Container } from "react-bootstrap";
 import backEndUrl from "../setup/hld_url";
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Typography,
-  TextField,
-  Button as MuiButton,
-} from "@mui/material";
 
 function FindPassword() {
   const BEUrl = backEndUrl;
@@ -47,50 +41,46 @@ function FindPassword() {
   };
   return (
     <div style={{ paddingTop: "100px" }}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h4">
-            새 비밀번호 변경
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
+      <h1
+        className="mt-3"
+        style={{ color: "#353f71", fontSize: "50px", fontWeight: "600" }}
+      >
+        새 비밀번호로 변경
+      </h1>
+      <Container style={{ width: "500px", marginTop: "50px" }}>
+        <Form className="find-password-form">
+          <Form.Group className="mb-3">
+            <Form.Label className="find-password-font-size">
+              새 비밀번호
+            </Form.Label>
+            <Form.Control
               value={newPassword}
               onChange={handleNewPassword}
-              margin="normal"
-              required
-              fullWidth
-              label="새 비밀번호"
-              autoFocus
               type="password"
+              placeholder="새 비밀번호를 입력하세요."
             />
-            <TextField
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="find-password-font-size">
+              새 비밀번호 확인
+            </Form.Label>
+            <Form.Control
               value={confirmNewPassword}
               onChange={handleConfirmNewPassword}
-              margin="normal"
-              required
-              fullWidth
-              label="비밀번호 확인"
               type="password"
+              placeholder="새 비밀번호를 다시 입력하세요."
             />
-            <MuiButton
+          </Form.Group>
+          <Form.Group className="d-flex justify-content-center">
+            <button
+              className="btn btn-color"
               type="submit"
               onClick={onChangePassword}
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
             >
               변경하기
-            </MuiButton>
-          </Box>
-        </Box>
+            </button>
+          </Form.Group>
+        </Form>
       </Container>
     </div>
   );

@@ -76,7 +76,12 @@ function Notice() {
   useEffect(getAuthority, []);
   return (
     <div className="notice">
-      <h1 className="color-353f71 mt-3">공지사항</h1>
+      <h1
+        className="color-353f71 mt-3"
+        style={{ fontSize: "50px", fontWeight: "600" }}
+      >
+        공지사항
+      </h1>
       <Container className="mt-5">
         <table className="table table-striped table-hover">
           <thead>

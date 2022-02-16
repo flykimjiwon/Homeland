@@ -36,7 +36,7 @@ function Mypage() {
 
   return (
     <div className="font-style" style={{ paddingTop: "100px" }}>
-      <h1>마이페이지</h1>
+      <h1 style={{ fontSize: "50px", fontWeight: "600" }}>마이페이지</h1>
       <Container className="mypage-form d-flex flex-column align-center">
         <div className="box" style={{ backgroundColor: "#BDBDBD" }}>
           <img className="profile" src={ProfileImage} />
