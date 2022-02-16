@@ -296,6 +296,7 @@ class Main extends Component {
     }).then((result) => {
       if (result.isDenied) {
         this.leaveSession();
+        window.location.reload();
       }
     });
   };
