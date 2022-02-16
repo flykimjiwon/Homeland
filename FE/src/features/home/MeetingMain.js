@@ -1008,6 +1008,10 @@ class Main extends Component {
                         <UserVideoComponent
                           streamManager={this.state.publisher}
                         />
+                        {/* <h1>방장</h1> 짠효과 */}
+                        {this.state.cheers === true ? (
+                    <Cheersmain></Cheersmain>
+                  ) : null}
                       </div>
                     ) : null}
                     {this.state.subscribers.map((sub, i) => (
@@ -1023,14 +1027,18 @@ class Main extends Component {
                         }}
                       >
                         <UserVideoComponent streamManager={sub} />
+                        {/* <h1>스크라이버 짠효과</h1> */}
+                        {this.state.cheers === true ? (
+                    <Cheersmain></Cheersmain>
+                  ) : null}
                       </div>
                     ))}
                   </div>
 
                   {/* 짠효과 중앙 */}
-                  {this.state.cheers === true ? (
+                  {/* {this.state.cheers === true ? (
                     <Cheersmain></Cheersmain>
-                  ) : null}
+                  ) : null} */}
                 </Col>
 
                 <Col md={{ span: 3 }}>

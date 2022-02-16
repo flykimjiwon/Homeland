@@ -29,15 +29,15 @@ function Index({ onIsLogin }) {
       <ProductHero />
 
       </div>
-
-      {/* <div data-aos="fade-left">
-        {" "}
-        <ProductHero2 />
+      <div data-aos="zoom-in"
+      data-aos-duration="2000">
+ <ProductHero2 />
       </div>
-      <div data-aos="fade-right">
-        {" "}
-        <ProductHero3 />
-      </div> */}
+     
+      <div data-aos="zoom-in"
+      data-aos-duration="2000">
+ <ProductHero3 />
+      </div>
 
       {/* <AppFooter /> */}
     </React.Fragment>
