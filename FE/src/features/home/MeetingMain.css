@@ -71,6 +71,9 @@
 }
 
 .chatbox__header {
+  padding: 8px;
+  font-size: 17px;
+  height: 40px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   font-weight: bold;
