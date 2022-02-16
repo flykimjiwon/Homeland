@@ -45,6 +45,8 @@ import GamePanel from "./GamePanel";
 import { margin, width } from "@mui/system";
 
 import ReactTooltip from "react-tooltip";
+import { Link, Route, Switch } from "react-router-dom";
+
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -295,7 +297,9 @@ class Main extends Component {
       denyButtonText: `종료하기`,
     }).then((result) => {
       if (result.isDenied) {
-        this.leaveSession();
+        window.location.reload()
+        // this.leaveSession();
+        // <Redirect to="/라우팅주소" />
       }
     });
   };
@@ -1008,6 +1012,10 @@ class Main extends Component {
                         <UserVideoComponent
                           streamManager={this.state.publisher}
                         />
+                        {/* <h1>방장</h1> 짠효과 */}
+                        {this.state.cheers === true ? (
+                    <Cheersmain></Cheersmain>
+                  ) : null}
                       </div>
                     ) : null}
                     {this.state.subscribers.map((sub, i) => (
@@ -1023,14 +1031,18 @@ class Main extends Component {
                         }}
                       >
                         <UserVideoComponent streamManager={sub} />
+                        {/* <h1>스크라이버 짠효과</h1> */}
+                        {this.state.cheers === true ? (
+                    <Cheersmain></Cheersmain>
+                  ) : null}
                       </div>
                     ))}
                   </div>
 
                   {/* 짠효과 중앙 */}
-                  {this.state.cheers === true ? (
+                  {/* {this.state.cheers === true ? (
                     <Cheersmain></Cheersmain>
-                  ) : null}
+                  ) : null} */}
                 </Col>
 
                 <Col md={{ span: 3 }}>
