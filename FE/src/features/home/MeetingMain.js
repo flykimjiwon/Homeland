@@ -296,9 +296,14 @@ class Main extends Component {
       denyButtonText: `종료하기`,
     }).then((result) => {
       if (result.isDenied) {
+<<<<<<< HEAD
         window.location.reload();
         // this.leaveSession();
         // <Redirect to="/라우팅주소" />
+=======
+        this.leaveSession();
+        window.location.reload();
+>>>>>>> seunghwan
       }
     });
   };
@@ -991,15 +996,8 @@ class Main extends Component {
             <br></br>
           </Container>
         ) : (
-          <div id="session" className="padding-100px ">
+          <div id="session">
             <Container>
-              {/* <div id="img-div">
-                <img
-                  src="/HLD_logo_150x150.png"
-                  alt="OpenVidu logo"
-                  sizes="24"
-                />
-              </div> */}
               <Row>
                 <Col md={{ span: 9 }} id="capture_screen">
                   {/* screens */}
@@ -1071,7 +1069,7 @@ class Main extends Component {
                     host={this.state.host}
                   ></GamePanel>
                   {/* chat */}
-                  <div className="height-80">
+                  <div>
                     <div
                       // className="chatbox__support chat-height-with-panel"
                       className={
@@ -1127,11 +1125,10 @@ class Main extends Component {
                   </div>
                 </Col>
               </Row>
-
-              <Row>
-                <Col xs={8}>
-                  <Row className="btn_toolbar">
-                    <Col md={{ span: 1, offset: 4 }}>
+              <Row className="btn_toolbar">
+                <Col md={{ span: 6, offset: 3 }}>
+                  <Row>
+                    <Col>
                       {this.state.audiostate ? (
                         <div>
                           <IoMicSharp
@@ -1166,7 +1163,7 @@ class Main extends Component {
                         </div>
                       )}
                     </Col>
-                    <Col md={{ span: 1 }}>
+                    <Col>
                       {this.state.videostate ? (
                         <div>
                           <IoVideocam
@@ -1201,7 +1198,7 @@ class Main extends Component {
                         </div>
                       )}
                     </Col>
-                    <Col md={{ span: 1 }}>
+                    <Col>
                       {/* 짠효과 */}
                       <div>
                         <IoBeer
@@ -1214,7 +1211,7 @@ class Main extends Component {
                         <p className="btn-font">건배</p>
                       </div>
                     </Col>
-                    <Col md={{ span: 1 }}>
+                    <Col>
                       <div>
                         <IoCameraSharp
                           color={icon_color}
@@ -1226,7 +1223,7 @@ class Main extends Component {
                         <p className="btn-font">사진찍기</p>
                       </div>
                     </Col>
-                    <Col md={{ span: 1 }}>
+                    <Col>
                       <div>
                         <IoGameController
                           color="green"
@@ -1236,7 +1233,7 @@ class Main extends Component {
                         <p className="btn-font">게임</p>
                       </div>
                     </Col>
-                    <Col md={{ span: 1 }}>
+                    <Col>
                       {!(
                         screen.width === this.state.width &&
                         screen.height === this.state.height
@@ -1265,7 +1262,7 @@ class Main extends Component {
                       )}
                     </Col>
 
-                    <Col md={{ span: 1 }}>
+                    <Col>
                       <div>
                         <IoExit
                           color="red"
@@ -1277,7 +1274,6 @@ class Main extends Component {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={4}></Col>
               </Row>
             </Container>
           </div>

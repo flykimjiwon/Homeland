@@ -21,3 +21,18 @@ CountDown {
 .nondisplay {
   display: none;
 }
+
+.liar-subject-box {
+  width: 270px;
+  height: 270px;
+}
+.liar-subject-box div {
+  height: 90px;
+}
+.box-red {
+  background-color: red;
+}
+
+.box-blue {
+  background-color: blue;
+}
