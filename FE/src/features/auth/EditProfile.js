@@ -60,7 +60,10 @@ function EditProfile() {
 
   return (
     <div style={{ paddingTop: "100px" }}>
-      <h1 className="mt-3" style={{ color: "#353f71", fontSize: "50px" }}>
+      <h1
+        className="mt-3"
+        style={{ color: "#353f71", fontSize: "50px", fontWeight: "600" }}
+      >
         회원정보 수정
       </h1>
       <Container style={{ width: "500px", marginTop: "50px" }}>
@@ -93,7 +96,7 @@ function EditProfile() {
             </button>
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Link to="/check-password">
+            <Link className="link-font" to="/check-password">
               <p>비밀번호 변경</p>
             </Link>
           </div>
