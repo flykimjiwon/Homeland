@@ -47,7 +47,6 @@ import { margin, width } from "@mui/system";
 import ReactTooltip from "react-tooltip";
 import { Link, Route, Switch } from "react-router-dom";
 
-
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
 const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
@@ -297,7 +296,7 @@ class Main extends Component {
       denyButtonText: `종료하기`,
     }).then((result) => {
       if (result.isDenied) {
-        window.location.reload()
+        window.location.reload();
         // this.leaveSession();
         // <Redirect to="/라우팅주소" />
       }
@@ -654,12 +653,20 @@ class Main extends Component {
         })
         .then(() => {
           onCheckNickname();
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            alert("개설된 방이 없습니다...ㅜㅜ");
+          }
         });
     };
 
     const onCheckNickname = () => {
       if (!this.state.myUserName) {
         alert("닉네임을 입력해주세요.");
+        this.setState({
+          mySessionId: "",
+        });
       } else {
         axios({
           url: `${BEUrl}/api/v1/room/join/${this.state.mySessionId}`,
@@ -1014,8 +1021,8 @@ class Main extends Component {
                         />
                         {/* <h1>방장</h1> 짠효과 */}
                         {this.state.cheers === true ? (
-                    <Cheersmain></Cheersmain>
-                  ) : null}
+                          <Cheersmain></Cheersmain>
+                        ) : null}
                       </div>
                     ) : null}
                     {this.state.subscribers.map((sub, i) => (
@@ -1033,8 +1040,8 @@ class Main extends Component {
                         <UserVideoComponent streamManager={sub} />
                         {/* <h1>스크라이버 짠효과</h1> */}
                         {this.state.cheers === true ? (
-                    <Cheersmain></Cheersmain>
-                  ) : null}
+                          <Cheersmain></Cheersmain>
+                        ) : null}
                       </div>
                     ))}
                   </div>
