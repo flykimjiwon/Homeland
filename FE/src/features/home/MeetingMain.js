@@ -25,7 +25,8 @@ import { FormControl, FormControlLabel, Button } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
-
+import beerL from "./img/beer_left.png";
+import beerR from "./img/beer_right.png";
 import Swal from "sweetalert2";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
@@ -35,6 +36,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Cheersmain from "./Cheersmain";
 
 import GamePanel from "./GamePanel";
+import { width } from "@mui/system";
 
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
@@ -737,10 +739,25 @@ class Main extends Component {
 
     const { mypage } = this.props;
     return (
-      <div className="bg">
+      <div className="bg padding-100px">
+        <br></br>
+        <Container>
+          <Row>
+            <Col md={{ span: 2, offset: 2 }}>
+              <img src={beerL} style={{ width: 150, height: 150 }}></img>
+            </Col>
+            <Col md={{ span: 4 }}>
+              <h1 className="color-353f71"> Welcome to </h1>
+              <h1 className="color-353f71"> Home Lan Drink! </h1>
+            </Col>
+            <Col md={{ span: 2 }}>
+              <img src={beerR} style={{ width: 150, height: 150 }}></img>
+            </Col>
+          </Row>
+        </Container>
         {this.state.session === undefined ? (
           <Container>
-            <Row className="padding-100px">
+            <Row>
               <Col></Col>
               <Col xs={10}>
                 <div id="join">
@@ -748,9 +765,6 @@ class Main extends Component {
                     <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
                   </div> */}
                   <div id="join-dialog" className="jumbotron vertical-center">
-                    <br></br>
-                    <h1 className="color-353f71"> Welcome to </h1>
-                    <h1 className="color-353f71"> Home Lan Drink! </h1>
                     {loginToken ? (
                       <form className="form-group">
                         <br></br>
