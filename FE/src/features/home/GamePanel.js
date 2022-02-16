@@ -177,7 +177,7 @@ function GamePanel(props) {
               /> */}
               <br></br>
               <br></br>
-              <p>제시어 카테고리를 선택해주세요!</p>
+              <h4 className="liar-title">제시어 카테고리를 선택해주세요!</h4>
               <p>{liarOrNot}</p>
               <Container className="liab-box">
                 <Row className="liar-subject-box" style={{ paddingTop: 10 }}>

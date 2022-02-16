@@ -16,6 +16,9 @@
   top: 0;
 }
 .title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(109, 76, 5);
   padding: 20px 0px;
 }
 .games > div {
@@ -65,8 +68,14 @@ CountDown {
 .back {
   position: fixed;
   margin-left: 10px;
+  color: rgb(109, 76, 5);
 }
 
+.liar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(109, 76, 5);
+}
 /* .join-box-inner {
   background-color: #353f71;
   color: #d3e5e8;
