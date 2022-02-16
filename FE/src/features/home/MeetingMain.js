@@ -980,15 +980,8 @@ class Main extends Component {
             <br></br>
           </Container>
         ) : (
-          <div id="session" className="padding-100px ">
+          <div id="session">
             <Container>
-              {/* <div id="img-div">
-                <img
-                  src="/HLD_logo_150x150.png"
-                  alt="OpenVidu logo"
-                  sizes="24"
-                />
-              </div> */}
               <Row>
                 <Col md={{ span: 9 }} id="capture_screen">
                   {/* screens */}
@@ -1031,86 +1024,6 @@ class Main extends Component {
                   {this.state.cheers === true ? (
                     <Cheersmain></Cheersmain>
                   ) : null}
-                </Col>
-
-                <Col md={{ span: 3 }}>
-                  {/* gamePanel */}
-                  <GamePanel
-                    cnt={this.state.cnt}
-                    gamePanel={this.state.gamePanel}
-                    gameCategory={this.state.gameCategory}
-                    setGameCategory={this.setGameCategory}
-                    sessionData={this.state.sessionData}
-                    mySessionId={this.state.mySessionId}
-                    myUserName={this.state.myUserName}
-                    session={this.state.session}
-                    publisher={this.state.publisher}
-                    subscribers={this.state.subscribers}
-                    connectionId={this.state.connectionId}
-                    connections={this.state.connections}
-                    connectionUser={this.state.connectionUser}
-                    host={this.state.host}
-                  ></GamePanel>
-                  {/* chat */}
-                  <div className="height-80">
-                    <div
-                      // className="chatbox__support chat-height-with-panel"
-                      className={
-                        this.state.gamePanel
-                          ? "chatbox__support chat-height-with-panel"
-                          : "chatbox__support chat-height-without-panel"
-                      }
-                    >
-                      <div className="chatbox__header">
-                        방코드: {mySessionId}
-                        <IoCopy
-                          color="#50468c"
-                          size="18"
-                          className="cursor-pointer"
-                          onClick={() =>
-                            navigator.clipboard.writeText(mySessionId)
-                          }
-                          data-tip
-                          data-for="tooltip"
-                        />
-                        <ReactTooltip
-                          id="tooltip"
-                          effect="solid"
-                          place="top"
-                          type="dark"
-                        >
-                          Copy
-                        </ReactTooltip>
-                      </div>
-
-                      <div className="chatbox__messages" ref="chatoutput">
-                        {/* {this.displayElements} */}
-                        <Messages messages={messages} />
-                        <div />
-                      </div>
-                      <div className="chatbox__footer">
-                        <input
-                          id="chat_message"
-                          type="text"
-                          placeholder="Write a message..."
-                          onChange={this.handleChatMessageChange}
-                          onKeyPress={this.sendmessageByEnter}
-                          value={this.state.message}
-                        />
-                        <button
-                          className="chatbox__send--footer"
-                          onClick={this.sendmessageByClick}
-                        >
-                          Enter
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs={8}>
                   <Row className="btn_toolbar">
                     <Col md={{ span: 1, offset: 4 }}>
                       {this.state.audiostate ? (
@@ -1258,7 +1171,81 @@ class Main extends Component {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={4}></Col>
+
+                <Col md={{ span: 3 }}>
+                  {/* gamePanel */}
+                  <GamePanel
+                    cnt={this.state.cnt}
+                    gamePanel={this.state.gamePanel}
+                    gameCategory={this.state.gameCategory}
+                    setGameCategory={this.setGameCategory}
+                    sessionData={this.state.sessionData}
+                    mySessionId={this.state.mySessionId}
+                    myUserName={this.state.myUserName}
+                    session={this.state.session}
+                    publisher={this.state.publisher}
+                    subscribers={this.state.subscribers}
+                    connectionId={this.state.connectionId}
+                    connections={this.state.connections}
+                    connectionUser={this.state.connectionUser}
+                    host={this.state.host}
+                  ></GamePanel>
+                  {/* chat */}
+                  <div className="height-80">
+                    <div
+                      // className="chatbox__support chat-height-with-panel"
+                      className={
+                        this.state.gamePanel
+                          ? "chatbox__support chat-height-with-panel"
+                          : "chatbox__support chat-height-without-panel"
+                      }
+                    >
+                      <div className="chatbox__header">
+                        방코드: {mySessionId}
+                        <IoCopy
+                          color="#50468c"
+                          size="18"
+                          className="cursor-pointer"
+                          onClick={() =>
+                            navigator.clipboard.writeText(mySessionId)
+                          }
+                          data-tip
+                          data-for="tooltip"
+                        />
+                        <ReactTooltip
+                          id="tooltip"
+                          effect="solid"
+                          place="top"
+                          type="dark"
+                        >
+                          Copy
+                        </ReactTooltip>
+                      </div>
+
+                      <div className="chatbox__messages" ref="chatoutput">
+                        {/* {this.displayElements} */}
+                        <Messages messages={messages} />
+                        <div />
+                      </div>
+                      <div className="chatbox__footer">
+                        <input
+                          id="chat_message"
+                          type="text"
+                          placeholder="Write a message..."
+                          onChange={this.handleChatMessageChange}
+                          onKeyPress={this.sendmessageByEnter}
+                          value={this.state.message}
+                        />
+                        <button
+                          className="chatbox__send--footer"
+                          onClick={this.sendmessageByClick}
+                        >
+                          Enter
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
               </Row>
             </Container>
           </div>
