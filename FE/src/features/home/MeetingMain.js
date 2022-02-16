@@ -742,12 +742,13 @@ class Main extends Component {
           <Container>
             <Row className="padding-100px">
               <Col></Col>
-              <Col xs={8}>
+              <Col xs={10}>
                 <div id="join">
                   {/* <div id="img-div">
                     <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
                   </div> */}
                   <div id="join-dialog" className="jumbotron vertical-center">
+                    <br></br>
                     <h1 className="color-353f71"> Welcome to </h1>
                     <h1 className="color-353f71"> Home Lan Drink! </h1>
                     {loginToken ? (
@@ -757,9 +758,10 @@ class Main extends Component {
                           안녕하세요 '{myUserName}'님!
                         </h2>
                         <br></br>
+                        <br></br>
                         <Container>
                           <Row>
-                            <Col md={{ span: 5, offset: 0 }}>
+                            <Col md={{ span: 3 }}>
                               <div className="join-box">
                                 <div>방 만들기</div>
                                 <input
@@ -790,9 +792,12 @@ class Main extends Component {
                                 </FormControl>
                               </div>
                             </Col>
-                            <Col md={{ span: 5, offset: 2 }}>
+                            <Col md={{ span: 3, offset: 1 }}>
                               <div className="join-box">
                                 <div>방 입장하기</div>
+                                <br />
+                                <br />
+                                <br />
                                 <br />
                                 <p>방 번호를 입력하세요</p>
                                 <div className="input-group">
@@ -810,76 +815,105 @@ class Main extends Component {
                                     onClick={onCheckSession}
                                   />
                                 </div>
-                                <div style={{ borderTop: "solid 5px #353f71" }}>
-                                  <p className="mt-4">
-                                    새로운 만남을 원하세요?
-                                  </p>
-                                  <Button
-                                    type="submit"
-                                    onClick={onRandomJoin}
-                                    variant="contained"
-                                    className="mt-4"
-                                  >
-                                    랜덤입장
-                                  </Button>
-                                </div>
+                              </div>
+                            </Col>
+                            <Col md={{ span: 3, offset: 1 }}>
+                              <div className="join-box">
+                                <div>랜덤방 입장하기</div>
+                                <br />
+                                <input
+                                  className="btn join-box-inner"
+                                  name="commit"
+                                  type="submit"
+                                  value="랜덤방 입장하기"
+                                  onClick={onRandomJoin}
+                                />
                               </div>
                             </Col>
                           </Row>
                         </Container>
                       </form>
                     ) : (
-                      <Row>
-                        <form className="form-group">
-                          <Col md={{ span: 6, offset: 3 }}>
-                            <div className="join-box">
-                              <br></br>
-                              <br></br>
-                              <p className="color-353f71">
-                                닉네임을 입력해주세요.{" "}
-                              </p>
-                              <input
-                                className="form-control input-style"
-                                type="text"
-                                id="userName"
-                                value={myUserName}
-                                onChange={this.handleChangeUserName}
-                                placeholder="닉네임"
-                                required
-                              />
-                              <br></br>
-                              <br></br>
-                              <p> 방번호를 입력해주세요. </p>
-                              <input
-                                className="form-control input-style"
-                                type="text"
-                                id="sessionId"
-                                value={mySessionId}
-                                onChange={this.handleChangeSessionId}
-                                placeholder="방 번호"
-                                required
-                              />
-                              <p className="text-center">
+                      <form className="form-group">
+                        <br></br>
+                        <h2 className="color-353f71">안녕하세요 게스트님!</h2>
+                        <br></br>
+                        <br></br>
+                        <Container>
+                          <Row>
+                            <Col md={{ span: 5, offset: 0 }}>
+                              <div className="join-box">
+                                <br></br>
+                                <h2 className="font-join">방에 참가하기</h2>
+                                <br></br>
+                                <p className="color-353f71">
+                                  닉네임을 입력해주세요.{" "}
+                                </p>
+                                <input
+                                  className="form-control input-style"
+                                  type="text"
+                                  id="userName"
+                                  value={myUserName}
+                                  onChange={this.handleChangeUserName}
+                                  placeholder="닉네임"
+                                  required
+                                />
+                                <br></br>
+                                <p> 방번호를 입력해주세요. </p>
+                                <input
+                                  className="form-control input-style"
+                                  type="text"
+                                  id="sessionId"
+                                  value={mySessionId}
+                                  onChange={this.handleChangeSessionId}
+                                  placeholder="방 번호"
+                                  required
+                                />
+                                <p className="text-center">
+                                  <br></br>
+                                  <input
+                                    className="btn btn-lg btn-color"
+                                    name="commit"
+                                    type="submit"
+                                    value="JOIN"
+                                    onClick={onCheckSession}
+                                  />
+                                </p>
+                              </div>
+                            </Col>
+                            <Col md={{ span: 5, offset: 2 }}>
+                              <div className="join-box">
+                                <br></br>
+                                <h2 className="font-join">랜덤방 참가하기</h2>
+                                <br></br>
+                                <br></br>
+                                <p className="color-353f71">
+                                  닉네임을 입력해주세요.{" "}
+                                </p>
+                                <input
+                                  className="form-control input-style"
+                                  type="text"
+                                  id="userName"
+                                  value={myUserName}
+                                  onChange={this.handleChangeUserName}
+                                  placeholder="닉네임"
+                                  required
+                                />
+                                <br></br>
+                                <p>새로운 인연을 찾아보시겠어요?</p>
                                 <br></br>
                                 <input
                                   className="btn btn-lg btn-color"
                                   name="commit"
                                   type="submit"
-                                  value="JOIN"
-                                  onClick={onCheckSession}
+                                  value="RANDOM JOIN"
+                                  onClick={onRandomJoin}
                                 />
-                              </p>
-                              <Button
-                                type="submit"
-                                onClick={onRandomJoin}
-                                variant="contained"
-                              >
-                                랜덤입장
-                              </Button>
-                            </div>
-                          </Col>
-                        </form>
-                      </Row>
+                              </div>
+                            </Col>
+                          </Row>
+                        </Container>
+                      </form>
                     )}
                   </div>
                 </div>
