@@ -165,6 +165,21 @@ public class RoomController {
     }
 
 
+    @ApiOperation(value = "방장 방 떠나기",notes = "방장이 방을 나가면 방을 파괴함 서버에서 지움")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200,message = "성공"),
+
+    })
+    @PostMapping("/destroy/{roomId}")
+    public ResponseEntity destroyRoom(@PathVariable String roomId, @RequestBody ParticipantPostReq participantPostReq){
+        roomId=roomId.trim();
+        roomService.destroyRoom(roomId,participantPostReq.getNickname());
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+
+
     @ApiOperation(value = "특정 방 정보",notes = "특정 방에 대한 정보를 받을 때 호출")
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "성공"),
@@ -188,5 +203,8 @@ public class RoomController {
 
         return new ResponseEntity(roomList,HttpStatus.OK);
     }
+
+
+
 
 }

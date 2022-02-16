@@ -39,24 +39,6 @@ public class RoomServiceImpl implements RoomService{
         return rooms.get(roomId);
     };
 
-//    //방 생성하기
-//    public ResponseEntity createRoom(){
-//
-//        String roomId=getRandomRoomId();
-//
-//        boolean exist = findRoomInOV(roomId);
-//
-//        if(exist) {
-//            while (findRoomInOV(roomId)) {
-//                roomId = getRandomRoomId();
-//            }
-//        }
-//
-//        this.createAndPutRoom(roomId);
-//
-//        return new ResponseEntity(roomId,HttpStatus.OK);
-//    }
-
     //오픈비두 서버와 rooms에 해당 방이 있는지 확인
     public ResponseEntity findRoom(String roomId){
         //오픈비두 서버에서 해당 방이 있는지 먼저 확인
@@ -197,11 +179,25 @@ public class RoomServiceImpl implements RoomService{
         }
     }
 
+    @Override
+    public void destroyRoom(String roomId, String nickname) {
+
+        Room room=rooms.get(roomId);
+        if(room!=null){
+            if(room.getHost().getNickname().equals(nickname)){
+                rooms.remove(roomId);
+            }
+        }
+    }
+
     @Override //사용자가 랜덤입장을 하고 싶을 때 랜덤입장을 허용한 방 중 하나를 리턴
     public String findRandomRoom() {
 
         for(Room room: rooms.values()){
-            if(room.isRandomJoin()&&room.getJoinCnt()<6) return room.getRoomId();
+            if(room.isRandomJoin()&&room.getJoinCnt()<6) {
+                if(findRoomInOV(room.getRoomId()))
+                    return room.getRoomId();
+            }
         }
 
         return null;
@@ -213,14 +209,16 @@ public class RoomServiceImpl implements RoomService{
 
         ArrayList<RoomInfoRes> list = new ArrayList<>();
 
-        rooms.forEach((roomId,room)->{
-            RoomInfoRes roomInfoRes=new RoomInfoRes(roomId,
+        for(Room room:rooms.values()){
+
+            RoomInfoRes roomInfoRes=new RoomInfoRes(room.getRoomId(),
                     room.getHost().getUserId(),
                     room.getJoinCnt(),
                     room.isRandomJoin(),
                     room.findAllParticipant());
             list.add(roomInfoRes);
-        });
+        }
+
         return list;
     }
 

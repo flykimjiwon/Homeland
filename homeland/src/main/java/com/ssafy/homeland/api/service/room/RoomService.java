@@ -31,6 +31,8 @@ public interface RoomService {
 
     void leaveRoom(String roomId, String nickname);
 
+    void destroyRoom(String roomId, String nickname);
+
     String findRandomRoom();
 
     ArrayList<RoomInfoRes> getRoomList();
