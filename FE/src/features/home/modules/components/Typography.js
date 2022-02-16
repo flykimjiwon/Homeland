@@ -10,8 +10,8 @@ const markStyleMapping = {
     h2: 'markedH2Center',
     h3: 'markedH3Center',
     h4: 'markedH4Center',
-    h5: '',
-    h6: '',
+    h5: 'markedH5Center',
+    h6: 'markedH6Center',
   },
   left: {
     h1: 'markedH1Left',
@@ -19,7 +19,7 @@ const markStyleMapping = {
     h3: 'markedH3Left',
     h4: '',
     h5: '',
-    h6: 'markedH6Left',
+    h6: '',
   },
   none: {
     h1: '',
@@ -58,7 +58,8 @@ const styles = (theme) => ({
     width: 28,
     display: 'block',
     marginTop: theme.spacing(0.5),
-    background: 'currentColor',
+    // background: 'currentColor',
+    // 테두리?효과임
   },
 });
 
