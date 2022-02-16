@@ -29,9 +29,7 @@ import TextField from "@mui/material/TextField";
 // img
 import beerL from "./img/beer_left.png";
 import beerR from "./img/beer_right.png";
-import Q1 from "./img/Q1.png";
-import Q2 from "./img/Q2.png";
-import Q3 from "./img/Q3.png";
+import Q from "./img/Q.png";
 
 import Swal from "sweetalert2";
 
@@ -909,7 +907,7 @@ class Main extends Component {
 
                                 <div>
                                   <img
-                                    src={Q2}
+                                    src={Q}
                                     style={{
                                       width: 80,
                                       height: 80,
