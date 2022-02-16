@@ -25,8 +25,14 @@ import { FormControl, FormControlLabel, Button } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
+
+// img
 import beerL from "./img/beer_left.png";
 import beerR from "./img/beer_right.png";
+import Q1 from "./img/Q1.png";
+import Q2 from "./img/Q2.png";
+import Q3 from "./img/Q3.png";
+
 import Swal from "sweetalert2";
 
 import { IoMdExpand, IoMdContract } from "react-icons/io";
@@ -36,7 +42,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Cheersmain from "./Cheersmain";
 
 import GamePanel from "./GamePanel";
-import { width } from "@mui/system";
+import { margin, width } from "@mui/system";
 
 import ReactTooltip from "react-tooltip";
 
@@ -900,9 +906,17 @@ class Main extends Component {
                               <div className="join-box join-width2">
                                 <br></br>
                                 <h2 className="font-join">랜덤방 참가하기</h2>
-                                <br></br>
-                                <p>새로운 인연을 찾아보시겠어요?</p>
-                                <br></br>
+
+                                <div>
+                                  <img
+                                    src={Q2}
+                                    style={{
+                                      width: 80,
+                                      height: 80,
+                                      marginTop: 10,
+                                    }}
+                                  ></img>
+                                </div>
                                 <br></br>
                                 <p className="color-353f71">
                                   닉네임을 입력해주세요.{" "}
