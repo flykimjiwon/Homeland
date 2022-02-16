@@ -3,10 +3,7 @@ import "./GamePanel.css";
 import CountDown from "./CountDown";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-<<<<<<< HEAD
-=======
 import { Container, Row, Col } from "react-bootstrap";
->>>>>>> seunghwan
 
 const MySwal = withReactContent(Swal);
 
@@ -174,23 +171,6 @@ function GamePanel(props) {
                 라이어와 제시어 뽑기
               </p>
               <p>{liarOrNot}</p>
-              <Container className="liar-subject-box">
-                <Row>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                </Row>
-                <Row>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
-                </Row>
-                <Row>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                  <Col md={{ span: 4 }} className="box-blue"></Col>
-                  <Col md={{ span: 4 }} className="box-red"></Col>
-                </Row>
-              </Container>
             </div>
           ),
           upAndDown: (
@@ -404,6 +384,8 @@ function GamePanel(props) {
     console.log("제시어0000000", liarSubject);
     let Food = ["양파링", "사과", "딸기", "라면", "오렌지", "돼지고기"];
     let subject = shuffleArray(Food)[0];
+    console.log(subject);
+
     setTimeout(() => {
       SetLiarSubject(() => subject);
     }, 200);
