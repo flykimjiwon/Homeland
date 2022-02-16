@@ -1191,7 +1191,7 @@ class Main extends Component {
                     host={this.state.host}
                   ></GamePanel>
                   {/* chat */}
-                  <div className="height-80">
+                  <div>
                     <div
                       // className="chatbox__support chat-height-with-panel"
                       className={
