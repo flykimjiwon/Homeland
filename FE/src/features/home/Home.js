@@ -3,6 +3,9 @@ import { useEffect } from "react";
 import ProductHero from "./modules/views/ProductHero";
 import ProductHero2 from "./modules/views/ProductHero2";
 import ProductHero3 from "./modules/views/ProductHero3";
+import ProductHero4 from "./modules/views/ProductHero4";
+import ProductHero5 from "./modules/views/ProductHero5";
+
 import AppFooter from "./modules/views/AppFooter"
 
 import withRoot from "./modules/withRoot";
@@ -29,15 +32,25 @@ function Index({ onIsLogin }) {
       <ProductHero />
 
       </div>
-
-      {/* <div data-aos="fade-left">
-        {" "}
-        <ProductHero2 />
+      <div data-aos="zoom-in"
+      data-aos-duration="2000">
+ <ProductHero2 />
       </div>
-      <div data-aos="fade-right">
-        {" "}
-        <ProductHero3 />
-      </div> */}
+     
+      <div data-aos="zoom-in"
+      data-aos-duration="2000">
+ <ProductHero3 />
+      </div>
+      <div data-aos="zoom-in"
+      data-aos-duration="2000">
+ <ProductHero4 />
+      </div>
+     
+      <div data-aos="zoom-in"
+      data-aos-duration="2000">
+ <ProductHero5 />
+      </div>
+      
 
       {/* <AppFooter /> */}
     </React.Fragment>

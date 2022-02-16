@@ -58,7 +58,7 @@ export default function ProductHero() {
        variant="h3"
        sx={{ mb: 2, mt: { sx: 4, sm: 10 } }}
      >
-      라이어 게임 즐기기   
+      다 함께 짠 하기   
      </Typography>
    <Typography
        color="black"
@@ -67,10 +67,9 @@ export default function ProductHero() {
        sx={{ mb: 1, mt: { sx: 2, sm: 5 } }}
      >
        <h5>
-       사회자가 없이 즐기기 힘든 라이어게임을 HomeLanD에서 다함께 즐겨요. 랜덤으로 라이어를 정해주고 라이어가 아닌 사람들에게는 주제에 맞는 제시어가 주어집니다. 라이어는 정체를 들키지 않게 최대한 눈치껏 제시어에 대해 설명해 봅시다. 누가 누가 거짓말 중인지 눈을 크게 뜨고 찾아봐요!
+       오프라인 술자리의 묘미는 다 같이 술잔을 부딪히며 ‘짠’하는 건데 온라인에서는 못해서 아쉬우셨죠? HomeLanD에서는 그런 아쉬움을 날리기 위해 짠 효과 기능이 있답니다!  건배 버튼을 누르고 맥주 이모티콘과 함께 다 같이 술잔을 모니터에 가까이 대며 짠~ 크게 외쳐보아요     
 
        </h5>
-     
      </Typography></Col>
  </Row>
 </Container>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import "./styles.css";
-
+import './Cheers.css'
 export default function App() {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState('3');
@@ -25,12 +25,10 @@ export default function App() {
   return (
     <div >
       {/* <h1>CountDown!</h1>/ */}
-      <div>
-        <h3>
+      <div className="dh3">
           {seconds < 10 ? `${seconds}` : seconds}
           {/* {minutes}:{seconds < 10 ? `0${seconds}` : seconds} */}
 
-        </h3>
         
       </div>
     </div>

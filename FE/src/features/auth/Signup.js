@@ -4,18 +4,11 @@ import "./Signup.css";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import backEndUrl from "../setup/hld_url";
-import Avatar from "@mui/material/Avatar";
+import { Form, Container } from "react-bootstrap";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const theme = createTheme();
 
 function Sign() {
   const BEUrl = backEndUrl;
@@ -197,119 +190,93 @@ function Sign() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container className="signup-form" component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+    <div>
+      <div
+        className="d-flex flex-column align-center"
+        style={{ marginTop: "100px" }}
+      >
+        <h1
+          className="mt-3"
+          style={{ color: "#353f71", fontSize: "50px", fontWeight: "600" }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            회원가입
-          </Typography>
-          <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  value={id || ""}
-                  onChange={handleId}
-                  name="id"
-                  required
-                  fullWidth
-                  id="id"
-                  label="ID"
-                  autoFocus
-                  error={idError || false}
-                />
-                <div className="d-flex justify-content-end">
-                  <Button onClick={onCheckId}>ID 중복확인</Button>
-                </div>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  value={nickname || ""}
-                  onChange={handleNickname}
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="닉네임"
-                  name="lastName"
-                  error={nicknameError || false}
-                />
-                <div className="d-flex justify-content-end">
-                  <Button onClick={onCheckNickname}>닉네임 중복확인</Button>
-                </div>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  type="email"
-                  value={email || ""}
-                  required
-                  fullWidth
-                  onChange={handleEmail}
-                  id="email"
-                  label="E-mail"
-                  name="email"
-                  error={emailError || false}
-                />
-                <div className="d-flex justify-content-end">
-                  <Button onClick={onCheckEmail}>E-mail 중복확인</Button>
-                </div>
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  value={password || ""}
-                  onChange={handlePassword}
-                  required
-                  fullWidth
-                  name="password"
-                  label="비밀번호"
-                  type="password"
-                  id="password"
-                  error={passwordError || false}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  value={passwordConfirm || ""}
-                  onChange={handlePasswordConfirm}
-                  required
-                  fullWidth
-                  name="password-confirm"
-                  label="비밀번호 확인"
-                  type="password"
-                  id="password-confirm"
-                  error={passwordConfirmError || false}
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              회원가입
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/login" variant="body2">
-                  계정이 있으신가요? 로그인
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+          회원가입
+        </h1>
+        <Container style={{ width: "500px", marginTop: "50px" }}>
+          <Form className="signup-form">
+            <Form.Group>
+              <Form.Label className="signup-font-size">ID</Form.Label>
+              <Form.Control
+                value={id || ""}
+                onChange={handleId}
+                type="text"
+                placeholder="ID를 입력하세요."
+              />
+              <div className="d-flex justify-content-end">
+                <Button onClick={onCheckId}>ID 중복확인</Button>
+              </div>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label className="signup-font-size">닉네임</Form.Label>
+              <Form.Control
+                value={nickname}
+                onChange={handleNickname}
+                type="text"
+                placeholder="닉네임을 입력하세요."
+              />
+              <div className="d-flex justify-content-end">
+                <Button onClick={onCheckNickname}>닉네임 중복확인</Button>
+              </div>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label className="signup-font-size">E-mail</Form.Label>
+              <Form.Control
+                value={email}
+                onChange={handleEmail}
+                type="email"
+                placeholder="E-mail을 입력하세요."
+              />
+              <div className="d-flex justify-content-end">
+                <Button onClick={onCheckEmail}>E-mail 중복확인</Button>
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="signup-font-size">비밀번호</Form.Label>
+              <Form.Control
+                value={password}
+                onChange={handlePassword}
+                type="password"
+                placeholder="비밀번호를 입력하세요."
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="signup-font-size">
+                비밀번호 확인
+              </Form.Label>
+              <Form.Control
+                value={passwordConfirm}
+                onChange={handlePasswordConfirm}
+                type="password"
+                placeholder="비밀번호를 다시 입력하세요."
+              />
+            </Form.Group>
+            <Form.Group className="d-flex justify-content-center mb-3">
+              <button
+                className="btn btn-color mt-3"
+                type="submit"
+                onClick={onSubmit}
+              >
+                회원가입
+              </button>
+            </Form.Group>
+            <div className="d-flex justify-content-end">
+              <Link className="link-font mt-3" to="/login" variant="body2">
+                계정이 있으신가요? 로그인
+              </Link>
+            </div>
+          </Form>
+        </Container>
+      </div>
+    </div>
   );
 }
 
