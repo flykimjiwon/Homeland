@@ -1,18 +1,13 @@
 /* eslint-disable */
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
+import "./CheckEmail.css";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import backEndUrl from "../setup/hld_url";
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Typography,
-  TextField,
-  Button as MuiButton,
-} from "@mui/material";
 
 function CheckEmail() {
+  const history = useHistory();
   const BEUrl = backEndUrl;
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
@@ -38,6 +33,7 @@ function CheckEmail() {
         setId("");
         setEmail("");
         alert("E-mail 인증 요청이 완료되었습니다. E-Mail을 확인해주세요.");
+        history.push("/");
       })
       .catch((err) => {
         console.log(err);
@@ -45,49 +41,40 @@ function CheckEmail() {
   };
   return (
     <div style={{ paddingTop: "100px" }}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            ID & E-mail 체크
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
+      <h1 className="mt-3" style={{ color: "#353f71", fontSize: "50px" }}>
+        ID & E-mail 체크
+      </h1>
+      <Container style={{ width: "500px", marginTop: "50px" }}>
+        <Form className="check-email-form">
+          <Form.Group className="mb-3">
+            <Form.Label className="check-email-font-size">ID</Form.Label>
+            <Form.Control
               value={id}
               onChange={handleId}
-              margin="normal"
-              required
-              fullWidth
-              label="ID"
-              autoFocus
+              type="text"
+              placeholder="ID를 입력하세요."
             />
-            <TextField
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="check-email-font-size">E-mail</Form.Label>
+            <Form.Control
               value={email}
               onChange={handleEmail}
-              margin="normal"
-              required
-              fullWidth
-              label="E-mail"
               type="email"
+              placeholder="E-mail을 입력하세요."
             />
-            <MuiButton
+          </Form.Group>
+
+          <Form.Group className="d-flex justify-content-center">
+            <button
+              className="btn btn-color"
               type="submit"
               onClick={onCheckEmail}
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
             >
-              이메일 인증 요청
-            </MuiButton>
-          </Box>
-        </Box>
+              E-mail 인증 요청
+            </button>
+          </Form.Group>
+        </Form>
       </Container>
     </div>
   );

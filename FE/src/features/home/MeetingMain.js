@@ -611,7 +611,7 @@ class Main extends Component {
           width: window.innerWidth,
           height: window.innerHeight,
           gamePanel: false,
-          isRandomAllowed: true,
+          isRandomAllowed: this.state.isRandomAllowed,
           cheers: false,
           gameCategory: "main",
           host: {},

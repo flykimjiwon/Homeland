@@ -1,17 +1,10 @@
 /* eslint-disable */
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import "./CheckPassword.css";
 import backEndUrl from "../setup/hld_url";
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Typography,
-  TextField,
-  Button as MuiButton,
-} from "@mui/material";
 
 function CheckPassword() {
   const BEUrl = backEndUrl;
@@ -47,41 +40,32 @@ function CheckPassword() {
   };
   return (
     <div style={{ paddingTop: "100px" }}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            비밀번호 확인
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
+      <h1 className="mt-3" style={{ color: "#353f71", fontSize: "50px" }}>
+        비밀번호 확인
+      </h1>
+      <Container style={{ width: "500px", marginTop: "50px" }}>
+        <Form className="check-password-form">
+          <Form.Group className="mb-3">
+            <Form.Label className="check-password-font-size">
+              비밀번호
+            </Form.Label>
+            <Form.Control
               value={password}
               onChange={handleCheckPassword}
-              margin="normal"
-              required
-              fullWidth
-              label="비밀번호"
-              autoFocus
               type="password"
+              placeholder="비밀번호를 입력하세요."
             />
-            <MuiButton
+          </Form.Group>
+          <Form.Group className="d-flex justify-content-center mb-3">
+            <button
+              className="btn btn-color"
               type="submit"
               onClick={onCheckPasswordSubmit}
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
             >
               확인
-            </MuiButton>
-          </Box>
-        </Box>
+            </button>
+          </Form.Group>
+        </Form>
       </Container>
     </div>
   );

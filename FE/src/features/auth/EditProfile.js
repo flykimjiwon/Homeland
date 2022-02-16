@@ -1,17 +1,10 @@
 /* eslint-disable */
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Form, Container } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import "./EditProfile.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import backEndUrl from "../setup/hld_url";
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Typography,
-  TextField,
-  Button as MuiButton,
-} from "@mui/material";
 
 function EditProfile() {
   const BEUrl = backEndUrl;
@@ -67,54 +60,44 @@ function EditProfile() {
 
   return (
     <div style={{ paddingTop: "100px" }}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            회원정보 수정
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
+      <h1 className="mt-3" style={{ color: "#353f71", fontSize: "50px" }}>
+        회원정보 수정
+      </h1>
+      <Container style={{ width: "500px", marginTop: "50px" }}>
+        <Form className="edit-profile-form">
+          <Form.Group className="mb-3">
+            <Form.Label className="edit-profile-font-size">
+              닉네임 변경
+            </Form.Label>
+            <Form.Control
               value={newNickname}
               onChange={handleNewNickname}
-              margin="normal"
-              required
-              fullWidth
-              label="닉네임 변경"
-              autoFocus
+              type="text"
+              placeholder="새 닉네임을 입력하세요."
             />
-            <TextField
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="edit-profile-font-size">
+              E-mail 변경
+            </Form.Label>
+            <Form.Control
               value={newEmail}
               onChange={handleNewEmail}
-              margin="normal"
-              required
-              fullWidth
-              label="E-mail 변경"
               type="email"
+              placeholder="새 E-mail을 입력하세요."
             />
-            <MuiButton
-              type="submit"
-              onClick={onEdit}
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+          </Form.Group>
+          <Form.Group className="d-flex justify-content-center mb-3">
+            <button className="btn btn-color" type="submit" onClick={onEdit}>
               수정하기
-            </MuiButton>
-          </Box>
-        </Box>
-        <div className="d-flex justify-content-end">
-          <Link to="/check-password">
-            <p>비밀번호 변경</p>
-          </Link>
-        </div>
+            </button>
+          </Form.Group>
+          <div className="d-flex justify-content-end">
+            <Link to="/check-password">
+              <p>비밀번호 변경</p>
+            </Link>
+          </div>
+        </Form>
       </Container>
     </div>
   );

@@ -4,17 +4,7 @@ import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import "./Login.css";
 import backEndUrl from "../setup/hld_url";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const theme = createTheme();
+import { Button, Container, Form } from "react-bootstrap";
 
 function Login() {
   const BEUrl = backEndUrl;
@@ -54,104 +44,49 @@ function Login() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container className="login-form" component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            로그인
-          </Typography>
-          <Box component="form" onSubmit={onLogin} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={id || ""}
+    <div
+      className="d-flex flex-column align-center"
+      style={{ marginTop: "100px" }}
+    >
+      <h1 className="mt-3" style={{ color: "#353f71", fontSize: "50px" }}>
+        Login
+      </h1>
+      <Container style={{ width: "500px", marginTop: "50px" }}>
+        <Form className="login-form">
+          <Form.Group className="mb-3">
+            <Form.Label className="login-font-size">ID</Form.Label>
+            <Form.Control
+              value={id}
               onChange={handleId}
-              id="id"
-              label="아이디"
-              name="id"
-              autoComplete="id"
-              autoFocus
+              type="text"
+              placeholder="ID를 입력하세요."
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="login-font-size">비밀번호</Form.Label>
+            <Form.Control
               value={password}
               onChange={handlePassword}
-              name="password"
-              label="비밀번호"
               type="password"
-              id="password"
-              autoComplete="current-password"
+              placeholder="비밀번호를 입력하세요."
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+          </Form.Group>
+          <Form.Group className="d-flex justify-content-center">
+            <button className="btn btn-color" type="submit" onClick={onLogin}>
               로그인
-            </Button>
-            <div className="d-flex justify-content-between">
-              <div>
-                <Link to="/check-email" variant="body2">
-                  비밀번호 찾기
-                </Link>
-              </div>
-              <div>
-                <Link to="/signup" variant="body2">
-                  회원가입
-                </Link>
-              </div>
+            </button>
+          </Form.Group>
+          <div className="d-flex justify-content-between">
+            <div>
+              <Link to="/check-email">비밀번호 찾기</Link>
             </div>
-          </Box>
-        </Box>
+            <div>
+              <Link to="/signup">회원가입</Link>
+            </div>
+          </div>
+        </Form>
       </Container>
-    </ThemeProvider>
-
-    // <Container className="loginForm">
-    //   <Form>
-    //     <Form.Group className="mb-3" controlId="FormID">
-    //       <Form.Label>ID</Form.Label>
-    //       <Form.Control
-    //         value={id}
-    //         onChange={handleId}
-    //         type="text"
-    //         placeholder="ID를 입력하세요."
-    //       />
-    //     </Form.Group>
-
-    //     <Form.Group className="mb-3" controlId="formBasicPassword">
-    //       <Form.Label>비밀번호</Form.Label>
-    //       <Form.Control
-    //         value={password}
-    //         onChange={handlePassword}
-    //         type="password"
-    //         placeholder="비밀번호를 입력하세요."
-    //       />
-    //     </Form.Group>
-    //     <Form.Group className="d-flex justify-content-center">
-    //       <Button variant="primary" type="submit" onClick={onLogin}>
-    //         로그인
-    //       </Button>
-    //     </Form.Group>
-    //     <Link to="/check-email">
-    //       <p>비밀번호 찾기</p>
-    //     </Link>
-    //   </Form>
-    // </Container>
+    </div>
   );
 }
 
