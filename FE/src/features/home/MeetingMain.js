@@ -30,6 +30,8 @@ import TextField from "@mui/material/TextField";
 import beerL from "./img/beer_left.png";
 import beerR from "./img/beer_right.png";
 import Q from "./img/Q.png";
+import E from "./img/E.png";
+import E2 from "./img/E2.png";
 
 import Swal from "sweetalert2";
 
@@ -783,6 +785,16 @@ class Main extends Component {
                             <Col md={{ span: 3 }}>
                               <div className="join-box join-width1">
                                 <div>방 만들기</div>
+                                <div>
+                                  <img
+                                    src={E}
+                                    style={{
+                                      width: 100,
+                                      height: 100,
+                                      marginTop: 20,
+                                    }}
+                                  ></img>
+                                </div>
                                 <input
                                   className="btn join-box-inner"
                                   name="commit"
@@ -790,7 +802,7 @@ class Main extends Component {
                                   value="방 만들기"
                                   onClick={onCreateRoom}
                                 />
-                                <FormControl>
+                                <FormControl style={{ marginTop: 0 }}>
                                   <RadioGroup
                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                     name="controlled-radio-buttons-group"
@@ -814,10 +826,17 @@ class Main extends Component {
                             <Col md={{ span: 3, offset: 1 }}>
                               <div className="join-box join-width1">
                                 <div>방 입장하기</div>
-                                <br />
-                                <br />
-                                <br />
-                                <br />
+                                <div>
+                                  <img
+                                    src={E2}
+                                    style={{
+                                      width: 100,
+                                      height: 100,
+                                      marginTop: 20,
+                                      marginBottom: 10,
+                                    }}
+                                  ></img>
+                                </div>
                                 <p>방 번호를 입력하세요</p>
                                 <div className="input-group">
                                   <input
@@ -839,12 +858,21 @@ class Main extends Component {
                             <Col md={{ span: 3, offset: 1 }}>
                               <div className="join-box join-width1">
                                 <div>랜덤방 입장하기</div>
-                                <br />
+                                <br></br>
+                                <div>
+                                  <img
+                                    src={Q}
+                                    style={{
+                                      width: 100,
+                                      height: 100,
+                                    }}
+                                  ></img>
+                                </div>
                                 <input
                                   className="btn join-box-inner"
                                   name="commit"
                                   type="submit"
-                                  value="랜덤방 입장하기"
+                                  value="입장하기"
                                   onClick={onRandomJoin}
                                 />
                               </div>
