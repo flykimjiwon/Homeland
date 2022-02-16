@@ -38,6 +38,8 @@ import Cheersmain from "./Cheersmain";
 import GamePanel from "./GamePanel";
 import { width } from "@mui/system";
 
+import ReactTooltip from "react-tooltip";
+
 // const OPENVIDU_SERVER_URL = OPENVIDU_URL;
 // const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
 const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
@@ -739,24 +741,23 @@ class Main extends Component {
 
     const { mypage } = this.props;
     return (
-      <div className="bg padding-100px">
+      <div className="bg">
         <br></br>
-        <Container>
-          <Row>
-            <Col md={{ span: 2, offset: 2 }}>
-              <img src={beerL} style={{ width: 150, height: 150 }}></img>
-            </Col>
-            <Col md={{ span: 4 }}>
-              <h1 className="color-353f71"> Welcome to </h1>
-              <h1 className="color-353f71"> Home Lan Drink! </h1>
-            </Col>
-            <Col md={{ span: 2 }}>
-              <img src={beerR} style={{ width: 150, height: 150 }}></img>
-            </Col>
-          </Row>
-        </Container>
+
         {this.state.session === undefined ? (
-          <Container>
+          <Container className="padding-100px">
+            <Row>
+              <Col md={{ span: 2, offset: 2 }}>
+                <img src={beerL} style={{ width: 150, height: 150 }}></img>
+              </Col>
+              <Col md={{ span: 4 }}>
+                <h1 className="color-353f71"> Welcome to </h1>
+                <h1 className="color-353f71"> Home Lan Drink! </h1>
+              </Col>
+              <Col md={{ span: 2 }}>
+                <img src={beerR} style={{ width: 150, height: 150 }}></img>
+              </Col>
+            </Row>
             <Row>
               <Col></Col>
               <Col xs={10}>
@@ -900,6 +901,8 @@ class Main extends Component {
                                 <br></br>
                                 <h2 className="font-join">랜덤방 참가하기</h2>
                                 <br></br>
+                                <p>새로운 인연을 찾아보시겠어요?</p>
+                                <br></br>
                                 <br></br>
                                 <p className="color-353f71">
                                   닉네임을 입력해주세요.{" "}
@@ -913,8 +916,7 @@ class Main extends Component {
                                   placeholder="닉네임"
                                   required
                                 />
-                                <br></br>
-                                <p>새로운 인연을 찾아보시겠어요?</p>
+
                                 <br></br>
                                 <input
                                   className="btn btn-lg btn-color"
@@ -1029,8 +1031,16 @@ class Main extends Component {
                           onClick={() =>
                             navigator.clipboard.writeText(mySessionId)
                           }
+                          data-for="copy-btn"
+                          data-tip
                         />
                       </div>
+                      <ReactTooltip
+                        id="copy"
+                        getContent={(dataTip) =>
+                          "This little buddy is " + dataTip
+                        }
+                      />
 
                       <div className="chatbox__messages" ref="chatoutput">
                         {/* {this.displayElements} */}
