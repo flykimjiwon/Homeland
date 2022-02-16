@@ -296,14 +296,8 @@ class Main extends Component {
       denyButtonText: `종료하기`,
     }).then((result) => {
       if (result.isDenied) {
-<<<<<<< HEAD
-        window.location.reload();
-        // this.leaveSession();
-        // <Redirect to="/라우팅주소" />
-=======
         this.leaveSession();
         window.location.reload();
->>>>>>> seunghwan
       }
     });
   };
