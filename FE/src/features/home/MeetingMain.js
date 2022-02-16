@@ -1024,152 +1024,6 @@ class Main extends Component {
                   {this.state.cheers === true ? (
                     <Cheersmain></Cheersmain>
                   ) : null}
-                  <Row className="btn_toolbar">
-                    <Col md={{ span: 1, offset: 4 }}>
-                      {this.state.audiostate ? (
-                        <div>
-                          <IoMicSharp
-                            color={icon_color}
-                            size={btn_size}
-                            onClick={() => {
-                              this.state.publisher.publishAudio(
-                                !this.state.audiostate
-                              );
-                              this.setState({
-                                audiostate: !this.state.audiostate,
-                              });
-                            }}
-                          />
-                          <p className="btn-font">음소거</p>
-                        </div>
-                      ) : (
-                        <div>
-                          <IoMicOffSharp
-                            color={icon_color_off}
-                            size={btn_size}
-                            onClick={() => {
-                              this.state.publisher.publishAudio(
-                                !this.state.audiostate
-                              );
-                              this.setState({
-                                audiostate: !this.state.audiostate,
-                              });
-                            }}
-                          />
-                          <p className="btn-font">음소거 해제</p>
-                        </div>
-                      )}
-                    </Col>
-                    <Col md={{ span: 1 }}>
-                      {this.state.videostate ? (
-                        <div>
-                          <IoVideocam
-                            color={icon_color}
-                            size={btn_size}
-                            onClick={() => {
-                              this.state.publisher.publishVideo(
-                                !this.state.videostate
-                              );
-                              this.setState({
-                                videostate: !this.state.videostate,
-                              });
-                            }}
-                          />
-                          <p className="btn-font">비디오 끄기</p>
-                        </div>
-                      ) : (
-                        <div>
-                          <IoVideocamOff
-                            color={icon_color_off}
-                            size={btn_size}
-                            onClick={() => {
-                              this.state.publisher.publishVideo(
-                                !this.state.videostate
-                              );
-                              this.setState({
-                                videostate: !this.state.videostate,
-                              });
-                            }}
-                          />
-                          <p className="btn-font">비디오 켜기</p>
-                        </div>
-                      )}
-                    </Col>
-                    <Col md={{ span: 1 }}>
-                      {/* 짠효과 */}
-                      <div>
-                        <IoBeer
-                          color="orange"
-                          size={btn_size}
-                          onClick={() => {
-                            this.sendCheersSignal();
-                          }}
-                        />
-                        <p className="btn-font">건배</p>
-                      </div>
-                    </Col>
-                    <Col md={{ span: 1 }}>
-                      <div>
-                        <IoCameraSharp
-                          color={icon_color}
-                          size={btn_size}
-                          onClick={() => {
-                            this.sendCaptureSignal();
-                          }}
-                        />
-                        <p className="btn-font">사진찍기</p>
-                      </div>
-                    </Col>
-                    <Col md={{ span: 1 }}>
-                      <div>
-                        <IoGameController
-                          color="green"
-                          size={btn_size}
-                          onClick={this.paneltoggle}
-                        />
-                        <p className="btn-font">게임</p>
-                      </div>
-                    </Col>
-                    <Col md={{ span: 1 }}>
-                      {!(
-                        screen.width === this.state.width &&
-                        screen.height === this.state.height
-                      ) ? (
-                        <div>
-                          <IoMdExpand
-                            color={icon_color}
-                            size={btn_size}
-                            onClick={() => {
-                              this.openFullScreenMode();
-                            }}
-                          />
-                          <p className="btn-font">전체화면</p>
-                        </div>
-                      ) : (
-                        <div>
-                          <IoMdContract
-                            color={icon_color_off}
-                            size={btn_size}
-                            onClick={() => {
-                              this.closeFullScreenMode();
-                            }}
-                          />
-                          <p className="btn-font">전체화면 해제</p>
-                        </div>
-                      )}
-                    </Col>
-
-                    <Col md={{ span: 1 }}>
-                      <div>
-                        <IoExit
-                          color="red"
-                          size={btn_size}
-                          onClick={this.openModalLeave}
-                        />
-                        <p className="btn-font">나가기</p>
-                      </div>
-                    </Col>
-                  </Row>
                 </Col>
 
                 <Col md={{ span: 3 }}>
@@ -1245,6 +1099,156 @@ class Main extends Component {
                       </div>
                     </div>
                   </div>
+                </Col>
+              </Row>
+              <Row className="btn_toolbar">
+                <Col md={{ span: 6, offset: 3 }}>
+                  <Row>
+                    <Col>
+                      {this.state.audiostate ? (
+                        <div>
+                          <IoMicSharp
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMicOffSharp
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishAudio(
+                                !this.state.audiostate
+                              );
+                              this.setState({
+                                audiostate: !this.state.audiostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">음소거 해제</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col>
+                      {this.state.videostate ? (
+                        <div>
+                          <IoVideocam
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 끄기</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoVideocamOff
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.state.publisher.publishVideo(
+                                !this.state.videostate
+                              );
+                              this.setState({
+                                videostate: !this.state.videostate,
+                              });
+                            }}
+                          />
+                          <p className="btn-font">비디오 켜기</p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col>
+                      {/* 짠효과 */}
+                      <div>
+                        <IoBeer
+                          color="orange"
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCheersSignal();
+                          }}
+                        />
+                        <p className="btn-font">건배</p>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <IoCameraSharp
+                          color={icon_color}
+                          size={btn_size}
+                          onClick={() => {
+                            this.sendCaptureSignal();
+                          }}
+                        />
+                        <p className="btn-font">사진찍기</p>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <IoGameController
+                          color="green"
+                          size={btn_size}
+                          onClick={this.paneltoggle}
+                        />
+                        <p className="btn-font">게임</p>
+                      </div>
+                    </Col>
+                    <Col>
+                      {!(
+                        screen.width === this.state.width &&
+                        screen.height === this.state.height
+                      ) ? (
+                        <div>
+                          <IoMdExpand
+                            color={icon_color}
+                            size={btn_size}
+                            onClick={() => {
+                              this.openFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <IoMdContract
+                            color={icon_color_off}
+                            size={btn_size}
+                            onClick={() => {
+                              this.closeFullScreenMode();
+                            }}
+                          />
+                          <p className="btn-font">전체화면 해제</p>
+                        </div>
+                      )}
+                    </Col>
+
+                    <Col>
+                      <div>
+                        <IoExit
+                          color="red"
+                          size={btn_size}
+                          onClick={this.openModalLeave}
+                        />
+                        <p className="btn-font">나가기</p>
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Container>
