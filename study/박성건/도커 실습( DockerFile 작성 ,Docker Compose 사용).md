@@ -499,5 +499,3 @@ jdbc:mysql://s06p12c202_database_1:3306/블라블라
 ![image-20220209225050362](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220209225050362.png)
 
 백엔드와 데이터베이스까지 docker-compose로 띄워봤다.
-
-이제
