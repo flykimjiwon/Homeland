@@ -117,7 +117,7 @@ Remove:  파일 삭제
 | 80 | server default(nginx, http)(redirect to 443) |
 | 5443  | Openvidu |
 | 5442 | Front (react) |
-| 8080 | REST API(spring boot) (8443으로 변경 예정,https) |
+| 8443 | REST API(spring boot) |
 | 3478 | coturn 서버 |
 | 8888  | Kurento Media 서버 |
 | 3306 | mySql |
