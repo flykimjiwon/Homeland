@@ -37,7 +37,7 @@ sudo letsencrypt certonly --standalone -d 도메인
 ## 1. OpenVidu 서버 배포
 
 ```bqsh
-s
+sudo su
 cd /opt	
 ```
 
@@ -84,7 +84,7 @@ LETSENCRYPT_EMAIL=이메일
 
 기존에 openvidu서버에서 제공하는 app의 포트 번호를 5442 말고 다른 포트로 변경한다.
 
-(실행시킨 후 도커 컨테이너를 stop하고 프론트엔트를 배포 해도 된다.)
+(실행시킨 후 도커 컨테이너를 stop하고 프론트엔트를 배포 해도 된다. 5442포트 안겹치게)
 
 ```
 version: '3.1'
@@ -221,9 +221,9 @@ cp keystore.p12 /home/ubuntu/S06P12C202/homeland/src/main/resources/keystore/key
 
 openvidu 서버 관련 properties 저장 (application.properties)
 
-![image-20220215140422040](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220215140422040.png)
+![image-20220217192349453](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/image-20220217192349453.png)
 
-
+OPENVIDUAPP:오픈비두서버시크릿(/opt/openvidu/.env파일에서 설정했었음)
 
 
 
