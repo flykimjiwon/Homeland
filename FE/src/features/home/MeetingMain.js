@@ -89,6 +89,7 @@ class Main extends Component {
       cheers: false,
       gameCategory: "main",
       host: {},
+      isHost: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -426,6 +427,12 @@ class Main extends Component {
             connectionUser: connectionUser,
             host: Host,
           });
+
+          if (this.state.connectionId === this.state.host.connectionId) {
+            this.setState({ isHost: true });
+          } else {
+            this.setState({ isHost: false });
+          }
         });
         // On every new Stream received...
         mySession.on("streamCreated", (event) => {
@@ -617,6 +624,7 @@ class Main extends Component {
           cheers: false,
           gameCategory: "main",
           host: {},
+          isHost: false,
         });
       });
     }
@@ -1061,6 +1069,7 @@ class Main extends Component {
                     connections={this.state.connections}
                     connectionUser={this.state.connectionUser}
                     host={this.state.host}
+                    isHost={this.state.isHost}
                   ></GamePanel>
                   {/* chat */}
                   <div>
