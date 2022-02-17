@@ -407,6 +407,8 @@ function GamePanel(props) {
                       ) : (
                         <div>
                           <br></br>
+                          <br></br>
+                          <br></br>
                           <p className="liar-title">다른 사람들의 투표를</p>
                           <p className="liar-title">기다려 주세요!!</p>
                           <br></br>
