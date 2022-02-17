@@ -1,8 +1,5 @@
 # README.md
 
-Created: 2022년 2월 14일 오전 9:46
-Last Edited Time: 2022년 2월 18일 오전 2:31
-
 # 🍻HomeLanDrink🍻
 
 ## ✅ **프로젝트 소개**
@@ -18,7 +15,7 @@ HomeLanDrink는 비대면으로 사람들과 술자리를 즐길 수 있는 그�
     2. 사회적 연결성 회복: 사회적 활동이 제한적인 요즘, 코로나 블루를 겪고 있는 사람들이 이 서비스를 통해 사람들과의 연결성을 확인하고 외로움을 해소할 수 있습니다.
     3. 제약 없는 술자리 : 거리 두기로 인한 영업시간 제한이 적용되어 밤 늦게까지 오프라인 술자리를 이어나가지 못하는데 이 서비스를 통해 시간과 장소의 제약을 없애고 새벽까지 즐길 수 있는 술자리를 만들 수 있습니다. 
 
-## ✅ **주요 기능 <완성하면 캡쳐해서 간단한 설명이랑 넣기>**
+## ✅ **주요 기능 **
 
 1. 메인 화면
    
@@ -42,7 +39,17 @@ HomeLanDrink는 비대면으로 사람들과 술자리를 즐길 수 있는 그�
 
     ![짠효과저프레임](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/%EC%A7%A0%ED%9A%A8%EA%B3%BC%EC%A0%80%ED%94%84%EB%A0%88%EC%9E%84.gif)
 
+6. 디바이스 권한 체크
+
+    ![디바이스권한체크](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/%EB%94%94%EB%B0%94%EC%9D%B4%EC%8A%A4%EA%B6%8C%ED%95%9C%EC%B2%B4%ED%81%AC.gif)
+
     
+
+
+
+
+
+
 
 ## ✅ **서비스 아키텍쳐**
 
