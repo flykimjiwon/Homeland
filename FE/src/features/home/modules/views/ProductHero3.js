@@ -6,6 +6,7 @@ import mg from './liar.png'
 import Box from '@mui/material/Box'
 import { Container,Row, Col } from "react-bootstrap";
 import './ProductHero.css'
+import Proimg from './2.png'
 
 
 
@@ -48,7 +49,7 @@ export default function ProductHero() {
        variant="h3"
        sx={{ mb: 1, mt: { sx: 2, sm: 5 } }}
      >
-        <img src="https://line.me/static/16b422b92ad19d0696b896ca95276ac2/bd486/61912b3a659c6234bfe90ed46d683d14.png" width="600vw"></img>
+        <img src={Proimg} width="600vw"></img>
      </Typography>
      </Col>
    <Col>
