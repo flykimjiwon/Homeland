@@ -39,7 +39,7 @@ function Mypage() {
       <h1 style={{ fontSize: "50px", fontWeight: "600" }}>마이페이지</h1>
       <Container className="mypage-form d-flex flex-column align-center">
         <div className="box" style={{ backgroundColor: "#BDBDBD" }}>
-          <img className="profile" src={ProfileImage} />
+          <img className="profile profile-img" src={ProfileImage} />
         </div>
         <p className="p-margin">ID: {profile.userId}</p>
         <p className="p-margin">닉네임: {profile.nickname}</p>

@@ -3,7 +3,7 @@
   background-color: #d3e5e8;
   margin-top: 100px;
   margin-bottom: 20px;
-  border: solid 5px #353f71;  
+  border: solid 5px #353f71;
   border-radius: 20px;
   padding: 20px;
 }
@@ -21,8 +21,9 @@
 
 .box {
   width: 150px;
-  height: 150px; 
+  height: 150px;
   border-radius: 70%;
+  border: #353f71 solid 5px;
   overflow: hidden;
   position: relative;
   top: -60px;
