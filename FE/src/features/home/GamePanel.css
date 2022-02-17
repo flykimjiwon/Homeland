@@ -70,17 +70,40 @@ CountDown {
   margin-left: 10px;
   color: rgb(109, 76, 5);
 }
+.back:hover {
+  color: rgb(209, 147, 12);
+}
 
 .liar-title {
   font-size: 18px;
   font-weight: 600;
   color: rgb(109, 76, 5);
 }
-/* .join-box-inner {
-  background-color: #353f71;
-  color: #d3e5e8;
+
+.liar-or-not {
   font-size: 24px;
-  margin-top: 10%;
-  height: 15%;
+  font-weight: 700;
+  color: rgb(165, 115, 8);
+}
+
+.liar-user {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(165, 115, 8);
+}
+
+.game-btn {
+  background-color: rgb(235, 180, 2);
+  color: rgb(165, 115, 8);
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 2%;
+  height: 10%;
   width: 80%;
-} */
+  border: rgb(165, 115, 8) solid 4px;
+  border-radius: 20px;
+}
+
+.game-btn:hover {
+  background-color: rgb(247, 225, 26);
+}

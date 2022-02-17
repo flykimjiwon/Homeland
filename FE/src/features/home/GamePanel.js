@@ -97,9 +97,8 @@ function GamePanel(props) {
   let [voteResult, SetVoteResult] = useState([]);
   let [isVote, SetIsVote] = useState(false);
 
-  const liarVoteHandler = (e) => {
-    e.preventDefault();
-    SetLiarVote(e.target.value);
+  const liarVoteHandler = (item) => {
+    SetLiarVote(item);
   };
   //LiarGame End
 
@@ -149,30 +148,33 @@ function GamePanel(props) {
                 <h>어떤 술게임을 해볼까요?</h>
               </div>
               <div className="games">
-                <div
+                <button
+                  className="game-btn"
                   onClick={() => {
                     selectCategory("liarGame");
                     props.setGameCategory("liarGame");
                   }}
                 >
                   라이어 게임
-                </div>
-                <div
+                </button>
+                <button
+                  className="game-btn"
                   onClick={() => {
                     selectCategory("upAndDown");
                     props.setGameCategory("upAndDown");
                   }}
                 >
                   UP & DOWN
-                </div>
-                <div
+                </button>
+                <button
+                  className="game-btn"
                   onClick={() => {
                     selectCategory("baskinrobbins31");
                     props.setGameCategory("baskinrobbins31");
                   }}
                 >
                   베스킨 라빈스 31
-                </div>
+                </button>
               </div>
             </div>
           ),
@@ -184,29 +186,28 @@ function GamePanel(props) {
           ),
           liarGame: (
             <div>
-              <div>
-                <div className="back btn-font">
-                  <IoReturnUpBack
-                    size={24}
-                    onClick={() => {
-                      if (!isHost) {
-                        return;
-                      } else {
-                        selectCategory("main");
-                        props.setGameCategory("main");
-                        signalSetLiarGameState("main");
-                        resetIsVote();
-                      }
-                    }}
-                  />
-                  <p>뒤로가기</p>
-                </div>
-              </div>
-
               {
                 {
                   main: (
                     <div>
+                      <div>
+                        <div className="back btn-font">
+                          <IoReturnUpBack
+                            size={24}
+                            onClick={() => {
+                              if (!isHost) {
+                                return;
+                              } else {
+                                selectCategory("main");
+                                props.setGameCategory("main");
+                                signalSetLiarGameState("main");
+                                resetIsVote();
+                              }
+                            }}
+                          />
+                          <p>뒤로가기</p>
+                        </div>
+                      </div>
                       <br></br>
                       <br></br>
                       <h4 className="liar-title">
@@ -345,14 +346,17 @@ function GamePanel(props) {
                   ),
                   discussion: (
                     <div>
-                      <p>순서대로 제시어를 설명해주세요</p>
-                      <p>순서는 랜덤 입니다!</p>
-                      <p>{liarOrNot}</p>
+                      <br></br>
+                      <p className="liar-or-not">{liarOrNot}</p>
+                      <br></br>
+                      <p className="liar-title">
+                        아래 순서대로 제시어를 설명해주세요
+                      </p>
                       <div>
                         {userNames.map((item, index) => {
                           return (
                             <div key={index}>
-                              <span>
+                              <span className="liar-user">
                                 {index + 1}. {item}
                               </span>
                             </div>
@@ -360,6 +364,7 @@ function GamePanel(props) {
                         })}
                       </div>
                       <button
+                        className="game-btn"
                         onClick={() => {
                           signalSetLiarGameState("vote");
                         }}
@@ -370,46 +375,46 @@ function GamePanel(props) {
                   ),
                   vote: (
                     <div>
-                      <p>
+                      <br></br>
+                      <p className="liar-title">
                         방장은 모두의 투표가 완료되었다면 투표 결과 확인 버튼을
                         클릭해주세요!
                       </p>
-                      <div>
-                        {userNames.map((item, index) => {
-                          return (
-                            <div>
-                              <input
-                                type="radio"
-                                key={index}
-                                value={item}
-                                onChange={liarVoteHandler}
-                              />
-                              {item}
-                            </div>
-                          );
-                        })}
-                      </div>
                       {!isVote ? (
                         <div>
-                          <button
-                            onClick={() => {
-                              if (isVote) {
-                                return;
-                              }
-                              sendLiarVote();
-                              SetIsVote(true);
-                            }}
-                          >
-                            라이어는 너!
-                          </button>
+                          {userNames.map((item, index) => {
+                            return (
+                              <div>
+                                <button
+                                  className="game-btn"
+                                  key={index}
+                                  value={item}
+                                  onClick={() => {
+                                    if (isVote) {
+                                      return;
+                                    }
+                                    liarVoteHandler(`${item}`);
+                                    sendLiarVote(`${item}`);
+                                    SetIsVote(true);
+                                  }}
+                                >
+                                  {item}
+                                </button>
+                              </div>
+                            );
+                          })}
                         </div>
                       ) : (
                         <div>
-                          <span></span>
+                          <br></br>
+                          <p className="liar-title">다른 사람들의 투표를</p>
+                          <p className="liar-title">기다려 주세요!!</p>
+                          <br></br>
                         </div>
                       )}
                       {isHost ? (
                         <button
+                          className="game-btn"
                           onClick={() => {
                             if (!isHost) {
                               return;
@@ -429,12 +434,13 @@ function GamePanel(props) {
                   ),
                   voteResultPage: (
                     <div>
-                      <p onClick={consoleTest()}>투표 결과!</p>
+                      <br></br>
+                      <p className="liar-title">투표 결과!</p>
                       <div>
                         {voteResult.map((item, index) => {
                           return (
                             <div key={index}>
-                              <span>
+                              <span className="liar-user">
                                 {Object.keys(item)} : {Object.values(item)}
                               </span>
                             </div>
@@ -442,6 +448,7 @@ function GamePanel(props) {
                         })}
                       </div>
                       <button
+                        className="game-btn"
                         onClick={() => {
                           if (!isHost) {
                             return;
@@ -453,6 +460,7 @@ function GamePanel(props) {
                         재투표 하기
                       </button>
                       <button
+                        className="game-btn"
                         onClick={() => {
                           if (!isHost) {
                             return;
@@ -466,8 +474,10 @@ function GamePanel(props) {
                   ),
                   whoLiar: (
                     <div>
-                      <p>라이어는 바로 {liar} 입니다!</p>
+                      <br></br>
+                      <p className="liar-title">라이어는 바로 {liar} 입니다!</p>
                       <button
+                        className="game-btn"
                         onClick={() => {
                           if (!isHost) {
                             return;
@@ -481,8 +491,12 @@ function GamePanel(props) {
                   ),
                   whatSubject: (
                     <div>
-                      <p>제시어는 {liarSubject}였습니다!</p>
+                      <br></br>
+                      <p className="liar-title">
+                        제시어는 {liarSubject}였습니다!
+                      </p>
                       <button
+                        className="game-btn"
                         onClick={() => {
                           if (!isHost) {
                             return;
@@ -500,6 +514,24 @@ function GamePanel(props) {
           ),
           upAndDown: (
             <div>
+              <div>
+                <div className="back btn-font">
+                  <IoReturnUpBack
+                    size={24}
+                    onClick={() => {
+                      if (!isHost) {
+                        return;
+                      } else {
+                        selectCategory("main");
+                        props.setGameCategory("main");
+                        signalSetLiarGameState("main");
+                        resetIsVote();
+                      }
+                    }}
+                  />
+                  <p>뒤로가기</p>
+                </div>
+              </div>
               <p>UP & DOWN 시작!</p>
               <p
                 onClick={() => {
@@ -620,10 +652,10 @@ function GamePanel(props) {
     });
   }
 
-  function sendLiarVote() {
+  function sendLiarVote(liarVoteValue) {
     const mySession = session;
     mySession.signal({
-      data: liarVote,
+      data: liarVoteValue,
       to: [],
       type: "settingVoteResult",
     });
@@ -736,7 +768,6 @@ function GamePanel(props) {
       // if (userNames === []) {
       //   setTimeout
       // }
-      console.log("투표리스트", voteList);
       SetVoteResult(voteList);
     });
 
@@ -757,26 +788,20 @@ function GamePanel(props) {
       // if (userNames === []) {
       //   setTimeout
       // }
-      console.log("투표리스트", voteList);
       SetVoteResult(voteList);
     });
 
     mySession.on("signal:setRange", (event) => {
       event.preventDefault();
       let Data = event.data.split(",");
-      console.log("랜덤넘@@@@", Data);
-      console.log("랜덤넘1111", gameState, range, randomNum);
       SetGameState(Data[0]);
       SetRange(() => Data[1]);
       SetRandomNum(() => Data[2]);
-      console.log("랜덤넘222", gameState, range, randomNum);
-      console.log("랜덤넘3333", gameState, range, randomNum);
     });
 
     mySession.on("signal:setUpAndDownNum", (event) => {
       event.preventDefault();
       let Data = event.data.split(",");
-      console.log("셋업", Data);
       SetUpAndDownNum(Data[0]);
       SetMatchingUpDown(Data[1]);
     });
@@ -1159,7 +1184,6 @@ function GamePanel(props) {
     // if (userNames === []) {
     //   setTimeout
     // }
-    console.log("투표리스트", voteList);
     SetVoteResult(voteList);
   }
   //LiarGame End
@@ -1184,12 +1208,6 @@ function GamePanel(props) {
       SetMatchingUpDown(() => "맞췄습니다!");
     }
   }
-  function consoleTest() {
-    console.log("라이어보트#######", liarVote);
-    console.log("유저네임즈잘들어갔냐!!!!", userNames);
-    console.log("보트결과 잘들어갔냐@@@", voteResult);
-  }
-  //UpAndDown End
 }
 
 export default GamePanel;
