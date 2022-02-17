@@ -149,7 +149,7 @@ function GamePanel(props) {
               </div>
               <div className="games">
                 <button
-                  className="game-btn"
+                  className="title-btn"
                   onClick={() => {
                     selectCategory("liarGame");
                     props.setGameCategory("liarGame");
@@ -158,7 +158,7 @@ function GamePanel(props) {
                   라이어 게임
                 </button>
                 <button
-                  className="game-btn"
+                  className="title-btn"
                   onClick={() => {
                     selectCategory("upAndDown");
                     props.setGameCategory("upAndDown");
@@ -167,7 +167,7 @@ function GamePanel(props) {
                   UP & DOWN
                 </button>
                 <button
-                  className="game-btn"
+                  className="title-btn"
                   onClick={() => {
                     selectCategory("baskinrobbins31");
                     props.setGameCategory("baskinrobbins31");
