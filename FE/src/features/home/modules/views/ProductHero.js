@@ -6,6 +6,8 @@ import ProductHeroLayout from "./ProductHeroLayout";
 import TextField from "@mui/material/TextField";
 import mg from "./vc2.png";
 import { Link } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
+import sm from './scrolld.png'
 
 export default function ProductHero() {
   return (
@@ -42,8 +44,25 @@ export default function ProductHero() {
       </Link>
 
       <Typography variant="body2" color="inherit" sx={{ mt: 2 }}>
-        
+      
       </Typography>
+      <Container>
+  <Row>
+    <Col></Col>
+    <Col>
+    <div className="chc">
+    <div className="ddddbox">
+      Scroll Plz~
+    </div>
+    </div>
+    
+    </Col>
+    <Col></Col>
+   
+  </Row>
+  
+</Container>
+
     </ProductHeroLayout>
   );
 }
