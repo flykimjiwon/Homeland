@@ -138,16 +138,27 @@ public class UserController {
 	})
 	@PostMapping("/find-password")
 	public ResponseEntity findPassword(@RequestBody @ApiParam(value="유저 확인용 정보", required = true) UserFindPwReq userFindPwReq) {
-		User user = userRepositorySupport.findUserByUserId(userFindPwReq.getId()).get();
-		if (user.getEmail().equals(userFindPwReq.getEmail())) {
-			UUID uuid = UUID.randomUUID();
-			redisUtil.setDataExpire(uuid.toString(),user.getUserId(), 60 * 30L);
-			String CHANGE_PASSWORD_LINK = "https://i6c202.p.ssafy.io/find-password/";
-			emailService.sendMail(user.getEmail(),"사용자 비밀번호 안내 메일",CHANGE_PASSWORD_LINK+uuid.toString());
-			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+		String userId  = userFindPwReq.getId();
+		Optional<User> user_tmp = userRepositorySupport.findUserByUserId(userId);
+		if (user_tmp.isEmpty()) {
+			return new ResponseEntity<>("id_error",HttpStatus.NOT_FOUND);
 		}
+		else {
+			User user = user_tmp.get();
+			if (user.getEmail().equals(userFindPwReq.getEmail())) {
+				UUID uuid = UUID.randomUUID();
+				redisUtil.setDataExpire(uuid.toString(),user.getUserId(), 60 * 30L);
+				String CHANGE_PASSWORD_LINK = "https://i6c202.p.ssafy.io/find-password/";
+				emailService.sendMail(user.getEmail(),"사용자 비밀번호 안내 메일",CHANGE_PASSWORD_LINK+uuid.toString());
+				return new ResponseEntity(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>("email_error",HttpStatus.NOT_FOUND);
+			}
+		}
+
+		//User user = userRepositorySupport.findUserByUserId(userFindPwReq.getId()).get();
+
 
 	}
 
