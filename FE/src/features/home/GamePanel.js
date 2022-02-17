@@ -590,15 +590,145 @@ function GamePanel(props) {
           ),
           baskinrobbins31: (
             <div>
-              <p>베스킨라빈스31 시작!</p>
-              <p
+              <div className="back btn-font">
+                <IoReturnUpBack
+                  size={24}
+                  onClick={() => {
+                    if (!isHost) {
+                      return;
+                    } else {
+                      selectCategory("main");
+                      props.setGameCategory("main");
+                      signalSetLiarGameState("main");
+                      resetIsVote();
+                    }
+                  }}
+                />
+                <p>뒤로가기</p>
+              </div>
+              <br></br>
+              <br></br>
+              <p className="b31-title ">랜덤한 순서로 숫자를 불러요</p>
+              <p className="b31-title ">한번에 1~3개의 수를 부를 수 있어요</p>
+              <p className="b31-title ">31을 부르는 사람이 술마시기!</p>
+              <button
+                className="b31-btn"
                 onClick={() => {
-                  selectCategory("main");
-                  props.setGameCategory("main");
+                  if (!isHost) {
+                    return;
+                  }
                 }}
               >
-                게임 선택 돌아가기
-              </p>
+                시작하기
+              </button>
+              <div className="bigBox-31">
+                <Container className="br31-number-box">
+                  <div style={{ height: 5 }}></div>
+                  <Row>
+                    <Col id="1" md={{ span: 2 }} className="box-31">
+                      1
+                    </Col>
+                    <Col id="2" md={{ span: 2 }} className="box-31">
+                      2
+                    </Col>
+                    <Col id="3" md={{ span: 2 }} className="box-31">
+                      3
+                    </Col>
+                    <Col id="4" md={{ span: 2 }} className="box-31">
+                      4
+                    </Col>
+                    <Col id="5" md={{ span: 2 }} className="box-31">
+                      5
+                    </Col>
+                    <Col id="6" md={{ span: 2 }} className="box-31">
+                      6
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col id="7" md={{ span: 2 }} className="box-31">
+                      7
+                    </Col>
+                    <Col id="8" md={{ span: 2 }} className="box-31">
+                      8
+                    </Col>
+                    <Col id="9" md={{ span: 2 }} className="box-31">
+                      9
+                    </Col>
+                    <Col id="10" md={{ span: 2 }} className="box-31">
+                      10
+                    </Col>
+                    <Col id="11" md={{ span: 2 }} className="box-31">
+                      11
+                    </Col>
+                    <Col id="12" md={{ span: 2 }} className="box-31">
+                      12
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col id="13" md={{ span: 2 }} className="box-31">
+                      13
+                    </Col>
+                    <Col id="14" md={{ span: 2 }} className="box-31">
+                      14
+                    </Col>
+                    <Col id="15" md={{ span: 2 }} className="box-31">
+                      15
+                    </Col>
+                    <Col id="16" md={{ span: 2 }} className="box-31">
+                      16
+                    </Col>
+                    <Col id="17" md={{ span: 2 }} className="box-31">
+                      17
+                    </Col>
+                    <Col id="18" md={{ span: 2 }} className="box-31">
+                      18
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col id="19" md={{ span: 2 }} className="box-31">
+                      19
+                    </Col>
+                    <Col id="20" md={{ span: 2 }} className="box-31">
+                      20
+                    </Col>
+                    <Col id="21" md={{ span: 2 }} className="box-31">
+                      21
+                    </Col>
+                    <Col id="22" md={{ span: 2 }} className="box-31">
+                      22
+                    </Col>
+                    <Col id="23" md={{ span: 2 }} className="box-31">
+                      23
+                    </Col>
+                    <Col id="24" md={{ span: 2 }} className="box-31">
+                      24
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col id="25" md={{ span: 2 }} className="box-31">
+                      25
+                    </Col>
+                    <Col id="26" md={{ span: 2 }} className="box-31">
+                      26
+                    </Col>
+                    <Col id="27" md={{ span: 2 }} className="box-31">
+                      27
+                    </Col>
+                    <Col id="28" md={{ span: 2 }} className="box-31">
+                      28
+                    </Col>
+                    <Col id="29" md={{ span: 2 }} className="box-31">
+                      29
+                    </Col>
+                    <Col id="30" md={{ span: 2 }} className="box-31">
+                      30
+                    </Col>
+                  </Row>
+                  <div className="box-31" id="31" md={{ span: 12 }}>
+                    31
+                  </div>
+                </Container>
+              </div>
             </div>
           ),
         }[gameCategory]
