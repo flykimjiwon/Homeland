@@ -1,11 +1,24 @@
 .panel {
   height: 400px;
-  background-color: black;
+  background-color: #d3e5e8;
   border-radius: 20px;
   margin-bottom: 10px;
-  color: wheat;
+  color: black;
+}
+.game-header {
+  padding: 8px;
+  font-size: 17px;
+  height: 40px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-weight: bold;
+  background-color: orange;
+  top: 0;
 }
 .title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(109, 76, 5);
   padding: 20px 0px;
 }
 .games > div {
@@ -20,4 +33,77 @@ CountDown {
 
 .nondisplay {
   display: none;
+}
+
+.liab-box {
+  height: 260px;
+  background-color: rgb(177, 129, 39);
+  width: 90%;
+  border-radius: 15px;
+}
+
+.liar-subject-box {
+}
+
+.liar-subject-box div {
+  font-size: 13px;
+  font-weight: 600;
+  height: 80px;
+  justify-content: center;
+  padding-top: 25px;
+  background-color: rgb(235, 180, 2);
+  border-radius: 15px;
+  border: solid 3px rgb(177, 129, 39);
+}
+.liar-subject-box div:hover {
+  background-color: yellow;
+}
+
+.game-btn {
+  background-color: white;
+  border: 4px solid black;
+  height: 40px;
+}
+
+.back {
+  position: fixed;
+  margin-left: 10px;
+  color: rgb(109, 76, 5);
+}
+.back:hover {
+  color: rgb(209, 147, 12);
+}
+
+.liar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(109, 76, 5);
+}
+
+.liar-or-not {
+  font-size: 24px;
+  font-weight: 700;
+  color: rgb(165, 115, 8);
+}
+
+.liar-user {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(165, 115, 8);
+}
+
+.game-btn {
+  background-color: rgb(235, 180, 2);
+  color: rgb(165, 115, 8);
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 2%;
+  height: 10%;
+  width: 80%;
+  border: rgb(165, 115, 8) solid 4px;
+  border-radius: 20px;
+}
+
+.game-btn:hover {
+  background-color: rgb(247, 225, 26);
 }
