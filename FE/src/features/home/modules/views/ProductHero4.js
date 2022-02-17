@@ -8,6 +8,7 @@ import mg from './stayhome.png'
 import Box from '@mui/material/Box'
 import { Container,Row, Col } from "react-bootstrap";
 import './ProductHero.css'
+import Proimg from './3.png'
 
 
 
@@ -52,24 +53,24 @@ export default function ProductHero() {
     <Col>
     
     <Typography
-        color="black"
-        align="center"
-        variant="h3"
-        sx={{ mb: 2, mt: { sx: 4, sm: 10 } }}
-      >
-       스냅샷 찍고 추억 남기기   
-      </Typography>
-      <Typography
-        color="black"
-        align="center"
-        // variant="h6"
-        sx={{ mb: 1, mt: { sx: 2, sm: 5 } }}
-      >
-<h5>
-오프라인에서 다같이 셀카를 남기듯이 온라인 술자리에서도 추억 남기기가 빠질 수 없죠! 사진찍기 버튼을 누르면 3,2,1 카운트 다운 후 ‘찰칵’ 스냅샷이 찍혀요. 사진이 마음에 들면 자신 컴퓨터에 저장을 할 수 있고 마음에 들지 않으면 저장하지 않기를 누르고 다시 한번 찍어요~ 이렇게 추억 한 장 남기기 오늘도 성공!
+       color="black"
+       align="center"
+       variant="h3"
+       sx={{ mb: 2, mt: { sx: 4, sm: 10 } }}
+     >
+      다 함께 짠 하기   
+     </Typography>
+   <Typography
+       color="black"
+       align="center"
+      //  variant="h6"
+       sx={{ mb: 1, mt: { sx: 2, sm: 5 } }}
+     >
+       <h5>
+       오프라인 술자리의 묘미는 다 같이 술잔을 부딪히며 ‘짠’하는 건데 온라인에서는 못해서 아쉬우셨죠? HomeLanD에서는 그런 아쉬움을 날리기 위해 짠 효과 기능이 있답니다!  건배 버튼을 누르고 맥주 이모티콘과 함께 다 같이 술잔을 모니터에 가까이 대며 짠~ 크게 외쳐보아요     
 
-</h5>
-      </Typography>
+       </h5>
+     </Typography>
     
       </Col>
     
@@ -82,7 +83,7 @@ export default function ProductHero() {
         sx={{ mb: 1, mt: { sx: 2, sm: 5 } }}
       >
        {/* 여기다 이미지박아용 */}
-       <img src="https://line.me/static/5a383cb3cc7f3d63e2483c96eb3ec114/bd486/e75d07a92e15fff9c7a1a9ed0cddc3f9.png" width="600vw"></img>
+       <img src={Proimg} width="600vw"></img>
       
       </Typography></Col>
   </Row>

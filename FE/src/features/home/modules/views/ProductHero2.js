@@ -8,7 +8,7 @@ import mg from './stayhome.png'
 import Box from '@mui/material/Box'
 import { Container,Row, Col } from "react-bootstrap";
 import './ProductHero.css'
-
+import Proimg from './1.png'
 
 
 export default function ProductHero() {
@@ -81,7 +81,7 @@ export default function ProductHero() {
         sx={{ mb: 1, mt: { sx: 2, sm: 5 } }}
       >
        {/* 여기다 이미지박아용 */}
-       <img src="https://line.me/static/5a383cb3cc7f3d63e2483c96eb3ec114/bd486/e75d07a92e15fff9c7a1a9ed0cddc3f9.png" width="600vw"></img>
+       <img src={Proimg} width="600vw"></img>
       
       </Typography></Col>
   </Row>
