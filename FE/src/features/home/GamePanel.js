@@ -534,26 +534,21 @@ function GamePanel(props) {
                   <p>뒤로가기</p>
                 </div>
               </div>
-              <p>UP & DOWN 시작!</p>
-              <p
-                onClick={() => {
-                  selectCategory("main");
-                  props.setGameCategory("main");
-                  SetMatchingUpDown("");
-                  SetGameState(false);
-                }}
-              >
-                게임 선택 돌아가기
-              </p>
+              <br></br>
+              <br></br>
+              <p className="liar-title">UP & DOWN 시작!</p>
+
               <div className="UpAndDown">
                 {!gameState ? (
                   <div>
-                    <div>범위를 지정해주세요!</div>
-                    <div>
-                      0부터 몇사이 숫자로?? &#40;9&#60;N&#60;100000&#41;
+                    <div className="liar-title">범위를 지정해주세요!</div>
+                    <div className="liar-title">0부터 몇사이 숫자로??</div>
+                    <div className="liar-title">
+                      &#40;9&#60;N&#60;100000&#41;
                     </div>
                     <div>
                       <input
+                        className="UD-input"
                         type="number"
                         min="0"
                         max="100000"
@@ -561,28 +556,34 @@ function GamePanel(props) {
                         value={range}
                       />
                     </div>
-                    <div onClick={sendRange}>범위 정하기</div>
+                    <div className="liar-title" onClick={sendRange}>
+                      범위 정하기
+                    </div>
                   </div>
                 ) : (
                   <div>
-                    <div>{randomNum}</div>
+                    {/* <div>{randomNum}</div> */}
                     <div>
                       <input
+                        className="UD-input"
                         type="number"
                         onChange={onChangeUpAndDownNum}
                         value={upAndDownNum}
                       />
                     </div>
-                    <div>{matchingUpDown}</div>
-                    <div onClick={sendUpAndDownNum}>숫자 제시하기</div>
-                    <div
+                    <div className="UD">{matchingUpDown}</div>
+                    <button className="game-btn" onClick={sendUpAndDownNum}>
+                      숫자 제시하기
+                    </button>
+                    <button
+                      className="game-btn"
                       onClick={
                         // SetGameState(false);
                         sendRestart
                       }
                     >
-                      Up & Down Game 다시 시작하기!
-                    </div>
+                      다시 시작하기!
+                    </button>
                   </div>
                 )}
               </div>

@@ -149,3 +149,21 @@ CountDown {
 .b31-btn:hover {
   background-color: rgb(247, 225, 26);
 }
+
+.UD-input {
+  margin: 15px;
+  height: 50px;
+  text-align: center;
+  color: rgb(165, 115, 8);
+  width: 60%;
+  font-size: 30px;
+  font-weight: 600;
+  border-radius: 15px;
+  background-color: rgb(235, 180, 2);
+  border: 5px solid rgb(165, 115, 8);
+}
+
+.UD {
+  font-size: 40px;
+  color: rgb(165, 115, 8);
+}
