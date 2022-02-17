@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "./CheckPassword.css";
-import backEndUrl from "../setup/hld_url";
 
 function CheckPassword() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const [password, setPassword] = useState("");
   const handleCheckPassword = (event) => {

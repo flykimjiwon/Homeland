@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "./NoticeDetailPage.css";
 import "dayjs/locale/ko";
@@ -11,7 +10,8 @@ import { Container, InputGroup } from "react-bootstrap";
 dayjs.locale("ko");
 
 function NoticeDetailPage() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const [notice, setNotice] = useState([]);
   const { id } = useParams();

@@ -4,9 +4,6 @@ import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState, Component, createRef } from "react";
 import "./MeetingMain.css";
 import UserVideoComponent from "./UserVideoComponent";
-import backendUrl from "../setup/hld_url";
-import OPENVIDU_URL from "../setup/openvidu_url";
-import OPENVIDU_SECET from "../setup/openvidu_secret";
 import Messages from "../chat/Messages";
 import {
   IoMicSharp,
@@ -48,12 +45,10 @@ import { margin, width } from "@mui/system";
 import ReactTooltip from "react-tooltip";
 import { Link, Route, Switch } from "react-router-dom";
 
-// const OPENVIDU_SERVER_URL = OPENVIDU_URL;
-// const OPENVIDU_SERVER_SECRET = OPENVIDU_SECET;
-const OPENVIDU_SERVER_URL = "https://i6c202.p.ssafy.io";
-const OPENVIDU_SERVER_SECRET = "HOMELAND";
+const OPENVIDU_SERVER_URL = process.env.REACT_APP_OPENVIDU_SERVER_URL;
+const OPENVIDU_SERVER_SECRET = process.env.REACT_APP_OPENVIDU_SERVER_SECRET;
+const BEUrl = process.env.REACT_APP_BACKEND_URL;
 
-const BEUrl = backendUrl;
 const btn_size = "48";
 const icon_color = "rgb(52, 62, 118)";
 const icon_color_off = "rgb(89, 96, 138)";
@@ -1485,38 +1480,6 @@ class Main extends Component {
         video[i].play();
       }
     }, 100);
-  }
-
-  consoleTest() {
-    console.log("@@@@@@@@@@@@@@@@@@@");
-    console.log(this.state.sessionData);
-    console.log(this.state.mySessionId);
-    console.log(this.state.myUserName);
-    console.log(this.state.mainStreamManager);
-    console.log(this.state.publisher);
-    console.log(this.state.connectionUser);
-    console.log(this.state.connectionId);
-    console.log(this.state.connections);
-
-    let Host = this.state.connections[0];
-    let minNum = this.state.connections[0].creationTime;
-    for (let i = 0; i < this.state.connections.length; i++) {
-      if (minNum > this.state.connections[i].creationTime) {
-        minNum = this.state.connections[i].creationTime;
-        Host = this.state.connections[i];
-      }
-    }
-    console.log("호스트", Host);
-    console.log(Host.creationTime);
-    console.log(Host.connectionId);
-    console.log("유저");
-    console.log(this.state.connections[0].creationTime);
-    console.log(this.state.connections[0].connectionId);
-    console.log("####################");
-    console.log("호스트 진짜맞냐!", this.state.host);
-    console.log("호스트 진짜맞냐!", this.state.host.creationTime);
-    console.log("호스트 진짜맞냐!", this.state.host.connectionId);
-    console.log("!!!!!!!!!!!!!!!!!!!!!");
   }
 }
 

@@ -11,10 +11,10 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 import axios from "axios";
-import backEndUrl from "../setup/hld_url";
 
 function NoticeEdit() {
-  const BEUrl = backEndUrl;
+const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const { id } = useParams();
   const [newTitle, setNewTitle] = useState("");

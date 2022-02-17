@@ -3,12 +3,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import "./Login.css";
-import backEndUrl from "../setup/hld_url";
 import LoginImage from "./image/login.png";
 import { Button, Container, Form } from "react-bootstrap";
 
 function Login() {
-  const BEUrl = backEndUrl;
+const BEUrl = process.env.REACT_APP_BACKEND_URL;
   const history = useHistory();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");

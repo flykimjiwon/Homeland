@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import "./Signup.css";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import backEndUrl from "../setup/hld_url";
 import { Form, Container } from "react-bootstrap";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,7 +10,8 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
 function Sign() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const [id, setId] = useState("");
   const [idError, setIdError] = useState(false);

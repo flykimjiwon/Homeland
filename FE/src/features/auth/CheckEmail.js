@@ -4,11 +4,11 @@ import "./CheckEmail.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import backEndUrl from "../setup/hld_url";
 
 function CheckEmail() {
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
-  const BEUrl = backEndUrl;
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const handleId = (event) => {
