@@ -32,6 +32,7 @@ import beerR from "./img/beer_right.png";
 import Q from "./img/Q.png";
 import E from "./img/E.png";
 import E2 from "./img/E2.png";
+import PermissionIMG from "./img/PermissionControl.png";
 
 import Swal from "sweetalert2";
 
@@ -74,6 +75,8 @@ class Main extends Component {
       audiostate: true,
       screenstate: true,
       videostate: true,
+      videoallowed: true,
+      audioallowed: true,
       captured: "",
       cnt: false,
       previewOpen: false,
@@ -115,9 +118,7 @@ class Main extends Component {
   }
 
   pubOut() {
-    setTimeout(() => {
-      this.leaveSession();
-    }, 1000);
+    this.leaveSession();
   }
 
   cheersToggle() {
@@ -326,6 +327,22 @@ class Main extends Component {
         });
       });
     }
+
+    const constraints = { audio: true, video: true };
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(() => {
+        this.setState({
+          videoallowed: true,
+          audioallowed: true,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          videoallowed: false,
+          audioallowed: false,
+        });
+      });
     // window.addEventListener("beforeunload", this.componentWillUnmount());
     window.addEventListener("beforeunload", () => {
       this.componentWillUnmount();
@@ -609,6 +626,8 @@ class Main extends Component {
           audiostate: true,
           screenstate: true,
           videostate: true,
+          videoallowed: true,
+          audioallowed: true,
           captured: "",
           cnt: false,
           previewOpen: false,
@@ -790,7 +809,8 @@ class Main extends Component {
                     <img src="/HLD_logo_310x310.png" alt="OpenVidu logo" />
                   </div> */}
                   <div id="join-dialog" className="jumbotron vertical-center">
-                    {loginToken ? (
+                  {this.state.videoallowed && this.state.audioallowed ? (
+                    loginToken ? (
                       <form className="form-group">
                         <br></br>
                         <h2 className="color-353f71">
@@ -988,15 +1008,25 @@ class Main extends Component {
                           </Row>
                         </Container>
                       </form>
-                    )}
-                  </div>
+                    )
+                  ) : (
+                    <form className="form-group">
+                      <br></br>
+                      <h2 className="color-353f71">디바이스 접근을 허용해 주세요!!!</h2>
+                      <h2 className="color-353f71">좌측 상단 좌물쇠 모양 Click!!!</h2>
+                      <br></br>
+                      <br></br>
+                      <div><img src={PermissionIMG} width='430px' height='430px'></img></div>    
+                    </form>
+                  )}
                 </div>
-              </Col>
-              <Col></Col>
-            </Row>
-            <br></br>
-            <br></br>
-          </Container>
+              </div>
+            </Col>
+            <Col></Col>
+          </Row>
+          <br></br>
+          <br></br>
+        </Container>
         ) : (
           <div id="session">
             <Container>
@@ -1220,7 +1250,11 @@ class Main extends Component {
                           color={icon_color}
                           size={btn_size}
                           onClick={() => {
-                            this.sendCaptureSignal();
+                            if (!this.state.isHost) {
+                              return;
+                            } else {
+                              this.sendCaptureSignal();
+                            }
                           }}
                         />
                         <p className="btn-font">사진찍기</p>
@@ -1408,12 +1442,10 @@ class Main extends Component {
   onCapture() {
     console.log("onCapture");
     const gamePanelState = this.state.gamePanel;
-    this.setState({ cnt: false });
-    if (!this.state.previewOpen) {
+    if (!this.state.previewOpen && !this.state.cnt) {
       this.setState({ cnt: true, previewOpen: true, gamePanel: true });
       setTimeout(() => {
         {
-          this.setState({ cnt: false, gamePanel: gamePanelState });
           html2canvas(document.getElementById("capture_screen")).then(
             (canvas) => {
               this.state.captured = canvas;
@@ -1421,6 +1453,7 @@ class Main extends Component {
               document.getElementById("preview").appendChild(canvas);
             }
           );
+          this.setState({ cnt: false, gamePanel: gamePanelState });
         }
       }, 6000);
     }

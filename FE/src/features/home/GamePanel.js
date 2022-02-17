@@ -96,6 +96,7 @@ function GamePanel(props) {
   let [liarVote, SetLiarVote] = useState("");
   let [voteResult, SetVoteResult] = useState([]);
   let [isVote, SetIsVote] = useState(false);
+  let [defaultUserVote, SetDefaultUserVote] = useState([]);
 
   const liarVoteHandler = (item) => {
     SetLiarVote(item);
@@ -107,19 +108,17 @@ function GamePanel(props) {
   let [range, SetRange] = useState(10);
   let [randomNum, SetRandomNum] = useState(5);
   let [upAndDownNum, SetUpAndDownNum] = useState(0);
-  let [matchingUpDown, SetMatchingUpDown] = useState("");
+  let [matchingUpDown, SetMatchingUpDown] = useState(" ");
+  let [fromSignalUserName, SetFromSignalUserName] = useState("");
 
   const onChangeRange = (e) => {
     e.preventDefault();
-    SetRange(e.target.value);
+    SetRange(parseInt(e.target.value));
   };
   const onChangeUpAndDownNum = (e) => {
     e.preventDefault();
-    SetUpAndDownNum(e.target.value);
+    SetUpAndDownNum(parseInt(e.target.value));
   };
-  useEffect(() => {
-    SetGameState(gameState);
-  }, [gameState]);
   //UpAndDown End
 
   useEffect(() => {
@@ -128,8 +127,8 @@ function GamePanel(props) {
 
   useEffect(() => {
     session.on("signal:settingVoteResult", (event) => {
-      const voteLiar = event.data;
       var voteResultCopy = [...voteResult];
+      const voteLiar = event.data;
       voteResultCopy.forEach((val) => {
         if (val.hasOwnProperty(`${voteLiar}`)) val[`${voteLiar}`]++;
       });
@@ -139,20 +138,24 @@ function GamePanel(props) {
 
   return (
     <div className={display ? "panel" : "nondisplay"}>
-      <div className="game-header">game panel </div>
+      <div className="game-header">game panel</div>
       {
         {
           main: (
             <div>
               <div className="title">
-                <h>어떤 술게임을 해볼까요?</h>
+                <p>어떤 술게임을 해볼까요?</p>
               </div>
               <div className="games">
                 <button
                   className="title-btn"
                   onClick={() => {
-                    selectCategory("liarGame");
-                    props.setGameCategory("liarGame");
+                    if (!isHost) {
+                      return;
+                    } else {
+                      selectCategory("liarGame");
+                      props.setGameCategory("liarGame");
+                    }
                   }}
                 >
                   라이어 게임
@@ -160,8 +163,12 @@ function GamePanel(props) {
                 <button
                   className="title-btn"
                   onClick={() => {
-                    selectCategory("upAndDown");
-                    props.setGameCategory("upAndDown");
+                    if (!isHost) {
+                      return;
+                    } else {
+                      selectCategory("upAndDown");
+                      props.setGameCategory("upAndDown");
+                    }
                   }}
                 >
                   UP & DOWN
@@ -169,8 +176,12 @@ function GamePanel(props) {
                 <button
                   className="title-btn"
                   onClick={() => {
-                    selectCategory("baskinrobbins31");
-                    props.setGameCategory("baskinrobbins31");
+                    if (!isHost) {
+                      return;
+                    } else {
+                      selectCategory("baskinrobbins31");
+                      props.setGameCategory("baskinrobbins31");
+                    }
                   }}
                 >
                   베스킨 라빈스 31
@@ -191,21 +202,23 @@ function GamePanel(props) {
                   main: (
                     <div>
                       <div>
-                        <div className="back btn-font">
+                        <div className="back btn-font"
+                          onClick={() => {
+                            if (!isHost) {
+                              resetIsVote();
+                              return;
+                            } else {
+                              selectCategory("main");
+                              props.setGameCategory("main");
+                              signalSetLiarGameState("main");
+                              resetIsVote();
+                            }
+                          }}
+                        >
                           <IoReturnUpBack
                             size={24}
-                            onClick={() => {
-                              if (!isHost) {
-                                return;
-                              } else {
-                                selectCategory("main");
-                                props.setGameCategory("main");
-                                signalSetLiarGameState("main");
-                                resetIsVote();
-                              }
-                            }}
                           />
-                          <p>뒤로가기</p>
+                          <p>게임 선택</p>
                         </div>
                       </div>
                       <br></br>
@@ -363,14 +376,18 @@ function GamePanel(props) {
                           );
                         })}
                       </div>
-                      <button
-                        className="game-btn"
-                        onClick={() => {
+                      {isHost ? (
+                        <button  className="game-btn" onClick={() => {
+                          if (!isHost) {
+                            return;
+                          }
                           signalSetLiarGameState("vote");
-                        }}
-                      >
-                        투표 하러 가기
-                      </button>
+                        }}>투표 하러 가기</button>
+                      ) : (
+                        <div>
+                          <span></span>
+                        </div>
+                      )}
                     </div>
                   ),
                   vote: (
@@ -390,9 +407,6 @@ function GamePanel(props) {
                                   key={index}
                                   value={item}
                                   onClick={() => {
-                                    if (isVote) {
-                                      return;
-                                    }
                                     liarVoteHandler(`${item}`);
                                     sendLiarVote(`${item}`);
                                     SetIsVote(true);
@@ -418,11 +432,10 @@ function GamePanel(props) {
                         <button
                           className="game-btn"
                           onClick={() => {
-                            if (!isHost) {
-                              return;
-                            }
                             signalSetLiarGameState("voteResultPage");
                             resetIsVote();
+                            // sendSignalresetIsVote();
+                            sendVoteResult();
                           }}
                         >
                           투표 결과 확인
@@ -517,21 +530,25 @@ function GamePanel(props) {
           upAndDown: (
             <div>
               <div>
-                <div className="back btn-font">
+                <div className="back btn-font"
+                  onClick={() => {
+                    if (!isHost) {
+                      resetIsVote();
+                      return;
+                    } else {
+                      selectCategory("main");
+                      props.setGameCategory("main");
+                      signalSetLiarGameState("main");
+                      resetIsVote();
+                      SetGameState(false);
+                      SetFromSignalUserName("");
+                    }
+                  }}
+                >
                   <IoReturnUpBack
                     size={24}
-                    onClick={() => {
-                      if (!isHost) {
-                        return;
-                      } else {
-                        selectCategory("main");
-                        props.setGameCategory("main");
-                        signalSetLiarGameState("main");
-                        resetIsVote();
-                      }
-                    }}
                   />
-                  <p>뒤로가기</p>
+                  <p>게임 선택</p>
                 </div>
               </div>
               <br></br>
@@ -543,9 +560,6 @@ function GamePanel(props) {
                   <div>
                     <div className="liar-title">범위를 지정해주세요!</div>
                     <div className="liar-title">0부터 몇사이 숫자로??</div>
-                    <div className="liar-title">
-                      &#40;9&#60;N&#60;100000&#41;
-                    </div>
                     <div>
                       <input
                         className="UD-input"
@@ -556,13 +570,28 @@ function GamePanel(props) {
                         value={range}
                       />
                     </div>
-                    <div className="liar-title" onClick={sendRange}>
+                    {isHost ? (
+                      <div className="liar-title"
+                      onClick={() => {
+                        if (!isHost) {
+                          return;
+                        } else {
+                          SetGameState(true);
+                          sendRange();
+                        }
+                      }}
+                    >
                       범위 정하기
-                    </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <span></span>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div>
-                    {/* <div>{randomNum}</div> */}
+                    <div className="liar-title">범위 : 0 ~ {range}</div>
                     <div>
                       <input
                         className="UD-input"
@@ -572,18 +601,35 @@ function GamePanel(props) {
                       />
                     </div>
                     <div className="UD">{matchingUpDown}</div>
-                    <button className="game-btn" onClick={sendUpAndDownNum}>
+                      <button className="game-btn" onClick={() => { sendUpAndDownNum();}}>
                       숫자 제시하기
                     </button>
-                    <button
-                      className="game-btn"
-                      onClick={
-                        // SetGameState(false);
-                        sendRestart
-                      }
-                    >
-                      다시 시작하기!
-                    </button>
+                      {isHost ? (
+                        <button className="game-btn"
+                        onClick={() => {
+                          if (!isHost) {
+                            return;
+                          } else {
+                            SetGameState(false);
+                            sendRestart();
+                            SetFromSignalUserName("");
+                          }
+                        }}
+                      >
+                        다시 시작하기!
+                        </button>
+                      ) : (
+                        <div>
+                          <span></span>
+                        </div>
+                      )}
+                      {fromSignalUserName==="" ? (
+                        <div>
+                          <span></span>
+                        </div>
+                      ) : (
+                        <div className="liar-title">{fromSignalUserName} : {upAndDownNum}</div>
+                      )}
                   </div>
                 )}
               </div>
@@ -591,21 +637,23 @@ function GamePanel(props) {
           ),
           baskinrobbins31: (
             <div>
-              <div className="back btn-font">
+              <div className="back btn-font"
+                onClick={() => {
+                  if (!isHost) {
+                    resetIsVote();
+                    return;
+                  } else {
+                    selectCategory("main");
+                    props.setGameCategory("main");
+                    signalSetLiarGameState("main");
+                    resetIsVote();
+                  }
+                }}
+              >
                 <IoReturnUpBack
                   size={24}
-                  onClick={() => {
-                    if (!isHost) {
-                      return;
-                    } else {
-                      selectCategory("main");
-                      props.setGameCategory("main");
-                      signalSetLiarGameState("main");
-                      resetIsVote();
-                    }
-                  }}
                 />
-                <p>뒤로가기</p>
+                <p>게임 선택</p>
               </div>
               <br></br>
               <br></br>
@@ -763,7 +811,7 @@ function GamePanel(props) {
       type: "liarSubject",
     });
 
-    setDiscussionOrder();
+    // setDiscussionOrder();
   }
 
   function signalSetLiarGameState(mode) {
@@ -811,19 +859,35 @@ function GamePanel(props) {
       type: "resetVoteResult",
     });
   }
+
+  // function sendSignalresetIsVote() {
+  //   const mySession = session;
+  //   mySession.signal({
+  //     data: "pleasereset",
+  //     to: [],
+  //     type: "SignalresetIsVote",
+  //   });
+  // }
+
+  function sendVoteResult() {
+    let voteResultString = "";
+    voteResult.forEach((val) => {
+      voteResultString = voteResultString + `${Object.keys(val)}` + "," +  `${Object.values(val)}` + ","
+    });
+    let voteStringValue = voteResultString.slice(0, -1);
+    const mySession = session;
+    mySession.signal({
+      data: voteStringValue,
+      to: [],
+      type: "voteStringValue",
+    });
+  }
   //LiarGame Signal End
 
   function sendRestart() {
-    if (!isHost) {
-      return;
-    }
-    setTimeout(() => {
-      SetGameState(() => false);
-      SetMatchingUpDown(() => "");
-      createRandomNumber(range);
-    }, 300);
+    SetMatchingUpDown(" ");
+    // createRandomNumber(range);
     const mySession = session;
-    // let liarUser = this.state.connections.filter((element) => element.connectionId == this.state.liar.userId);
     mySession.signal({
       data: `${gameState}`,
       to: [],
@@ -832,36 +896,25 @@ function GamePanel(props) {
   }
 
   function sendRange() {
-    if (!isHost) {
-      return;
-    }
-    setTimeout(() => {
-      SetGameState(() => true);
-      createRandomNumber(range);
-    }, 300);
+    let randomNumValue = createRandomNumber(range);
     const mySession = session;
-    // let liarUser = this.state.connections.filter((element) => element.connectionId == this.state.liar.userId);
-    mySession.signal({
-      data: `${gameState},${range},${randomNum}`,
-      to: [],
-      type: "setRange",
-    });
+    setTimeout(() => {
+      mySession.signal({
+        data: `${gameState},${range},${randomNumValue}`,
+        to: [],
+        type: "setRange",
+      });
+    }, 300);
   }
 
   function sendUpAndDownNum() {
-    if (!isHost) {
-      return;
-    }
-    setTimeout(() => {
-      matchUpDown(upAndDownNum);
-    }, 300);
+    let stringMatchValue = matchUpDown(parseInt(upAndDownNum));
     const mySession = session;
-
-    mySession.signal({
-      data: `${upAndDownNum},${matchingUpDown}`,
-      to: [],
-      type: "setUpAndDownNum",
-    });
+      mySession.signal({
+        data: `${upAndDownNum},${stringMatchValue},${matchingUpDown}`,
+        to: [],
+        type: "setUpAndDownNum",
+      });
   }
   //=================================Send Signal End==================================
 
@@ -870,6 +923,7 @@ function GamePanel(props) {
 
     //LiarGame start
     mySession.on("signal:pickLiar", (event) => {
+      setDiscussionOrder();
       let Data = event.data.split(",");
       SetLiarSubject(Data[0]);
       SetLiarOrNot(Data[1]);
@@ -878,6 +932,7 @@ function GamePanel(props) {
     });
 
     mySession.on("signal:liarSubject", (event) => {
+      setDiscussionOrder();
       let Data = event.data.split(",");
       SetLiarOrNot(() => "제시어는 " + Data[0] + " 입니다");
       SetLiar(Data[1]);
@@ -895,13 +950,14 @@ function GamePanel(props) {
       let voteList = [];
       for (let i = 0; i < names.length; i++) {
         let voteObj = {};
-        voteObj[names[i]] = 0;
+        voteObj[names[i]] = parseInt(0);
         voteList.push(voteObj);
       }
       // if (userNames === []) {
       //   setTimeout
       // }
       SetVoteResult(voteList);
+      SetDefaultUserVote(voteList);
     });
 
     mySession.on("signal:resetIsVote", (event) => {
@@ -918,30 +974,45 @@ function GamePanel(props) {
         voteObj[names[i]] = 0;
         voteList.push(voteObj);
       }
-      // if (userNames === []) {
-      //   setTimeout
-      // }
       SetVoteResult(voteList);
+    });
+
+    // mySession.on("signal:SignalresetIsVote", (event) => {
+    //   resetIsVote();
+    // });
+
+    mySession.on("signal:voteStringValue", (event) => {
+      const result = event.data.split(",");
+      let resultList = [];
+      for (let i = 0; i < result.length; i+=2) {
+        let resultObj = {};
+        resultObj[result[i]] = result[i+1];
+        resultList.push(resultObj);
+      }
+      SetVoteResult(resultList);
     });
 
     mySession.on("signal:setRange", (event) => {
       event.preventDefault();
       let Data = event.data.split(",");
-      SetGameState(Data[0]);
-      SetRange(() => Data[1]);
-      SetRandomNum(() => Data[2]);
+      SetGameState(true);
+      SetRange(parseInt(Data[1]));
+      SetRandomNum(parseInt(Data[2]));
     });
 
     mySession.on("signal:setUpAndDownNum", (event) => {
       event.preventDefault();
       let Data = event.data.split(",");
-      SetUpAndDownNum(Data[0]);
+      SetUpAndDownNum(parseInt(Data[0]));
       SetMatchingUpDown(Data[1]);
+      SetFromSignalUserName(JSON.parse(event.from.data).clientData);
     });
 
     mySession.on("signal:setRestart", (event) => {
-      event.preventDefault();
-      SetGameState(() => event.data);
+      // var isFalseBoolean = (event.data === 'true');
+      SetGameState(false);
+      // SetGameState(isFalseBoolean);
+      SetMatchingUpDown(" ");
     });
   }
 
@@ -1305,6 +1376,7 @@ function GamePanel(props) {
     const DiscussionOrder = connectionUser.map((el) => `${el.userName}`);
     const usersString = DiscussionOrder.join(",");
     resetLiarVote(usersString);
+    // SetVoteResult(defaultUserVote);
   }
 
   function setLiarVoteList(names) {
@@ -1323,22 +1395,20 @@ function GamePanel(props) {
 
   //UpAndDown Start
   function createRandomNumber(num) {
-    if (!isHost) {
-      return;
-    }
     const randomNum = Math.floor(Math.random() * (parseInt(num) + 1));
-    SetRandomNum(() => randomNum);
+    SetRandomNum(randomNum);
+    return randomNum;
   }
   function matchUpDown(chooseNum) {
-    if (!isHost) {
-      return;
-    }
-    if (chooseNum < randomNum) {
-      SetMatchingUpDown(() => "UP");
-    } else if (chooseNum > randomNum) {
-      SetMatchingUpDown(() => "DOWN");
+    if (parseInt(chooseNum) < parseInt(randomNum)) {
+      SetMatchingUpDown("UP");
+      return "UP";
+    } else if (parseInt(chooseNum) > parseInt(randomNum)) {
+      SetMatchingUpDown("DOWN");
+      return "DOWN";
     } else {
-      SetMatchingUpDown(() => "맞췄습니다!");
+      SetMatchingUpDown("맞췄습니다!");
+      return "맞췄습니다!";
     }
   }
 }

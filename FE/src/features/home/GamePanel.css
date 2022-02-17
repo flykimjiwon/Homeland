@@ -80,7 +80,6 @@ CountDown {
 .back:hover {
   color: rgb(209, 147, 12);
 }
-
 .liar-title {
   font-size: 18px;
   font-weight: 600;
@@ -179,4 +178,10 @@ CountDown {
 .UD {
   font-size: 40px;
   color: rgb(165, 115, 8);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
