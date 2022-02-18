@@ -2,7 +2,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import backEndUrl from "../setup/hld_url";
 import {
   Container,
   CssBaseline,
@@ -13,7 +12,8 @@ import {
 } from "@mui/material";
 
 function NoticeForm() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

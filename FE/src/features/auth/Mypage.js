@@ -5,15 +5,16 @@ import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Mypage.css";
 import ProfileImage from "./image/profile_image.png";
-import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 
 dayjs.locale("ko");
 
 function Mypage() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const [profile, setProfile] = useState([]);
+
   const getProfile = () => {
     axios({
       url: `${BEUrl}/api/v1/users/me`,

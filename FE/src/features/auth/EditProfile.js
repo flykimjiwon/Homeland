@@ -4,10 +4,10 @@ import { Link, useHistory } from "react-router-dom";
 import "./EditProfile.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import backEndUrl from "../setup/hld_url";
 
 function EditProfile() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const [newNickname, setNewNickname] = useState("");
   const [newEmail, setNewEmail] = useState("");

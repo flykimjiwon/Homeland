@@ -5,7 +5,6 @@ import { Table, Container } from "react-bootstrap";
 import "./Notice.css";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import backEndUrl from "../setup/hld_url";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import { Button, Pagination } from "@mui/material";
@@ -13,8 +12,9 @@ import { Button, Pagination } from "@mui/material";
 dayjs.locale("ko");
 
 function Notice() {
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
-  const BEUrl = backEndUrl;
   const token = localStorage.getItem("jwt");
   const [noticeItems, setNoticeItems] = useState([]);
   const [userAuthority, setUserAuthority] = useState("");

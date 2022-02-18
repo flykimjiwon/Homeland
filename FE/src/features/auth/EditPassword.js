@@ -3,11 +3,11 @@ import { useHistory } from "react-router-dom";
 import "./EditPassword.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import backEndUrl from "../setup/hld_url";
 import { Form, Container } from "react-bootstrap";
 
 function EditPassword() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const setToken = () => {
     const token = localStorage.getItem("jwt");

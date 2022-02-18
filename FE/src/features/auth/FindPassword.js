@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import { Form, Container } from "react-bootstrap";
-import backEndUrl from "../setup/hld_url";
 
 function FindPassword() {
-  const BEUrl = backEndUrl;
+	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+
   const history = useHistory();
   const { key } = useParams();
   const [newPassword, setNewPassword] = useState("");
