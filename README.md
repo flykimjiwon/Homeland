@@ -23,7 +23,9 @@ HomeLanDrink는 비대면으로 사람들과 술자리를 즐길 수 있는 그�
     
 2. 그룹 채팅
    
-    ![그룹채팅](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/%EA%B7%B8%EB%A3%B9%EC%B1%84%ED%8C%85.png)
+    ![채팅](https://raw.githubusercontent.com/rudy0103/save-image-repo/master/img/%EC%B1%84%ED%8C%85.gif)
+    
+    
     
 2. 라이어게임
    
