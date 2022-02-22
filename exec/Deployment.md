@@ -144,7 +144,7 @@ vi .env
 아래에 URL과 SECRET을 넣어준다(/opt/openvidu/.env 파일에서 넣은 도메인과 시크릿)
 
 ```.env
-REACT_APP_BACKEND_URL="https://i6c202.p.ssafy.io:8080"
+REACT_APP_BACKEND_URL="https://i6c202.p.ssafy.io:8443"
 REACT_APP_OPENVIDU_SERVER_URL="https://i6c202.p.ssafy.io"
 REACT_APP_OPENVIDU_SERVER_SECRET="HOMELAND"
 ```
@@ -159,6 +159,10 @@ sudo docker build -t react_img .
 
 ```bash
 sudo docker run -it -d --network="host" --name homeland_react react_img
+```
+
+```
+s
 ```
 
 
