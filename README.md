@@ -131,5 +131,5 @@ Remove:  파일 삭제
 
 | 👻 김승환 | 😺 김지원 | 🧚‍♂️ 이종준 | 🐸 김근태 | 🦖 박성건 | 🌸 고재현 |  |
 | --- | --- | --- | --- | --- | --- | --- |
-| https://github.com/Panseung/ | https://github.com/flykimjiwon | https://github.com/leecoder92 |  | https://github.com/rudy0103 | https://github.com/jaehyeon98 |  |
+| https://github.com/Panseung/ | https://github.com/flykimjiwon | https://github.com/leecoder92 | https://github.com/damwon | https://github.com/rudy0103 | https://github.com/jaehyeon98 |  |
 | Frontend, 팀장 | Frontend | Frontend | Backend, Frontend | Backend | Backend |  |
