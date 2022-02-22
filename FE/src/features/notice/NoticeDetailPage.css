@@ -1,4 +1,4 @@
-.notice-detail {
+.notice-detail {  
   width: 500px;
   background-color: #d3e5e8;
   margin-bottom: 20px;
@@ -9,4 +9,9 @@
 
 .notice-detail-font-style {
   color: #353f71;
+}
+
+.notice-content {
+  text-align: start;
+  white-space: pre-wrap;
 }

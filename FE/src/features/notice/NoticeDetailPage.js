@@ -10,7 +10,7 @@ import { Container, InputGroup } from "react-bootstrap";
 dayjs.locale("ko");
 
 function NoticeDetailPage() {
-	const BEUrl = process.env.REACT_APP_BACKEND_URL;
+  const BEUrl = process.env.REACT_APP_BACKEND_URL;
 
   const history = useHistory();
   const [notice, setNotice] = useState([]);
@@ -57,6 +57,7 @@ function NoticeDetailPage() {
         console.log(err);
       });
   };
+
   useEffect(getNotice, [BEUrl, id]);
   useEffect(getAuthority, []);
 
@@ -75,19 +76,20 @@ function NoticeDetailPage() {
       });
   };
   return (
-    <div className="notice-detail-font-style" style={{ marginTop: "100px" }}>
+    <div className="notice-detail-font-style" style={{ paddingTop: "100px" }}>
       <h1
-        className="mb-3"
+        className="my-3"
         style={{ color: "#353f71", fontSize: "50px", fontWeight: "600" }}
       >
         {notice.title}
       </h1>
-      <div className="container notice-detail">
+      <div className="container notice-detail mt-5">
         <div className="d-flex justify-content-end">
           <p>{dayjs(notice.updatedAt).format("YYYY. MM. DD HH:mm")}</p>
         </div>
         <br />
-        <p>{notice.content}</p>
+        <br />
+        <div className="notice-content">{notice.content}</div>
       </div>
       {userAuthority === "admin" ? (
         <div className="d-flex justify-content-center">
