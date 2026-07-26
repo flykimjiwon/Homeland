@@ -30,8 +30,6 @@ public class RoomServiceImpl implements RoomService{
      @Value("${OPENVIDU_SECRET}")
      private String OPENVIDU_SECRET;
 
-//    private String OPENVIDU_URL="https://i6c202.p.ssafy.io/openvidu/";
-//    private String OPENVIDU_AUTH="Basic T1BFTlZJRFVBUFA6SE9NRUxBTkQ=";
 
     private String OPENVIDU_AUTH;
 
